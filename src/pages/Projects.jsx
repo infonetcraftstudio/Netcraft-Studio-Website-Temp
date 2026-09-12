@@ -60,7 +60,7 @@ export default function Projects() {
             ))}
           </div>
 
-          <div style={{ position: 'relative', width: '280px' }}>
+          <div className="w-full sm:w-[280px]" style={{ position: 'relative' }}>
             <Search size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
             <input
               type="text"
@@ -189,7 +189,7 @@ export default function Projects() {
                 <span className="project-badge">{activeModalProject.tag}</span>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px', background: 'var(--paper)', padding: '16px', borderRadius: '4px' }}>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 bg-[var(--paper)] p-4 rounded">
                 <div>
                   <span style={{ display: 'block', font: '9px var(--mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>Client</span>
                   <strong style={{ fontSize: '13px' }}>{activeModalProject.client}</strong>

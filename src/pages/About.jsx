@@ -52,7 +52,7 @@ export default function About() {
 
       {/* Story & Philosophy Section */}
       <section className="section section-white">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '50px', alignItems: 'center' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-14 items-center">
           <div>
             <p className="eyebrow">Our Philosophy</p>
             <h2 style={{ fontSize: '38px', marginBottom: '24px' }}>
@@ -118,8 +118,8 @@ export default function About() {
               <em>Zero bureaucracy.</em>
             </h2>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '12px' }}>
-            <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6', margin: 0, maxWidth: '380px', textAlign: 'right' }}>
+          <div className="flex flex-col items-start sm:items-end gap-3 w-full sm:w-auto">
+            <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6', margin: 0, maxWidth: '380px' }} className="text-left sm:text-right">
               Meet the specialists behind NetCraft Studio. Managed dynamically via our internal studio records.
             </p>
             <div style={{ display: 'inline-flex', background: 'white', border: '1px solid var(--mist)', padding: '3px', borderRadius: '4px' }}>

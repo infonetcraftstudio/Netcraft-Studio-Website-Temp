@@ -58,11 +58,11 @@ export default function Home() {
 
       {/* Statement / About Preview */}
       <section className="section section-white">
-        <div style={{ display: 'grid', gridTemplateColumns: 'clamp(40px, 6vw, 70px) 1fr 1fr', gap: '32px' }}>
+        <div className="grid grid-cols-1 md:grid-cols-[clamp(40px,6vw,70px)_1fr_1fr] gap-6 md:gap-8">
           <div style={{ color: 'var(--blue)', font: '500 12px var(--mono)' }}>01</div>
           <div>
             <p className="eyebrow">A studio for what is next</p>
-            <h2 style={{ fontSize: 'clamp(36px, 4.5vw, 62px)', margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 62px)', margin: 0 }}>
               Ideas need<br />
               good <em>company.</em>
             </h2>
@@ -79,16 +79,7 @@ export default function Home() {
         </div>
 
         {/* Stat Row */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 'clamp(32px, 8vw, 120px)',
-            marginTop: '70px',
-            paddingTop: '28px',
-            borderTop: '1px solid var(--mist)',
-            flexWrap: 'wrap'
-          }}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 md:mt-16 pt-7 border-t border-[var(--mist)]">
           <div>
             <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>32+</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>

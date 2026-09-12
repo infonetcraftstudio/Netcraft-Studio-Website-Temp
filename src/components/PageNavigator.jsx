@@ -74,10 +74,12 @@ export default function PageNavigator() {
             alignItems: 'center',
             gap: '8px',
             boxShadow: '0 6px 20px rgba(37, 99, 235, 0.4)',
-            animation: 'bounce 2s infinite'
+            animation: 'bounce 2s infinite',
+            whiteSpace: 'nowrap',
+            maxWidth: 'calc(100vw - 32px)'
           }}
         >
-          <span>Continue to next page: <b>{nextPage.label}</b></span>
+          <span>Continue: <b>{nextPage.label}</b></span>
           <ChevronRight size={14} />
         </div>
       )}

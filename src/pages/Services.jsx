@@ -54,14 +54,7 @@ export default function Services() {
           {services.map((/** @type {any} */ service, /** @type {number} */ idx) => (
             <div
               key={service.id}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'clamp(50px, 8vw, 90px) 1.2fr 1fr',
-                gap: '36px',
-                paddingBottom: '48px',
-                borderBottom: '1px solid var(--mist)',
-                alignItems: 'start'
-              }}
+              className="grid grid-cols-1 lg:grid-cols-[clamp(40px,6vw,70px)_1.2fr_1fr] gap-6 lg:gap-9 pb-10 border-b border-[var(--mist)] items-start"
             >
               <div style={{ color: 'var(--blue)', font: '500 14px var(--mono)' }}>
                 {service.num}

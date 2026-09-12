@@ -695,7 +695,7 @@ export default function AdminPortal() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '32px' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8">
               {/* Inquiries Inbox */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -1065,7 +1065,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
           }}
         >
           <div className="modal-body">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Project Title *</label>
                 <input
@@ -1091,7 +1091,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="form-group">
                 <label>Category</label>
                 <select
@@ -1152,7 +1152,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-4">
               <div className="form-group">
                 <label>Tech Stack (Comma Separated)</label>
                 <input
@@ -1176,7 +1176,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Visual Style Theme</label>
                 <select
@@ -1254,7 +1254,7 @@ function MemberFormModal({ mode, initialData, onClose, onSubmit }) {
           }}
         >
           <div className="modal-body">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Full Name *</label>
                 <input
@@ -1280,7 +1280,7 @@ function MemberFormModal({ mode, initialData, onClose, onSubmit }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Department</label>
                 <input
@@ -1380,7 +1380,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
           }}
         >
           <div className="modal-body">
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-[1.2fr_1fr] gap-4">
               <div className="form-group">
                 <label>Company / Client Name *</label>
                 <input
@@ -1405,7 +1405,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Industry</label>
                 <input
@@ -1443,7 +1443,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 80px', gap: '16px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_80px] gap-4">
               <div className="form-group">
                 <label>Reviewer Name *</label>
                 <input

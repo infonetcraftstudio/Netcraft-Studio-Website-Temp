@@ -77,7 +77,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit}>
                 <h3 style={{ fontSize: '22px', margin: '0 0 24px' }}>Project Inquiry</h3>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="form-group">
                     <label>Your Name *</label>
                     <input
@@ -103,7 +103,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="form-group">
                     <label>Organization / Company</label>
                     <input

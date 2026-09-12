@@ -92,7 +92,7 @@ export const MemberSlider: React.FC<MemberSliderProps> = ({
   return (
     <div
       className={cn(
-        "relative w-full min-h-[600px] md:min-h-[540px] overflow-hidden bg-white text-[#101c38] p-8 md:p-12 border border-[#cfd8e5] shadow-lg rounded-sm",
+        "relative w-full overflow-hidden bg-white text-[#101c38] p-4 sm:p-7 md:p-12 border border-[#cfd8e5] shadow-lg rounded-sm",
         className
       )}
       style={{
@@ -110,9 +110,9 @@ export const MemberSlider: React.FC<MemberSliderProps> = ({
         <span>{contactInfo?.systemCode || "SYSTEM 01.26"} // CORE LEADERSHIP</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 h-full items-stretch">
-        {/* === Left Column: Specialist Index, Collective Label & ALL Member Thumbnails === */}
-        <div className="md:col-span-3 flex flex-col justify-between order-2 md:order-1">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 h-full items-stretch">
+        {/* === Left Column: Specialist Index & Collective Label (Desktop) / Header (Mobile) === */}
+        <div className="md:col-span-3 flex flex-col justify-between order-1 md:order-1">
           <div>
             {/* Pagination & Status */}
             <div>
@@ -123,15 +123,15 @@ export const MemberSlider: React.FC<MemberSliderProps> = ({
               <div className="h-[2px] w-10 bg-[#2563eb] mt-2" />
             </div>
 
-            <div className="mt-3">
+            <div className="mt-2.5">
               <span className="text-[11px] font-mono text-[#818ba2] uppercase tracking-wider block">
                 NetCraft Collective
               </span>
             </div>
           </div>
 
-          {/* All Members Thumbnails Grid Widget */}
-          <div className="mt-6 pt-4 border-t border-[#cfd8e5]/60">
+          {/* All Members Thumbnails Grid Widget (Hidden on mobile here, rendered at bottom on mobile) */}
+          <div className="hidden md:block mt-6 pt-4 border-t border-[#cfd8e5]/60">
             <div className="flex items-center justify-between mb-3">
               <span className="text-[10px] font-mono uppercase tracking-wider text-[#667085] font-semibold">
                 All Specialists ({members.length})
@@ -192,7 +192,7 @@ export const MemberSlider: React.FC<MemberSliderProps> = ({
         </div>
 
         {/* === Center Column: Main Animated Portrait === */}
-        <div className="md:col-span-4 relative h-80 min-h-[380px] md:min-h-[440px] order-1 md:order-2">
+        <div className="md:col-span-4 relative h-72 sm:h-80 md:h-[440px] order-2 md:order-2">
           {/* Architectural offset shadow border */}
           <div className="absolute inset-0 border border-[#2563eb]/25 rounded-sm translate-x-2.5 translate-y-2.5 pointer-events-none" />
 
@@ -346,6 +346,63 @@ export const MemberSlider: React.FC<MemberSliderProps> = ({
                 <span>Contact {activeMember.name.split(" ")[0]} ↗</span>
               </a>
             )}
+          </div>
+
+          {/* Mobile All Specialists Thumbnails Grid (Visible only on mobile) */}
+          <div className="block md:hidden mt-6 pt-5 border-t border-[#cfd8e5]/60">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#667085] font-semibold">
+                All Specialists ({members.length})
+              </span>
+              <span className="text-[9px] font-mono text-[#2563eb]">
+                Tap to switch
+              </span>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              {members.map((member: Member, index: number) => {
+                const isActive = index === safeIndex;
+                return (
+                  <button
+                    key={member.id}
+                    onClick={() => handleThumbnailClick(index)}
+                    className={cn(
+                      "group relative rounded-sm overflow-hidden aspect-[4/5] transition-all duration-200 focus:outline-none cursor-pointer",
+                      isActive
+                        ? "border-2 border-[#2563eb] ring-2 ring-[#2563eb]/25 shadow-md opacity-100 scale-102"
+                        : "border border-[#cfd8e5] opacity-65 hover:opacity-100 hover:border-[#2563eb] bg-[#f8fafc]"
+                    )}
+                    aria-label={`Select ${member.name}`}
+                    title={`${member.name} (${member.role})`}
+                  >
+                    <img
+                      src={member.avatar}
+                      alt={member.name}
+                      className={cn(
+                        "w-full h-full object-cover transition-all duration-300",
+                        isActive
+                          ? "scale-105 filter-none"
+                          : "grayscale group-hover:grayscale-0 group-hover:scale-105"
+                      )}
+                      onError={(e: any) => {
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80";
+                      }}
+                    />
+
+                    {isActive && (
+                      <div className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#2563eb] ring-2 ring-white shadow-xs" />
+                    )}
+
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#101c38]/90 via-[#101c38]/60 to-transparent p-1 pt-3">
+                      <span className="text-[8px] font-mono text-white block truncate font-medium leading-none">
+                        {member.name.split(" ")[0]}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
