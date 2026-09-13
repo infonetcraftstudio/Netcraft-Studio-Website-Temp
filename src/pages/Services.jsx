@@ -2,41 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useStudio } from '../context/StudioContext';
 import { ArrowUpRight, ArrowRight, CheckCircle2 } from 'lucide-react';
+import EngineeringPipeline from '../components/EngineeringPipeline';
+import TechStackMatrix from '../components/TechStackMatrix';
 
 export default function Services() {
   const { services } = useStudio();
-
-  const processSteps = [
-    {
-      num: '01',
-      title: 'Discovery & Vector Framing',
-      desc: 'We map out technical constraints, competitive positioning, and core user goals before writing a single line of production code.'
-    },
-    {
-      num: '02',
-      title: 'Interactive Prototyping',
-      desc: 'We construct high-fidelity interactive canvases to test real tactile feedback, motion semantics, and design systems.'
-    },
-    {
-      num: '03',
-      title: 'Precision Engineering',
-      desc: 'Modern React architectures, clean state management, modular components, and automated test coverage engineered for longevity.'
-    },
-    {
-      num: '04',
-      title: 'Observability & Scale',
-      desc: 'Continuous integration, Core Web Vitals telemetry, zero-downtime deployment pipelines, and post-launch handover.'
-    }
-  ];
 
   return (
     <div className="services-page">
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <p className="eyebrow">
-            <span className="eyebrow-line"></span> 02 / Capabilities
-          </p>
+          <div className="eyebrow-decorated">
+            <span className="eyebrow-line"></span>
+            <span className="eyebrow-dot"></span>
+            <span className="eyebrow-text">02 / CAPABILITIES</span>
+            <span className="eyebrow-dot"></span>
+            <span className="eyebrow-line"></span>
+          </div>
           <h1>
             Make the<br />
             <em>complex clear.</em>
@@ -83,7 +66,8 @@ export default function Services() {
                 style={{
                   background: 'var(--paper)',
                   border: '1px solid var(--mist)',
-                  padding: '24px 28px'
+                  padding: '24px 28px',
+                  borderRadius: '4px'
                 }}
               >
                 <h4 style={{ margin: '0 0 16px', fontSize: '12px', font: '500 11px var(--mono)', color: 'var(--ink)', textTransform: 'uppercase' }}>
@@ -106,30 +90,11 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Engineering Process */}
-      <section className="section section-light">
-        <p className="eyebrow">
-          <span className="eyebrow-line"></span> How We Execute
-        </p>
-        <h2 style={{ fontSize: '38px', marginBottom: '48px' }}>
-          Predictable delivery.<br />
-          <em>Uncompromising polish.</em>
-        </h2>
+      {/* Embedded Technology Stack Matrix */}
+      <TechStackMatrix />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '28px' }}>
-          {processSteps.map((step) => (
-            <div key={step.num} style={{ background: 'white', padding: '28px', border: '1px solid var(--mist)' }}>
-              <div style={{ color: 'var(--blue)', font: '500 14px var(--mono)', marginBottom: '14px' }}>
-                STAGE / {step.num}
-              </div>
-              <h3 style={{ fontSize: '18px', margin: '0 0 10px' }}>{step.title}</h3>
-              <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
-                {step.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Embedded 6-Stage Engineering Process */}
+      <EngineeringPipeline />
 
       {/* Next Flow CTA */}
       <section className="section section-paper" style={{ textAlign: 'center', borderTop: '1px solid var(--mist)' }}>

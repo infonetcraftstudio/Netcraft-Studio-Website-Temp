@@ -1,12 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowRight, CheckCircle, Sparkles, Layers, ShieldCheck, Star } from 'lucide-react';
+import { 
+  ArrowUpRight, 
+  ArrowRight, 
+  CheckCircle, 
+  Sparkles, 
+  Layers, 
+  ShieldCheck, 
+  Star,
+  Check,
+  HelpCircle,
+  Clock,
+  Code2
+} from 'lucide-react';
 import { useStudio } from '../context/StudioContext';
+import EngineeringPipeline from '../components/EngineeringPipeline';
+import TechStackMatrix from '../components/TechStackMatrix';
+import EnterpriseFAQ from '../components/EnterpriseFAQ';
 
 export default function Home() {
   const { contactInfo, services, projects, clients } = useStudio();
 
-  // Get featured projects
+  // Typewriter dynamic keyword animation with custom color palettes
+  const typewriterWords = [
+    { 
+      text: 'Digital Products', 
+      color: '#2563eb', 
+      gradient: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)' 
+    },
+    { 
+      text: 'AI & Automation', 
+      color: '#0d9488', 
+      gradient: 'linear-gradient(135deg, #0d9488 0%, #10b981 100%)' 
+    },
+    { 
+      text: 'Enterprise Platforms', 
+      color: '#7c3aed', 
+      gradient: 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)' 
+    },
+    { 
+      text: 'Cloud Systems', 
+      color: '#0284c7', 
+      gradient: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)' 
+    }
+  ];
+  const [wordIndex, setWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = typewriterWords[wordIndex].text;
+    const typingSpeed = isDeleting ? 40 : 85;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setCurrentText(currentWord.substring(0, currentText.length + 1));
+        if (currentText === currentWord) {
+          setTimeout(() => setIsDeleting(true), 2200);
+        }
+      } else {
+        setCurrentText(currentWord.substring(0, currentText.length - 1));
+        if (currentText === '') {
+          setIsDeleting(false);
+          setWordIndex((prev) => (prev + 1) % typewriterWords.length);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, wordIndex]);
+
+  // Get featured projects & clients
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
   const featuredClients = clients.slice(0, 4);
 
@@ -15,29 +79,89 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">
+          <div className="eyebrow-decorated" style={{ marginBottom: '14px' }}>
             <span className="eyebrow-line"></span>
-            Digital Product Studio
-            <span className="status-dot">{contactInfo.status}</span>
-          </p>
-          <h1>
-            Build what’s<br />
-            <em>next.</em>
+            <span className="eyebrow-dot"></span>
+            <span className="eyebrow-text">SOFTWARE • AI • DIGITAL PRODUCTS</span>
+            <span className="eyebrow-dot"></span>
+            <span className="eyebrow-line"></span>
+          </div>
+
+          <h1 className="hero-title">
+            <span className="hero-title-row-1">
+              We Build{' '}
+              <span 
+                className="typewriter-word-highlight"
+                style={{
+                  backgroundImage: typewriterWords[wordIndex].gradient,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  color: typewriterWords[wordIndex].color
+                }}
+              >
+                {currentText}
+              </span>
+              <span 
+                className="typewriter-cursor"
+                style={{ color: typewriterWords[wordIndex].color }}
+              >
+                |
+              </span>
+            </span>
+            <span className="hero-title-row-2">
+              That Move Businesses Forward.
+            </span>
           </h1>
+
           <p className="hero-description">
-            {contactInfo.subheadline}
+            NetCraft Studio architects mission-critical web applications, mobile ecosystems, custom business software, 
+            and AI-powered solutions engineered for measurable commercial impact.
           </p>
+
           <div className="hero-actions">
             <Link to="/contact" className="button button-primary">
               Start a project <ArrowUpRight size={14} />
             </Link>
             <Link to="/projects" className="button button-quiet">
-              See selected work <ArrowRight size={14} />
+              Explore Selected Work <ArrowRight size={14} />
             </Link>
+          </div>
+
+          {/* Enterprise Trust & Quality Metrics Pill Row */}
+          <div className="trust-metrics-row">
+            <div className="trust-pill">
+              <ShieldCheck size={16} color="var(--blue)" />
+              <div className="trust-text">
+                <strong>99.99%</strong>
+                <small>Uptime &amp; Reliability</small>
+              </div>
+            </div>
+            <div className="trust-pill">
+              <CheckCircle size={16} color="#0d9488" />
+              <div className="trust-text">
+                <strong>Enterprise</strong>
+                <small>Grade Security &amp; NDA</small>
+              </div>
+            </div>
+            <div className="trust-pill">
+              <Sparkles size={16} color="#8b5cf6" />
+              <div className="trust-text">
+                <strong>Agile</strong>
+                <small>Sprint-Based Delivery</small>
+              </div>
+            </div>
+            <div className="trust-pill">
+              <Layers size={16} color="#ea580c" />
+              <div className="trust-text">
+                <strong>100%</strong>
+                <small>IP Transfer &amp; Zero Debt</small>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Abstract Geometric Art */}
+        {/* Abstract Geometric Art Showcase */}
         <div className="hero-art" aria-label="Abstract blue geometric artwork">
           <div className="art-glow"></div>
           <div className="art-orbit orbit-one"></div>
@@ -73,7 +197,7 @@ export default function Home() {
               platform, software architecture, or brand needs to become unmistakably better.
             </p>
             <Link to="/about" className="button button-quiet" style={{ fontSize: '12px' }}>
-              Meet the studio & team <ArrowUpRight size={14} />
+              Meet the studio philosophy <ArrowUpRight size={14} />
             </Link>
           </div>
         </div>
@@ -103,28 +227,34 @@ export default function Home() {
           <div>
             <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>100%</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
-              On-Time Delivery
+              On-Time Milestone Delivery
             </span>
           </div>
         </div>
       </section>
 
       {/* Services Preview */}
-      <section className="section section-light">
+      <section className="section section-light" id="capabilities">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p className="eyebrow">02 / What we do</p>
+            <div className="eyebrow-decorated">
+              <span className="eyebrow-line"></span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-text">OUR CAPABILITIES</span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-line"></span>
+            </div>
             <h2 style={{ fontSize: 'clamp(34px, 4vw, 56px)', margin: 0 }}>
-              Make the<br />
-              <em>complex clear.</em>
+              Technology. Built Around<br />
+              <em>Your Business.</em>
             </h2>
           </div>
-          <div style={{ maxWidth: '340px' }}>
+          <div style={{ maxWidth: '380px' }}>
             <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6', margin: '0 0 16px' }}>
-              Strategy, design, and engineering in one focused team, shaped around the outcome you need next.
+              From scalable web platforms to AI automation and legacy modernization, we build systems around the way your company actually operates.
             </p>
             <Link to="/services" className="button button-quiet" style={{ fontSize: '11px' }}>
-              View all capabilities <ArrowRight size={12} />
+              View all 5 core capabilities <ArrowRight size={12} />
             </Link>
           </div>
         </div>
@@ -137,25 +267,37 @@ export default function Home() {
               <h3>{service.title}</h3>
               <p>{service.shortDesc}</p>
               <Link to="/services" className="card-link">
-                Explore service <ArrowUpRight size={14} />
+                Explore capability <ArrowUpRight size={14} />
               </Link>
             </article>
           ))}
         </div>
       </section>
 
+      {/* Engineering Pipeline (6-Step Structured Methodology) */}
+      <EngineeringPipeline />
+
+      {/* Technology & Expertise Stack Matrix */}
+      <TechStackMatrix />
+
       {/* Selected Work Preview */}
       <section className="section section-white">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p className="eyebrow">03 / Selected work</p>
+            <div className="eyebrow-decorated">
+              <span className="eyebrow-line"></span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-text">SELECTED WORK</span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-line"></span>
+            </div>
             <h2 style={{ fontSize: 'clamp(34px, 4vw, 56px)', margin: 0 }}>
               Made to<br />
               <em>matter.</em>
             </h2>
           </div>
           <Link to="/projects" className="button button-quiet" style={{ fontSize: '12px' }}>
-            Explore all {projects.length} projects <ArrowRight size={14} />
+            Explore all {projects.length} case studies <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -194,7 +336,13 @@ export default function Home() {
       <section className="section section-paper" style={{ borderTop: '1px solid var(--mist)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p className="eyebrow">04 / Collaborators</p>
+            <div className="eyebrow-decorated">
+              <span className="eyebrow-line"></span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-text">PARTNER VOICES</span>
+              <span className="eyebrow-dot"></span>
+              <span className="eyebrow-line"></span>
+            </div>
             <h2 style={{ fontSize: 'clamp(34px, 4vw, 52px)', margin: 0 }}>
               Trusted by<br />
               <em>industry leaders.</em>
@@ -230,34 +378,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Call To Action Section */}
-      <section className="section section-dark">
-        <div style={{ maxWidth: '820px' }}>
-          <p className="eyebrow" style={{ color: '#9ab0d2' }}>05 / Ready to begin?</p>
-          <h2 style={{ fontSize: 'clamp(42px, 5.5vw, 76px)', margin: '20px 0 24px', letterSpacing: '-3px' }}>
-            Have a bold idea?<br />
-            <em style={{ color: 'var(--cyan)' }}>Let’s build it.</em>
+      {/* Enterprise FAQ Accordion Section */}
+      <EnterpriseFAQ />
+
+      {/* High-Conversion Enterprise Call To Action (Solvian Inspiration) */}
+      <section className="section section-dark" id="contact-cta">
+        <div style={{ maxWidth: '860px' }}>
+          <div className="eyebrow-decorated" style={{ color: 'var(--cyan)' }}>
+            <span className="eyebrow-line" style={{ background: 'var(--cyan)' }}></span>
+            <span className="eyebrow-dot" style={{ background: 'var(--cyan)' }}></span>
+            <span className="eyebrow-text" style={{ color: 'var(--cyan)' }}>LET'S BUILD SOMETHING THAT MATTERS</span>
+            <span className="eyebrow-dot" style={{ background: 'var(--cyan)' }}></span>
+            <span className="eyebrow-line" style={{ background: 'var(--cyan)' }}></span>
+          </div>
+
+          <h2 style={{ fontSize: 'clamp(38px, 5.5vw, 72px)', margin: '16px 0 24px', letterSpacing: '-2px', lineHeight: '1.08' }}>
+            Have Something<br />
+            <em style={{ color: 'var(--cyan)' }}>Worth Building?</em>
           </h2>
-          <p style={{ color: '#9eb0cc', fontSize: '17px', lineHeight: '1.7', marginBottom: '36px', maxWidth: '580px' }}>
-            From high-performance web products to AI orchestration, our studio engineers
-            meaningful impact. Connect directly with our partners.
+
+          <p style={{ color: '#9eb0cc', fontSize: '16px', lineHeight: '1.7', marginBottom: '32px', maxWidth: '620px' }}>
+            Whether you are starting from an early-stage concept, untangling an existing monolithic codebase, 
+            or seeking enterprise-grade engineering partners, let's architect something practical and enduring together.
           </p>
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
+
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '36px' }}>
             <Link to="/contact" className="button button-primary" style={{ background: 'white', color: 'var(--ink)' }}>
-              Start your project <ArrowUpRight size={14} color="var(--blue)" />
+              Start a project <ArrowUpRight size={14} color="var(--blue)" />
             </Link>
-            <a
-              href={`mailto:${contactInfo.email}`}
-              style={{
-                color: 'white',
-                fontFamily: 'var(--mono)',
-                fontSize: '14px',
-                borderBottom: '1px solid rgba(255,255,255,0.4)',
-                paddingBottom: '4px'
-              }}
-            >
-              {contactInfo.email} ↗
-            </a>
+            <Link to="/contact" className="button button-quiet" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.2)' }}>
+              Schedule a Scoping Call <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Credibility / Trust Points */}
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
+              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
+              <span>Transparent Bi-Weekly Sprints</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
+              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
+              <span>100% Code &amp; IP Ownership</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
+              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
+              <span>Sub-100ms Performance Targets</span>
+            </div>
           </div>
         </div>
       </section>

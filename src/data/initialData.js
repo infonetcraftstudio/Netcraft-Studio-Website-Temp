@@ -51,6 +51,16 @@ export const initialServices = [
     fullDesc: "Engineered for iOS and Android with tactile responsiveness, offline first reliability, and seamless hardware sensor integration.",
     deliverables: ["Cross-Platform Mobile Apps", "Native iOS & Android Modules", "Offline-First Sync Engines", "Push Notification Architecture", "App Store Optimization & Deployment"],
     technologies: ["React Native", "Swift", "Kotlin", "Expo", "Firebase"]
+  },
+  {
+    id: "serv-5",
+    num: "05",
+    icon: "⇄",
+    title: "Legacy Modernization",
+    shortDesc: "Transform outdated codebases into agile, cloud-native digital platforms.",
+    fullDesc: "Upgrade monolithic applications, migrate database infrastructures, modernize legacy UI/UX design systems, and eliminate security debt with zero unscheduled downtime.",
+    deliverables: ["Monolith to Microservices Decomposition", "Cloud-Native Infrastructure Migration", "UI/UX & Design System Modernization", "Automated Regression Test Suites", "Zero-Downtime Data Cutover"],
+    technologies: ["Docker", "Kubernetes", "TypeScript", "AWS", "PostgreSQL", "Next.js"]
   }
 ];
 
