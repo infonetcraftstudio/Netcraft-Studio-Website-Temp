@@ -52,13 +52,6 @@ export default function About() {
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <div className="eyebrow-decorated">
-            <span className="eyebrow-line"></span>
-            <span className="eyebrow-dot"></span>
-            <span className="eyebrow-text">01 / STUDIO MANIFESTO</span>
-            <span className="eyebrow-dot"></span>
-            <span className="eyebrow-line"></span>
-          </div>
           <h1>
             A studio for<br />
             what is <em>next.</em>

@@ -40,9 +40,6 @@ export default function Contact() {
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <p className="eyebrow">
-            <span className="eyebrow-line"></span> 05 / Initiate Project
-          </p>
           <h1>
             Have a bold idea?<br />
             <em>Let’s build it.</em>

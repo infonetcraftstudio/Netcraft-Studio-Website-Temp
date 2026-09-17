@@ -11,9 +11,6 @@ export default function Clients() {
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <p className="eyebrow">
-            <span className="eyebrow-line"></span> 04 / Partners & Clients
-          </p>
           <h1>
             Trusted by<br />
             <em>industry leaders.</em>

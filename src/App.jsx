@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import PageNavigator from './components/PageNavigator';
 import Toast from './components/Toast';
 
 import Home from './pages/Home';
@@ -44,7 +43,6 @@ export default function App() {
         </Routes>
       </main>
       {!isAdmin && <Footer />}
-      {!isAdmin && <PageNavigator />}
 
       <Toast />
     </div>

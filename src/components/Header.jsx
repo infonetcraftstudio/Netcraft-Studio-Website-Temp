@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import BrandMark from './BrandMark';
-import { ArrowUpRight, Shield, Menu, X } from 'lucide-react';
-import { useStudio } from '../context/StudioContext';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
-  const { inquiries } = useStudio();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -17,8 +15,6 @@ export default function Header() {
     { name: 'Clients', path: '/clients' },
     { name: 'Contact', path: '/contact' }
   ];
-
-  const newInquiriesCount = inquiries.filter((inq) => inq.status === 'new').length;
 
   const isActive = (path) => {
     if (path === '/') return location.pathname === '/';
@@ -51,33 +47,6 @@ export default function Header() {
 
         {/* Header Right Actions */}
         <div className="header-right">
-          <Link
-            to="/admin"
-            className={`header-admin-btn ${isActive('/admin') ? 'active' : ''}`}
-            title="Admin Management Portal"
-          >
-            <Shield size={14} />
-            <span>Admin</span>
-            {newInquiriesCount > 0 && (
-              <span
-                style={{
-                  background: '#2563eb',
-                  color: 'white',
-                  borderRadius: '50%',
-                  width: '16px',
-                  height: '16px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '9px',
-                  fontWeight: 'bold'
-                }}
-              >
-                {newInquiriesCount}
-              </span>
-            )}
-          </Link>
-
           <Link to="/contact" className="header-cta">
             Start a project <ArrowUpRight size={13} />
           </Link>
@@ -107,14 +76,6 @@ export default function Header() {
             </Link>
           ))}
           <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <Link
-              to="/admin"
-              className="button button-primary"
-              style={{ justifyContent: 'center' }}
-              onClick={() => setMobileOpen(false)}
-            >
-              <Shield size={16} /> Admin Portal ({newInquiriesCount} new)
-            </Link>
             <Link
               to="/contact"
               className="button button-primary"

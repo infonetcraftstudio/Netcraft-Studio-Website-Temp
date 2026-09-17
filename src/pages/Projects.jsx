@@ -30,9 +30,6 @@ export default function Projects() {
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <p className="eyebrow">
-            <span className="eyebrow-line"></span> 03 / Selected Work
-          </p>
           <h1>
             Made to<br />
             <em>matter.</em>

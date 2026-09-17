@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowUpRight, 
   ArrowRight, 
-  CheckCircle, 
-  Sparkles, 
   Layers, 
-  ShieldCheck, 
   Star,
   Check,
   HelpCircle,
@@ -127,38 +124,6 @@ export default function Home() {
               Explore Selected Work <ArrowRight size={14} />
             </Link>
           </div>
-
-          {/* Enterprise Trust & Quality Metrics Pill Row */}
-          <div className="trust-metrics-row">
-            <div className="trust-pill">
-              <ShieldCheck size={16} color="var(--blue)" />
-              <div className="trust-text">
-                <strong>99.99%</strong>
-                <small>Uptime &amp; Reliability</small>
-              </div>
-            </div>
-            <div className="trust-pill">
-              <CheckCircle size={16} color="#0d9488" />
-              <div className="trust-text">
-                <strong>Enterprise</strong>
-                <small>Grade Security &amp; NDA</small>
-              </div>
-            </div>
-            <div className="trust-pill">
-              <Sparkles size={16} color="#8b5cf6" />
-              <div className="trust-text">
-                <strong>Agile</strong>
-                <small>Sprint-Based Delivery</small>
-              </div>
-            </div>
-            <div className="trust-pill">
-              <Layers size={16} color="#ea580c" />
-              <div className="trust-text">
-                <strong>100%</strong>
-                <small>IP Transfer &amp; Zero Debt</small>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Abstract Geometric Art Showcase */}
@@ -169,29 +134,19 @@ export default function Home() {
           <div className="art-triangle triangle-main"></div>
           <div className="art-triangle triangle-cut"></div>
           <div className="art-triangle triangle-small"></div>
-          <span className="art-label">{contactInfo.systemCode}</span>
-          <span className="art-coordinates">{contactInfo.coordinates}</span>
-        </div>
-
-        <div className="hero-meta">
-          <span>Scroll to explore</span>
-          <span className="scroll-line"></span>
-          <span>{new Date().getFullYear()} / EST. {contactInfo.estYear}</span>
         </div>
       </section>
 
       {/* Statement / About Preview */}
       <section className="section section-white">
-        <div className="grid grid-cols-1 md:grid-cols-[clamp(40px,6vw,70px)_1fr_1fr] gap-6 md:gap-8">
-          <div style={{ color: 'var(--blue)', font: '500 12px var(--mono)' }}>01</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div>
-            <p className="eyebrow">A studio for what is next</p>
             <h2 style={{ fontSize: 'clamp(32px, 4.5vw, 62px)', margin: 0 }}>
               Ideas need<br />
               good <em>company.</em>
             </h2>
           </div>
-          <div style={{ alignSelf: 'end' }}>
+          <div>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '24px' }}>
               NetCraft Studio is a senior product engineering practice for the moments when your
               platform, software architecture, or brand needs to become unmistakably better.

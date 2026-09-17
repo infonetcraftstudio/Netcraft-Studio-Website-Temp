@@ -13,13 +13,6 @@ export default function Services() {
       {/* Page Header */}
       <header className="page-header">
         <div>
-          <div className="eyebrow-decorated">
-            <span className="eyebrow-line"></span>
-            <span className="eyebrow-dot"></span>
-            <span className="eyebrow-text">02 / CAPABILITIES</span>
-            <span className="eyebrow-dot"></span>
-            <span className="eyebrow-line"></span>
-          </div>
           <h1>
             Make the<br />
             <em>complex clear.</em>
