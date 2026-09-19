@@ -207,6 +207,34 @@
   ],
   "projects": [
     {
+      "id": "proj-11",
+      "tag": "Brand Platform",
+      "year": "2024",
+      "title": "Adhivelan Masala Digital Showcase",
+      "client": "Adhivelan Masala",
+      "status": "Completed",
+      "metrics": "High Credibility Catalog",
+      "category": "E-Commerce",
+      "featured": false,
+      "features": [
+        "Product Showcase",
+        "Distributor Portal",
+        "Inquiry Routing",
+        "Mobile-Optimized Experience",
+        "Regional Dealer Map"
+      ],
+      "imageType": "purple",
+      "techStack": [
+        "React.js",
+        "Tailwind CSS",
+        "Node.js",
+        "Cloudinary"
+      ],
+      "accentColor": "#ea580c",
+      "description": "Modern digital product catalog, brand showcase, and distributor inquiry system for a regional spices manufacturer.",
+      "longDescription": "Engineered a vibrant digital identity and product catalog for Adhivelan Masala, showcasing authentic spice products, nutritional facts, distribution channels, and regional dealer inquiry portals."
+    },
+    {
       "id": "proj-9",
       "tag": "Event Tech",
       "year": "2024",
@@ -265,34 +293,6 @@
       "longDescription": "A powerful desktop application for retail billing and automated invoice generation featuring tax calculations, customer accounts ledger, barcode scanning compatibility, and instant PDF invoice printing."
     },
     {
-      "id": "proj-11",
-      "tag": "Brand Platform",
-      "year": "2024",
-      "title": "Adhivelan Masala Digital Showcase",
-      "client": "Adhivelan Masala",
-      "status": "Completed",
-      "metrics": "High Credibility Catalog",
-      "category": "E-Commerce",
-      "featured": false,
-      "features": [
-        "Product Showcase",
-        "Distributor Portal",
-        "Inquiry Routing",
-        "Mobile-Optimized Experience",
-        "Regional Dealer Map"
-      ],
-      "imageType": "purple",
-      "techStack": [
-        "React.js",
-        "Tailwind CSS",
-        "Node.js",
-        "Cloudinary"
-      ],
-      "accentColor": "#ea580c",
-      "description": "Modern digital product catalog, brand showcase, and distributor inquiry system for a regional spices manufacturer.",
-      "longDescription": "Engineered a vibrant digital identity and product catalog for Adhivelan Masala, showcasing authentic spice products, nutritional facts, distribution channels, and regional dealer inquiry portals."
-    },
-    {
       "id": "proj-1",
       "tag": "Agritech Marketplace",
       "year": "2025",
@@ -325,33 +325,63 @@
       "longDescription": "A digital marketplace platform that bridges the gap between farmers and consumers, enabling direct sales of fresh produce. Includes supply chain tracking, quality assurance, GPS logistics management, and direct farmer-to-consumer payments."
     },
     {
-      "id": "proj-2",
-      "tag": "Custom Merchandise",
-      "year": "2025",
-      "title": "Amirdha Stickers",
-      "client": "Amirdha Stickers",
-      "status": "Live Project",
-      "liveUrl": "https://amirdhastickers.com/",
-      "metrics": "Live Design Studio",
-      "category": "E-Commerce",
-      "featured": true,
+      "id": "proj-7",
+      "tag": "Civic Automation",
+      "year": "2024",
+      "title": "Fine Management System",
+      "client": "Municipal Corporation",
+      "status": "Completed",
+      "metrics": "Automated Penalty Processing",
+      "category": "Web Development",
+      "featured": false,
       "features": [
-        "Design Customization",
-        "Live Interactive Preview",
-        "Bulk Ordering",
-        "Fast Shipping Integration",
-        "Custom Design Templates"
+        "Violation Tracking",
+        "Penalty Computation",
+        "Payment Integration",
+        "Automated Notifications",
+        "Report Generation",
+        "Offline Support"
+      ],
+      "imageType": "city",
+      "techStack": [
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML/CSS",
+        "Payment Gateway"
+      ],
+      "accentColor": "#e11d48",
+      "description": "Traffic violation penalty and fine management system with digital payment gateway integration and automated notifications.",
+      "longDescription": "A comprehensive municipal fine management platform enabling traffic authorities to track violations, compute penalties, record evidence, and process digital citizen payments with automated SMS notifications."
+    },
+    {
+      "id": "proj-8",
+      "tag": "Spatial Navigation",
+      "year": "2023",
+      "title": "Campus Navigation Map",
+      "client": "University Campus",
+      "status": "Completed",
+      "metrics": "Real-Time Wayfinding",
+      "category": "Web Development",
+      "featured": false,
+      "features": [
+        "Interactive Maps",
+        "Location Search",
+        "Route Planning",
+        "Facility Directory",
+        "Event Locations",
+        "Real-Time Updates"
       ],
       "imageType": "purple",
       "techStack": [
-        "React JS",
-        "Node Mailer",
-        "Bootstrap",
-        "HTML5 Canvas"
+        "React.js",
+        "Leaflet Maps",
+        "Geolocation API",
+        "Bootstrap"
       ],
-      "accentColor": "#7c3aed",
-      "description": "Creative custom sticker and design e-commerce store featuring a real-time interactive design studio and instant preview.",
-      "longDescription": "A specialized e-commerce store for custom stickers and designs with real-time design customization, live preview, bulk order processing, and fast turnaround manufacturing integration."
+      "accentColor": "#059669",
+      "description": "Interactive campus mapping and wayfinding system with real-time facility locator, event updates, and route planning.",
+      "longDescription": "An interactive spatial mapping system for university campuses providing real-time indoor and outdoor wayfinding, building locators, campus event announcements, and a searchable student facilities directory."
     },
     {
       "id": "proj-3",
@@ -416,6 +446,35 @@
       "longDescription": "A modern attendance management system that streamlines employee check-in and check-out processes with real-time reporting, biometric facial recognition, leave management, and automated integration with enterprise payroll systems."
     },
     {
+      "id": "proj-2",
+      "tag": "Custom Merchandise",
+      "year": "2025",
+      "title": "Amirdha Stickers",
+      "client": "Amirdha Stickers",
+      "status": "Live Project",
+      "liveUrl": "https://amirdhastickers.com/",
+      "metrics": "Live Design Studio",
+      "category": "E-Commerce",
+      "featured": true,
+      "features": [
+        "Design Customization",
+        "Live Interactive Preview",
+        "Bulk Ordering",
+        "Fast Shipping Integration",
+        "Custom Design Templates"
+      ],
+      "imageType": "purple",
+      "techStack": [
+        "React JS",
+        "Node Mailer",
+        "Bootstrap",
+        "HTML5 Canvas"
+      ],
+      "accentColor": "#7c3aed",
+      "description": "Creative custom sticker and design e-commerce store featuring a real-time interactive design studio and instant preview.",
+      "longDescription": "A specialized e-commerce store for custom stickers and designs with real-time design customization, live preview, bulk order processing, and fast turnaround manufacturing integration."
+    },
+    {
       "id": "proj-5",
       "tag": "EdTech Solution",
       "year": "2024",
@@ -475,84 +534,9 @@
       "description": "Complete desktop accounting software for managing ledgers, balance sheets, expense tracking, and regulatory compliance.",
       "sourceCodeUrl": "https://github.com/netcraftstudio01/Accounting-System-Template.git",
       "longDescription": "A comprehensive accounting software suite for managing double-entry ledgers, financial statements, expense auditing, budget forecasting, and compliance reporting with multi-company support and interactive analytics."
-    },
-    {
-      "id": "proj-7",
-      "tag": "Civic Automation",
-      "year": "2024",
-      "title": "Fine Management System",
-      "client": "Municipal Corporation",
-      "status": "Completed",
-      "metrics": "Automated Penalty Processing",
-      "category": "Web Development",
-      "featured": false,
-      "features": [
-        "Violation Tracking",
-        "Penalty Computation",
-        "Payment Integration",
-        "Automated Notifications",
-        "Report Generation",
-        "Offline Support"
-      ],
-      "imageType": "city",
-      "techStack": [
-        "PHP",
-        "MySQL",
-        "JavaScript",
-        "HTML/CSS",
-        "Payment Gateway"
-      ],
-      "accentColor": "#e11d48",
-      "description": "Traffic violation penalty and fine management system with digital payment gateway integration and automated notifications.",
-      "longDescription": "A comprehensive municipal fine management platform enabling traffic authorities to track violations, compute penalties, record evidence, and process digital citizen payments with automated SMS notifications."
-    },
-    {
-      "id": "proj-8",
-      "tag": "Spatial Navigation",
-      "year": "2023",
-      "title": "Campus Navigation Map",
-      "client": "University Campus",
-      "status": "Completed",
-      "metrics": "Real-Time Wayfinding",
-      "category": "Web Development",
-      "featured": false,
-      "features": [
-        "Interactive Maps",
-        "Location Search",
-        "Route Planning",
-        "Facility Directory",
-        "Event Locations",
-        "Real-Time Updates"
-      ],
-      "imageType": "purple",
-      "techStack": [
-        "React.js",
-        "Leaflet Maps",
-        "Geolocation API",
-        "Bootstrap"
-      ],
-      "accentColor": "#059669",
-      "description": "Interactive campus mapping and wayfinding system with real-time facility locator, event updates, and route planning.",
-      "longDescription": "An interactive spatial mapping system for university campuses providing real-time indoor and outdoor wayfinding, building locators, campus event announcements, and a searchable student facilities directory."
     }
   ],
   "clients": [
-    {
-      "id": "cli-1",
-      "name": "Uzhavar Connect",
-      "author": "K. Rangarajan",
-      "rating": 5,
-      "status": "Active Partner",
-      "website": "https://www.uzhavarconnect.com/",
-      "featured": true,
-      "industry": "Agritech & E-Commerce",
-      "logoText": "UZHAVAR",
-      "authorRole": "Founder, Uzhavar Connect",
-      "testimonial": "NetCraft Studio built our agricultural marketplace from the ground up. Farmers and buyers are directly connected through an intuitive, reliable platform that has transformed our supply chain.",
-      "projectsDone": [
-        "Uzhavar Connect"
-      ]
-    },
     {
       "id": "cli-2",
       "name": "Amirdha Stickers",
@@ -599,6 +583,22 @@
       "testimonial": "Our tour package booking inquiries and customer itinerary planning became completely seamless after NetCraft launched our travel portal with real-time package booking.",
       "projectsDone": [
         "Sri Sastha Travels Booking Platform"
+      ]
+    },
+    {
+      "id": "cli-1",
+      "name": "Uzhavar Connect",
+      "author": "K. Rangarajan",
+      "rating": 5,
+      "status": "Active Partner",
+      "website": "https://www.uzhavarconnect.com/",
+      "featured": true,
+      "industry": "Agritech & E-Commerce",
+      "logoText": "UZHAVAR",
+      "authorRole": "Founder, Uzhavar Connect",
+      "testimonial": "NetCraft Studio built our agricultural marketplace from the ground up. Farmers and buyers are directly connected through an intuitive, reliable platform that has transformed our supply chain.",
+      "projectsDone": [
+        "Uzhavar Connect"
       ]
     }
   ],
@@ -689,5 +689,5 @@
       "assignedTo": "Barath Nivash"
     }
   ],
-  "lastUpdated": "2026-09-19T12:21:29.735Z"
+  "lastUpdated": "2026-09-19T12:25:50.031Z"
 }

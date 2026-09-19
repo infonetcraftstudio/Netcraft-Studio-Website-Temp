@@ -566,11 +566,15 @@ if (fs.existsSync(DIST_DIR)) {
   });
 }
 
-// Start Server
-hydrateFromSupabase().finally(() => app.listen(PORT, () => {
-  console.log(`\n=================================================`);
-  console.log(`🚀 NetCraft Studio Backend Server Active`);
-  console.log(`📡 URL: http://localhost:${PORT}`);
-  console.log(`📁 Database: ${supabaseConnected ? 'Supabase normalized studio tables' : `JSON fallback (${DATA_FILE})`}`);
-  console.log(`=================================================\n`);
-}));
+export { app, hydrateFromSupabase };
+export default app;
+
+if (!process.env.VERCEL) {
+  hydrateFromSupabase().finally(() => app.listen(PORT, () => {
+    console.log(`\n=================================================`);
+    console.log(`🚀 NetCraft Studio Backend Server Active`);
+    console.log(`📡 URL: http://localhost:${PORT}`);
+    console.log(`📁 Database: ${supabaseConnected ? 'Supabase normalized studio tables' : `JSON fallback (${DATA_FILE})`}`);
+    console.log(`=================================================\n`);
+  }));
+}
