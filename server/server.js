@@ -34,6 +34,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'studio-data.json');
+const DIST_DIR = path.join(__dirname, '..', 'dist');
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const SUPABASE_TABLES = {
@@ -47,6 +48,10 @@ let supabaseConnected = false;
 
 app.use(cors());
 app.use(express.json());
+
+if (fs.existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR));
+}
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -493,6 +498,13 @@ app.delete('/api/inquiries/:id', (req, res) => {
   saveData(data);
   res.json({ success: true, id });
 });
+
+if (fs.existsSync(DIST_DIR)) {
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api/')) return next();
+    res.sendFile(path.join(DIST_DIR, 'index.html'));
+  });
+}
 
 // Start Server
 loadData(); // Ensure data file is seeded immediately on startup

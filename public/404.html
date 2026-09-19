@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NetCraft Studio</title>
+  <script>
+    const path = window.location.pathname;
+    const query = window.location.search;
+    const target = '/?p=' + encodeURIComponent(path) + (query ? '&q=' + encodeURIComponent(query.slice(1)) : '');
+    window.location.replace(target);
+  </script>
+</head>
+<body></body>
+</html>
