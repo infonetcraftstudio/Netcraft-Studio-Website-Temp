@@ -9,6 +9,11 @@ import {
 } from '../data/initialData';
 
 const StudioContext = createContext(null);
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
+function apiUrl(path) {
+  return `${API_BASE_URL}${path}`;
+}
 
 const STORAGE_KEYS = {
   PROJECTS: 'netcraft_studio_projects_v1',
@@ -73,7 +78,7 @@ export function StudioProvider({ children }) {
         headers: { 'Content-Type': 'application/json' }
       };
       if (body) opts.body = JSON.stringify(body);
-      const res = await fetch(url, opts);
+      const res = await fetch(apiUrl(url), opts);
       if (res.ok) {
         setBackendConnected(true);
         return await res.json();
@@ -90,10 +95,10 @@ export function StudioProvider({ children }) {
     let isMounted = true;
     async function initFromBackend() {
       try {
-        const statusRes = await fetch('/api/status');
+        const statusRes = await fetch(apiUrl('/api/status'));
         if (statusRes.ok) {
           if (isMounted) setBackendConnected(true);
-          const dataRes = await fetch('/api/data');
+          const dataRes = await fetch(apiUrl('/api/data'));
           if (dataRes.ok) {
             const data = await dataRes.json();
             if (isMounted) {

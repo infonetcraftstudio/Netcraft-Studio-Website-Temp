@@ -549,6 +549,9 @@ h1 em, h2 em, h3 em {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .art-glow {
@@ -581,40 +584,13 @@ h1 em, h2 em, h3 em {
   border-color: rgba(116, 87, 232, 0.3);
 }
 
-.art-triangle {
-  position: absolute;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-}
-
-.triangle-main {
-  width: 290px;
-  height: 320px;
-  left: 170px;
-  top: 80px;
-  background: linear-gradient(140deg, #163c83 17%, #2563eb 55%, #7457e8 80%);
-  filter: drop-shadow(18px 24px 22px rgba(16, 28, 56, 0.2));
+.hero-logo-image {
+  position: relative;
+  z-index: 2;
+  width: min(540px, 72%);
+  height: auto;
+  filter: drop-shadow(0 28px 30px rgba(34, 75, 154, 0.2));
   animation: floatGeometric 6s ease-in-out infinite alternate;
-}
-
-.triangle-cut {
-  width: 190px;
-  height: 220px;
-  left: 270px;
-  top: 140px;
-  background: var(--paper);
-  transform: rotate(180deg);
-  z-index: 1;
-  opacity: 0.94;
-}
-
-.triangle-small {
-  width: 110px;
-  height: 130px;
-  left: 90px;
-  top: 240px;
-  background: var(--cyan);
-  transform: rotate(180deg);
-  opacity: 0.85;
 }
 
 .art-label {

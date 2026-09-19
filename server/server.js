@@ -46,7 +46,9 @@ const SUPABASE_TABLES = {
 };
 let supabaseConnected = false;
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map((url) => url.trim()) : true
+}));
 app.use(express.json());
 
 if (fs.existsSync(DIST_DIR)) {

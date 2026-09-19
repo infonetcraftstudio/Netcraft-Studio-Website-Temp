@@ -41,6 +41,10 @@ npm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
+When the frontend and backend are hosted separately, set `VITE_API_URL` to the public URL of the deployed Express server before running `npm run build`. Deploy the `server/server.js` process separately with `npm run server`, and set `FRONTEND_URL` there to the hosted frontend origin. A static frontend host cannot run the Express backend or provide `/api` routes.
+
+For a single-service deployment, use `npm run build` as the build command and `npm start` as the start command. Express serves the generated `dist` folder and `/api` routes from the same origin, so no `VITE_API_URL` is required.
+
 ### 3. Build for Production
 ```bash
 npm run build

@@ -1,22 +1,18 @@
 import React from 'react';
 
 export default function BrandMark({ size = 30, className = '' }) {
-  const scale = size / 30;
   return (
-    <span
+    <img
+      src="/logo.png"
+      alt="NetCraft Studio logo"
       className={`brand-mark ${className}`}
       style={{
         width: `${size}px`,
-        height: `${Math.round(28 * scale)}px`,
-        position: 'relative',
-        display: 'inline-block'
+        height: 'auto',
+        display: 'block',
+        objectFit: 'contain',
+        flexShrink: 0
       }}
-      aria-hidden="true"
-    >
-      <i></i>
-      <i></i>
-      <i></i>
-      <i></i>
-    </span>
+    />
   );
 }

@@ -131,14 +131,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Abstract Geometric Art Showcase */}
-        <div className="hero-art" aria-label="Abstract blue geometric artwork">
+        {/* Brand Artwork Showcase */}
+        <div className="hero-art" aria-label="NetCraft Studio logo artwork">
           <div className="art-glow"></div>
           <div className="art-orbit orbit-one"></div>
           <div className="art-orbit orbit-two"></div>
-          <div className="art-triangle triangle-main"></div>
-          <div className="art-triangle triangle-cut"></div>
-          <div className="art-triangle triangle-small"></div>
+          <img src="/logo.png" alt="NetCraft Studio logo" className="hero-logo-image" />
         </div>
       </section>
 

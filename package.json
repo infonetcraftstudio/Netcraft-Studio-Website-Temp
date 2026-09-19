@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "server": "node server/server.js",
-    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,cyan\" \"npm run server\" \"vite\"",
+    "start": "node server/server.js",
+    "dev": "concurrently -n \"CLIENT,SERVER\" -c \"blue,cyan\" \"vite\" \"npm run server\" ",
     "build": "vite build",
     "preview": "vite preview"
   },
