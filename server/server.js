@@ -45,6 +45,7 @@ const SUPABASE_TABLES = {
   settings: 'studio_settings'
 };
 let supabaseConnected = false;
+let runtimeData = null;
 
 app.use(cors({
   origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map((url) => url.trim()) : true
@@ -75,6 +76,8 @@ function getDefaultData() {
 
 // Load data from disk or initialize
 function loadData() {
+  if (runtimeData) return runtimeData;
+
   try {
     if (fs.existsSync(DATA_FILE)) {
       const content = fs.readFileSync(DATA_FILE, 'utf-8');
@@ -95,15 +98,20 @@ function loadData() {
   return defaults;
 }
 
-// Save data atomically to disk
+// Save data atomically to disk and database
 function saveData(data) {
   try {
     data.lastUpdated = new Date().toISOString();
+    runtimeData = data;
+    // ALWAYS save to DATA_FILE immediately as persistent local cache
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
-    persistToSupabase(data).catch((err) => {
-      supabaseConnected = false;
-      console.error('Failed to persist data to Supabase:', err.message);
-    });
+
+    if (SUPABASE_URL && SUPABASE_KEY) {
+      persistToSupabase(data).catch((err) => {
+        supabaseConnected = false;
+        console.error('Failed to persist data to Supabase:', err.message);
+      });
+    }
     return true;
   } catch (err) {
     console.error('Failed to save studio data file:', err);
@@ -131,9 +139,39 @@ async function supabaseRequest(pathname, options = {}) {
   return response.status === 204 ? null : response.json();
 }
 
+async function upsertSupabaseRow(table, id, data) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  try {
+    await supabaseRequest(table, {
+      method: 'POST',
+      body: JSON.stringify({
+        id: String(id),
+        data,
+        updated_at: new Date().toISOString()
+      })
+    });
+    supabaseConnected = true;
+  } catch (err) {
+    console.error(`Supabase upsert error on ${table}:`, err.message);
+  }
+}
+
+async function deleteSupabaseRow(table, id) {
+  if (!SUPABASE_URL || !SUPABASE_KEY) return;
+  try {
+    await supabaseRequest(`${table}?id=eq.${encodeURIComponent(id)}`, {
+      method: 'DELETE'
+    });
+    supabaseConnected = true;
+  } catch (err) {
+    console.error(`Supabase delete error on ${table}:`, err.message);
+  }
+}
+
 async function hydrateFromSupabase() {
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.warn('Supabase is not configured; using local JSON persistence.');
+    runtimeData = loadData();
+    console.warn('Supabase is not configured; using local JSON fallback.');
     return;
   }
 
@@ -150,28 +188,40 @@ async function hydrateFromSupabase() {
       .some((value) => Array.isArray(value) ? value.length > 0 : Boolean(value));
 
     if (hasNormalizedData) {
-      const localData = loadData();
+      const localData = getDefaultData();
       const remoteData = {
         ...localData,
-        projects: projects.map((row) => row.data).filter(Boolean),
-        clients: clients.map((row) => row.data).filter(Boolean),
-        inquiries: inquiries.map((row) => row.data).filter(Boolean),
-        todos: todos.map((row) => row.data).filter(Boolean),
-        contactInfo: settings?.[0]?.contact_info || localData.contactInfo,
-        services: settings?.[0]?.services || localData.services,
+        projects: (projects && projects.length > 0) ? projects.map((row) => row.data).filter(Boolean) : localData.projects,
+        clients: (clients && clients.length > 0) ? clients.map((row) => row.data).filter(Boolean) : localData.clients,
+        inquiries: (inquiries && inquiries.length > 0) ? inquiries.map((row) => row.data).filter(Boolean) : localData.inquiries,
+        todos: (todos && todos.length > 0) ? todos.map((row) => row.data).filter(Boolean) : localData.todos,
+        contactInfo: {
+          ...localData.contactInfo,
+          ...(settings?.[0]?.contact_info || {})
+        },
+        services: (Array.isArray(settings?.[0]?.services) && settings[0].services.length > 0)
+          ? settings[0].services
+          : localData.services,
         lastUpdated: new Date().toISOString()
       };
+      runtimeData = remoteData;
       fs.writeFileSync(DATA_FILE, JSON.stringify(remoteData, null, 2), 'utf-8');
     } else {
-      const legacyRows = await supabaseRequest('studio_state?select=state&id=eq.1&limit=1');
-      const legacyData = legacyRows?.[0]?.state;
-      await persistToSupabase(legacyData && typeof legacyData === 'object' ? legacyData : loadData());
+      let legacyData = null;
+      try {
+        const legacyRows = await supabaseRequest('studio_state?select=state&id=eq.1&limit=1');
+        legacyData = legacyRows?.[0]?.state;
+      } catch (err) {
+        console.warn('Legacy studio_state table unavailable; initializing normalized tables:', err.message);
+      }
+      runtimeData = legacyData && typeof legacyData === 'object' ? legacyData : getDefaultData();
+      await persistToSupabase(runtimeData);
     }
     supabaseConnected = true;
     console.log('Supabase persistence connected.');
   } catch (err) {
     supabaseConnected = false;
-    console.error('Supabase unavailable; using local JSON persistence:', err.message);
+    console.error('Supabase unavailable; using local JSON fallback:', err.message);
   }
 }
 
@@ -179,36 +229,39 @@ async function persistToSupabase(data) {
   if (!SUPABASE_URL || !SUPABASE_KEY) return;
 
   const updatedAt = new Date().toISOString();
-  const replaceCollection = async (table, records) => {
-    await supabaseRequest(`${table}?id=not.is.null`, { method: 'DELETE' });
-    if (records.length > 0) {
-      await supabaseRequest(table, {
-        method: 'POST',
-        body: JSON.stringify(records.map((record) => ({
-          id: String(record.id),
-          data: record,
-          updated_at: updatedAt
-        })))
-      });
-    }
+  const upsertCollection = async (table, records) => {
+    if (!records || records.length === 0) return;
+    await supabaseRequest(table, {
+      method: 'POST',
+      body: JSON.stringify(records.map((record) => ({
+        id: String(record.id),
+        data: record,
+        updated_at: updatedAt
+      })))
+    });
   };
 
-  await Promise.all([
-    replaceCollection(SUPABASE_TABLES.projects, data.projects || []),
-    replaceCollection(SUPABASE_TABLES.clients, data.clients || []),
-    replaceCollection(SUPABASE_TABLES.inquiries, data.inquiries || []),
-    replaceCollection(SUPABASE_TABLES.todos, data.todos || []),
-    supabaseRequest(SUPABASE_TABLES.settings, {
-      method: 'POST',
-      body: JSON.stringify({
-        id: 1,
-        contact_info: data.contactInfo || {},
-        services: data.services || [],
-        updated_at: updatedAt
+  try {
+    await Promise.all([
+      upsertCollection(SUPABASE_TABLES.projects, data.projects || []),
+      upsertCollection(SUPABASE_TABLES.clients, data.clients || []),
+      upsertCollection(SUPABASE_TABLES.inquiries, data.inquiries || []),
+      upsertCollection(SUPABASE_TABLES.todos, data.todos || []),
+      supabaseRequest(SUPABASE_TABLES.settings, {
+        method: 'POST',
+        body: JSON.stringify({
+          id: 1,
+          contact_info: data.contactInfo || {},
+          services: data.services || [],
+          updated_at: updatedAt
+        })
       })
-    })
-  ]);
-  supabaseConnected = true;
+    ]);
+    supabaseConnected = true;
+  } catch (err) {
+    supabaseConnected = false;
+    console.error('persistToSupabase error:', err.message);
+  }
 }
 
 // ----------------------
@@ -220,7 +273,8 @@ app.get('/api/status', (req, res) => {
     port: PORT,
     timestamp: new Date().toISOString(),
     uptime: Math.floor(process.uptime()),
-    database: supabaseConnected ? 'Supabase (normalized studio tables)' : 'file-persistent (studio-data.json)'
+    databaseConnected: supabaseConnected,
+    database: supabaseConnected ? 'Supabase (normalized studio tables)' : 'JSON fallback (Supabase unavailable)'
   });
 });
 
@@ -272,6 +326,7 @@ app.post('/api/todos', (req, res) => {
   };
   data.todos = [newTodo, ...(data.todos || [])];
   saveData(data);
+  upsertSupabaseRow(SUPABASE_TABLES.todos, newTodo.id, newTodo);
   res.status(201).json(newTodo);
 });
 
@@ -292,6 +347,7 @@ app.put('/api/todos/:id', (req, res) => {
   }
 
   saveData(data);
+  upsertSupabaseRow(SUPABASE_TABLES.todos, updatedTodo.id, updatedTodo);
   res.json(updatedTodo);
 });
 
@@ -313,6 +369,7 @@ app.patch('/api/todos/:id/toggle', (req, res) => {
   }
 
   saveData(data);
+  upsertSupabaseRow(SUPABASE_TABLES.todos, updatedTodo.id, updatedTodo);
   res.json(updatedTodo);
 });
 
@@ -327,6 +384,7 @@ app.delete('/api/todos/:id', (req, res) => {
   }
 
   saveData(data);
+  deleteSupabaseRow(SUPABASE_TABLES.todos, id);
   res.json({ success: true, id });
 });
 
@@ -509,11 +567,10 @@ if (fs.existsSync(DIST_DIR)) {
 }
 
 // Start Server
-loadData(); // Ensure data file is seeded immediately on startup
 hydrateFromSupabase().finally(() => app.listen(PORT, () => {
   console.log(`\n=================================================`);
   console.log(`🚀 NetCraft Studio Backend Server Active`);
   console.log(`📡 URL: http://localhost:${PORT}`);
-  console.log(`📁 Database: ${supabaseConnected ? 'Supabase studio_state' : DATA_FILE}`);
+  console.log(`📁 Database: ${supabaseConnected ? 'Supabase normalized studio tables' : `JSON fallback (${DATA_FILE})`}`);
   console.log(`=================================================\n`);
 }));

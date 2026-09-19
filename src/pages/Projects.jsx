@@ -189,7 +189,7 @@ export default function Projects() {
                 <span className="project-badge">{activeModalProject.tag}</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 bg-[var(--paper)] p-4 rounded">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 bg-(--paper) p-4 rounded">
                 <div>
                   <span style={{ display: 'block', font: '9px var(--mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>Client</span>
                   <strong style={{ fontSize: '13px' }}>{activeModalProject.client}</strong>

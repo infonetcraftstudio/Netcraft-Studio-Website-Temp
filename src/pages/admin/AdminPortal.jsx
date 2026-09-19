@@ -39,6 +39,7 @@ export default function AdminPortal() {
     inquiries,
     todos = [],
     backendConnected,
+    databaseConnected,
     isAdminAuthenticated,
     adminLogin,
     adminLogout,
@@ -180,8 +181,8 @@ export default function AdminPortal() {
             <span
               style={{
                 fontSize: '9px',
-                background: backendConnected ? 'rgba(45,212,191,0.2)' : 'rgba(234,179,8,0.2)',
-                color: backendConnected ? 'var(--cyan)' : '#fde047',
+                background: databaseConnected ? 'rgba(45,212,191,0.2)' : 'rgba(234,179,8,0.2)',
+              color: databaseConnected ? 'var(--cyan)' : '#fde047',
                 padding: '2px 6px',
                 borderRadius: '3px',
                 display: 'inline-flex',
@@ -189,9 +190,9 @@ export default function AdminPortal() {
                 gap: '4px',
                 fontWeight: 600
               }}
-              title={backendConnected ? 'Connected to local Node.js Express server on port 5000' : 'Backend offline - operating in offline localStorage mode'}
+              title={databaseConnected ? 'Connected to Supabase database' : 'Supabase database connection unavailable'}
             >
-              {backendConnected ? '● SERVER :5000' : '○ LOCAL MODE'}
+              {databaseConnected ? '● DATABASE CONNECTED' : '○ DATABASE OFFLINE'}
             </span>
           </div>
           <h3 style={{ margin: 0, fontSize: '18px', color: 'white' }}>Studio Console</h3>
@@ -934,11 +935,11 @@ export default function AdminPortal() {
                     fontFamily: 'var(--mono)',
                     padding: '2px 8px',
                     borderRadius: '4px',
-                    background: backendConnected ? '#ecfdf5' : '#fffbeb',
-                    color: backendConnected ? '#059669' : '#b45309',
-                    border: backendConnected ? '1px solid #a7f3d0' : '1px solid #fde68a'
+                    background: databaseConnected ? '#ecfdf5' : '#fffbeb',
+                    color: databaseConnected ? '#059669' : '#b45309',
+                    border: databaseConnected ? '1px solid #a7f3d0' : '1px solid #fde68a'
                   }}>
-                    {backendConnected ? '● Backend Synced (:5000)' : '○ Local Storage Cache'}
+                    {databaseConnected ? '● Database Connected' : '○ Database Offline'}
                   </span>
                 </div>
                 <p style={{ color: 'var(--muted)', margin: 0, fontSize: '13px' }}>
@@ -1396,7 +1397,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>{mode === 'add' ? 'Add New Project Done by Company' : 'Edit Company Project'}</h3>
-          <button onClick={onClose}><X size={20} /></button>
+          <button type="button" onClick={onClose}><X size={20} /></button>
         </div>
         <form
           onSubmit={(e) => {
@@ -1588,7 +1589,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>{mode === 'add' ? 'Add New Client Record' : 'Edit Client Record'}</h3>
-          <button onClick={onClose}><X size={20} /></button>
+          <button type="button" onClick={onClose}><X size={20} /></button>
         </div>
         <form
           onSubmit={(e) => {
@@ -1739,7 +1740,7 @@ function TodoFormModal({ mode, initialData, onClose, onSubmit }) {
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>{mode === 'add' ? 'Add Task to Things to Do' : 'Edit Studio Task'}</h3>
-          <button onClick={onClose}><X size={20} /></button>
+          <button type="button" onClick={onClose}><X size={20} /></button>
         </div>
         <form
           onSubmit={(e) => {

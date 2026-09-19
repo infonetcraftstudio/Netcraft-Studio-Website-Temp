@@ -15,48 +15,22 @@ function apiUrl(path) {
   return `${API_BASE_URL}${path}`;
 }
 
-const STORAGE_KEYS = {
-  PROJECTS: 'netcraft_studio_projects_v1',
-  CLIENTS: 'netcraft_studio_clients_v1',
-  CONTACT: 'netcraft_studio_contact_v1',
-  INQUIRIES: 'netcraft_studio_inquiries_v1',
-  TODOS: 'netcraft_studio_todos_v1',
-  AUTH: 'netcraft_studio_auth_v1'
-};
-
-function getStorage(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    if (saved) return JSON.parse(saved);
-  } catch (e) {
-    console.warn(`Error reading localStorage for ${key}`, e);
-  }
-  return fallback;
-}
-
-function setStorage(key, data) {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (e) {
-    console.warn(`Error writing localStorage for ${key}`, e);
-  }
-}
-
 export function StudioProvider({ children }) {
-  const [projects, setProjects] = useState(() => getStorage(STORAGE_KEYS.PROJECTS, initialProjects));
-  const [clients, setClients] = useState(() => getStorage(STORAGE_KEYS.CLIENTS, initialClients));
-  const [contactInfo, setContactInfo] = useState(() => getStorage(STORAGE_KEYS.CONTACT, initialContactInfo));
-  const [inquiries, setInquiries] = useState(() => getStorage(STORAGE_KEYS.INQUIRIES, initialInquiries));
-  const [todos, setTodos] = useState(() => getStorage(STORAGE_KEYS.TODOS, initialTodos));
+  const [projects, setProjects] = useState(initialProjects);
+  const [clients, setClients] = useState(initialClients);
+  const [contactInfo, setContactInfo] = useState(initialContactInfo);
+  const [inquiries, setInquiries] = useState(initialInquiries);
+  const [todos, setTodos] = useState(initialTodos);
   const [services] = useState(initialServices);
 
   // Backend connection status
   const [backendConnected, setBackendConnected] = useState(false);
+  const [databaseConnected, setDatabaseConnected] = useState(false);
 
   // Admin Auth state
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
-    return localStorage.getItem(STORAGE_KEYS.AUTH) === 'true';
-  });
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() =>
+    sessionStorage.getItem('netcraft-admin-authenticated') === 'true'
+  );
 
   // Global Toast notification state
   const [toast, setToast] = useState(null);
@@ -70,7 +44,7 @@ export function StudioProvider({ children }) {
 
   const closeToast = () => setToast(null);
 
-  // API Call helper with auto fallback
+  // API Call helper; persistence is handled by the backend database.
   const apiCall = async (url, method = 'GET', body = null) => {
     try {
       const opts = {
@@ -97,7 +71,11 @@ export function StudioProvider({ children }) {
       try {
         const statusRes = await fetch(apiUrl('/api/status'));
         if (statusRes.ok) {
-          if (isMounted) setBackendConnected(true);
+          const status = await statusRes.json();
+          if (isMounted) {
+            setBackendConnected(true);
+            setDatabaseConnected(Boolean(status.databaseConnected));
+          }
           const dataRes = await fetch(apiUrl('/api/data'));
           if (dataRes.ok) {
             const data = await dataRes.json();
@@ -110,23 +88,22 @@ export function StudioProvider({ children }) {
             }
           }
         } else {
-          if (isMounted) setBackendConnected(false);
+          if (isMounted) {
+            setBackendConnected(false);
+            setDatabaseConnected(false);
+          }
         }
       } catch (e) {
-        if (isMounted) setBackendConnected(false);
+        if (isMounted) {
+          setBackendConnected(false);
+          setDatabaseConnected(false);
+        }
       }
     }
 
     initFromBackend();
     return () => { isMounted = false; };
   }, []);
-
-  // Sync state to localStorage as offline safety cache
-  useEffect(() => { setStorage(STORAGE_KEYS.PROJECTS, projects); }, [projects]);
-  useEffect(() => { setStorage(STORAGE_KEYS.CLIENTS, clients); }, [clients]);
-  useEffect(() => { setStorage(STORAGE_KEYS.CONTACT, contactInfo); }, [contactInfo]);
-  useEffect(() => { setStorage(STORAGE_KEYS.INQUIRIES, inquiries); }, [inquiries]);
-  useEffect(() => { setStorage(STORAGE_KEYS.TODOS, todos); }, [todos]);
 
   // ----------------------
   // THINGS TO DO (TODOS) CRUD
@@ -315,7 +292,7 @@ export function StudioProvider({ children }) {
   const adminLogin = (passcode) => {
     if (['admin123', 'netcraft2026', 'admin'].includes(passcode.trim())) {
       setIsAdminAuthenticated(true);
-      localStorage.setItem(STORAGE_KEYS.AUTH, 'true');
+      sessionStorage.setItem('netcraft-admin-authenticated', 'true');
       showToast(`Welcome back to NetCraft Admin!`);
       return true;
     }
@@ -325,7 +302,7 @@ export function StudioProvider({ children }) {
 
   const adminLogout = () => {
     setIsAdminAuthenticated(false);
-    localStorage.removeItem(STORAGE_KEYS.AUTH);
+    sessionStorage.removeItem('netcraft-admin-authenticated');
     showToast(`Signed out of Admin`, 'info');
   };
 
@@ -338,12 +315,6 @@ export function StudioProvider({ children }) {
     setContactInfo(initialContactInfo);
     setInquiries(initialInquiries);
     setTodos(initialTodos);
-
-    setStorage(STORAGE_KEYS.PROJECTS, initialProjects);
-    setStorage(STORAGE_KEYS.CLIENTS, initialClients);
-    setStorage(STORAGE_KEYS.CONTACT, initialContactInfo);
-    setStorage(STORAGE_KEYS.INQUIRIES, initialInquiries);
-    setStorage(STORAGE_KEYS.TODOS, initialTodos);
 
     await apiCall('/api/data/reset', 'POST');
     showToast(`All data restored to factory defaults!`);
@@ -396,6 +367,7 @@ export function StudioProvider({ children }) {
         todos,
         services,
         backendConnected,
+        databaseConnected,
         toast,
         showToast,
         closeToast,

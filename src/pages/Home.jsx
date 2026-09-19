@@ -161,7 +161,7 @@ export default function Home() {
         </div>
 
         {/* Stat Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 md:mt-16 pt-7 border-t border-[var(--mist)]">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 md:mt-16 pt-7 border-t border-(--mist)">
           <div>
             <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>10+</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>

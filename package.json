@@ -6,7 +6,7 @@
   "scripts": {
     "server": "node server/server.js",
     "start": "node server/server.js",
-    "dev": "concurrently -n \"CLIENT,SERVER\" -c \"blue,cyan\" \"vite\" \"npm run server\" ",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,cyan\" \"npm run server\" \"vite\"  ",
     "build": "vite build",
     "preview": "vite preview"
   },

@@ -24,7 +24,7 @@ Modern digital product studio platform built with **React**, **Vite**, **React R
   - **Contact Details & Inquiries Inbox**: Edit live company telephone, email, address, coordinates, and view/reply/archive incoming messages submitted from the contact form.
   - **Backup & Reset**: Export data snapshot to JSON, import backups, or restore factory defaults.
 - **Persistent State**:
-  - Changes made in the Admin Portal immediately update the user-facing pages in real time via React Context + `localStorage`.
+  - Changes made in the Admin Portal are sent through the Express API and persisted in Supabase. React Context updates the user-facing pages immediately while the database request completes.
 
 ---
 

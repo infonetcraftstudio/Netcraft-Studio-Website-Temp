@@ -2,17 +2,17 @@
   "contactInfo": {
     "email": "netcraftstudio01@gmail.com",
     "phone": "+91 8122696986",
-    "github": "https://github.com/netcraftstudio01",
-    "status": "Available for New Projects & Q4 2026",
+    "phoneAlt": "+91 9360244928",
     "address": "Coimbatore, Tamil Nadu, India",
     "estYear": "2024",
-    "tagline": "Building the Future, One Pixel at a Time.",
+    "status": "Available for New Projects & Q4 2026",
+    "officeHours": "Mon – Sat, 09:30 – 19:30 IST",
     "headline": "Crafting digital experiences that push boundaries.",
-    "phoneAlt": "+91 9360244928",
+    "subheadline": "Service & Product based IT company building high-performance web applications, mobile platforms, custom desktop software, and intelligent automation systems.",
+    "tagline": "Building the Future, One Pixel at a Time.",
     "whatsapp": "https://whatsapp.com/channel/0029VbBZudk3GJOx8vumlr0H",
     "instagram": "https://www.instagram.com/netcraft_studio?igsh=cGUyOXVzZnY3ZTVj",
-    "officeHours": "Mon – Sat, 09:30 – 19:30 IST",
-    "subheadline": "Service & Product based IT company building high-performance web applications, mobile platforms, custom desktop software, and intelligent automation systems."
+    "github": "https://github.com/netcraftstudio01"
   },
   "services": [
     {
@@ -206,6 +206,92 @@
     }
   ],
   "projects": [
+    {
+      "id": "proj-9",
+      "tag": "Event Tech",
+      "year": "2024",
+      "title": "Event Registration & Ticketing Suite",
+      "client": "Event Management Company",
+      "status": "Completed",
+      "metrics": "Zero-Queue QR Check-in",
+      "category": "Web Development",
+      "featured": false,
+      "features": [
+        "Registration Management",
+        "QR Ticket Generation",
+        "Seat Allocation",
+        "Payment Processing",
+        "Email Notifications",
+        "Fast Check-In System"
+      ],
+      "imageType": "cyan",
+      "techStack": [
+        "React.js",
+        "Spring Boot",
+        "Supabase",
+        "Stripe"
+      ],
+      "accentColor": "#f59e0b",
+      "description": "Full-featured event registration and ticket management platform handling seat allocation, QR ticketing, and automated check-in.",
+      "longDescription": "A complete event management platform handling registration, QR ticket generation, seat reservation, email confirmations, and fast mobile check-in verification for corporate conferences and public gatherings."
+    },
+    {
+      "id": "proj-10",
+      "tag": "Desktop POS Suite",
+      "year": "2024",
+      "title": "Retail Billing & Invoicing POS",
+      "client": "Financial Services & Retail",
+      "status": "Completed",
+      "metrics": "Offline-First Fast POS",
+      "category": "Desktop Application",
+      "featured": false,
+      "features": [
+        "Invoice Generation",
+        "Payment Tracking",
+        "Financial Reports",
+        "Tax Calculations",
+        "Customer Management",
+        "PDF Export"
+      ],
+      "imageType": "city",
+      "techStack": [
+        "Electron JS",
+        "Node.js",
+        "SQLite",
+        "PDF Generation Engine"
+      ],
+      "accentColor": "#0284c7",
+      "description": "Automated billing and invoicing desktop application with customer ledgers, tax calculation, and PDF export.",
+      "longDescription": "A powerful desktop application for retail billing and automated invoice generation featuring tax calculations, customer accounts ledger, barcode scanning compatibility, and instant PDF invoice printing."
+    },
+    {
+      "id": "proj-11",
+      "tag": "Brand Platform",
+      "year": "2024",
+      "title": "Adhivelan Masala Digital Showcase",
+      "client": "Adhivelan Masala",
+      "status": "Completed",
+      "metrics": "High Credibility Catalog",
+      "category": "E-Commerce",
+      "featured": false,
+      "features": [
+        "Product Showcase",
+        "Distributor Portal",
+        "Inquiry Routing",
+        "Mobile-Optimized Experience",
+        "Regional Dealer Map"
+      ],
+      "imageType": "purple",
+      "techStack": [
+        "React.js",
+        "Tailwind CSS",
+        "Node.js",
+        "Cloudinary"
+      ],
+      "accentColor": "#ea580c",
+      "description": "Modern digital product catalog, brand showcase, and distributor inquiry system for a regional spices manufacturer.",
+      "longDescription": "Engineered a vibrant digital identity and product catalog for Adhivelan Masala, showcasing authentic spice products, nutritional facts, distribution channels, and regional dealer inquiry portals."
+    },
     {
       "id": "proj-1",
       "tag": "Agritech Marketplace",
@@ -448,92 +534,6 @@
       "accentColor": "#059669",
       "description": "Interactive campus mapping and wayfinding system with real-time facility locator, event updates, and route planning.",
       "longDescription": "An interactive spatial mapping system for university campuses providing real-time indoor and outdoor wayfinding, building locators, campus event announcements, and a searchable student facilities directory."
-    },
-    {
-      "id": "proj-9",
-      "tag": "Event Tech",
-      "year": "2024",
-      "title": "Event Registration & Ticketing Suite",
-      "client": "Event Management Company",
-      "status": "Completed",
-      "metrics": "Zero-Queue QR Check-in",
-      "category": "Web Development",
-      "featured": false,
-      "features": [
-        "Registration Management",
-        "QR Ticket Generation",
-        "Seat Allocation",
-        "Payment Processing",
-        "Email Notifications",
-        "Fast Check-In System"
-      ],
-      "imageType": "cyan",
-      "techStack": [
-        "React.js",
-        "Spring Boot",
-        "Supabase",
-        "Stripe"
-      ],
-      "accentColor": "#f59e0b",
-      "description": "Full-featured event registration and ticket management platform handling seat allocation, QR ticketing, and automated check-in.",
-      "longDescription": "A complete event management platform handling registration, QR ticket generation, seat reservation, email confirmations, and fast mobile check-in verification for corporate conferences and public gatherings."
-    },
-    {
-      "id": "proj-10",
-      "tag": "Desktop POS Suite",
-      "year": "2024",
-      "title": "Retail Billing & Invoicing POS",
-      "client": "Financial Services & Retail",
-      "status": "Completed",
-      "metrics": "Offline-First Fast POS",
-      "category": "Desktop Application",
-      "featured": false,
-      "features": [
-        "Invoice Generation",
-        "Payment Tracking",
-        "Financial Reports",
-        "Tax Calculations",
-        "Customer Management",
-        "PDF Export"
-      ],
-      "imageType": "city",
-      "techStack": [
-        "Electron JS",
-        "Node.js",
-        "SQLite",
-        "PDF Generation Engine"
-      ],
-      "accentColor": "#0284c7",
-      "description": "Automated billing and invoicing desktop application with customer ledgers, tax calculation, and PDF export.",
-      "longDescription": "A powerful desktop application for retail billing and automated invoice generation featuring tax calculations, customer accounts ledger, barcode scanning compatibility, and instant PDF invoice printing."
-    },
-    {
-      "id": "proj-11",
-      "tag": "Brand Platform",
-      "year": "2024",
-      "title": "Adhivelan Masala Digital Showcase",
-      "client": "Adhivelan Masala",
-      "status": "Completed",
-      "metrics": "High Credibility Catalog",
-      "category": "E-Commerce",
-      "featured": false,
-      "features": [
-        "Product Showcase",
-        "Distributor Portal",
-        "Inquiry Routing",
-        "Mobile-Optimized Experience",
-        "Regional Dealer Map"
-      ],
-      "imageType": "purple",
-      "techStack": [
-        "React.js",
-        "Tailwind CSS",
-        "Node.js",
-        "Cloudinary"
-      ],
-      "accentColor": "#ea580c",
-      "description": "Modern digital product catalog, brand showcase, and distributor inquiry system for a regional spices manufacturer.",
-      "longDescription": "Engineered a vibrant digital identity and product catalog for Adhivelan Masala, showcasing authentic spice products, nutritional facts, distribution channels, and regional dealer inquiry portals."
     }
   ],
   "clients": [
@@ -541,7 +541,7 @@
       "id": "cli-1",
       "name": "Uzhavar Connect",
       "author": "K. Rangarajan",
-      "rating": 4,
+      "rating": 5,
       "status": "Active Partner",
       "website": "https://www.uzhavarconnect.com/",
       "featured": true,
@@ -609,7 +609,7 @@
       "name": "Karthik Sundaram",
       "email": "karthik@southagro.in",
       "budget": "₹1,00,000 - ₹2,50,000",
-      "status": "archived",
+      "status": "replied",
       "company": "South Agro Logistics",
       "message": "We need an integrated supplier portal and warehouse inventory tracking dashboard with real-time SMS notifications.",
       "service": "Web Development"
@@ -639,9 +639,29 @@
   ],
   "todos": [
     {
+      "id": "todo-4",
+      "title": "Audit biometric accuracy & camera feed permissions for Employee Attendance app",
+      "status": "pending",
+      "dueDate": "2026-09-26",
+      "category": "Quality Assurance",
+      "priority": "medium",
+      "createdAt": "2026-09-17",
+      "assignedTo": "Kaviya Shree"
+    },
+    {
+      "id": "todo-5",
+      "title": "Finalize GST invoice PDF thermal printer output for Retail Billing POS suite",
+      "status": "pending",
+      "dueDate": "2026-09-29",
+      "category": "Development",
+      "priority": "low",
+      "createdAt": "2026-09-17",
+      "assignedTo": "Gokul"
+    },
+    {
       "id": "todo-1",
       "title": "Deploy Uzhavar Connect supply chain GPS updates and verify mobile responsiveness",
-      "status": "completed",
+      "status": "in_progress",
       "dueDate": "2026-09-22",
       "category": "Deployment",
       "priority": "high",
@@ -651,7 +671,7 @@
     {
       "id": "todo-2",
       "title": "Optimize Amirdha Stickers live interactive canvas rendering on mobile devices",
-      "status": "completed",
+      "status": "pending",
       "dueDate": "2026-09-24",
       "category": "Performance",
       "priority": "high",
@@ -667,27 +687,7 @@
       "priority": "medium",
       "createdAt": "2026-09-14",
       "assignedTo": "Barath Nivash"
-    },
-    {
-      "id": "todo-4",
-      "title": "Audit biometric accuracy & camera feed permissions for Employee Attendance app",
-      "status": "completed",
-      "dueDate": "2026-09-26",
-      "category": "Quality Assurance",
-      "priority": "medium",
-      "createdAt": "2026-09-17",
-      "assignedTo": "Kaviya Shree"
-    },
-    {
-      "id": "todo-5",
-      "title": "Finalize GST invoice PDF thermal printer output for Retail Billing POS suite",
-      "status": "completed",
-      "dueDate": "2026-09-29",
-      "category": "Development",
-      "priority": "low",
-      "createdAt": "2026-09-17",
-      "assignedTo": "Gokul"
     }
   ],
-  "lastUpdated": "2026-09-19T07:55:45.277Z"
+  "lastUpdated": "2026-09-19T12:21:29.735Z"
 }
