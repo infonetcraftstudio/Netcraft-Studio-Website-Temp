@@ -1,368 +1,695 @@
 export const initialContactInfo = {
-  email: "hello@netcraftstudios.org",
-  phone: "+1 (415) 890-3420",
-  address: "742 Montgomery St, Suite 400, San Francisco, CA",
-  coordinates: "12° 34' 56\" N / 77° 35' 12\" E",
-  systemCode: "SYSTEM 01.26",
-  estYear: "2021",
-  status: "Available for Q4 & 2026",
-  officeHours: "Mon – Fri, 09:00 – 18:00 PST",
-  headline: "Have a bold idea? Let’s build it.",
-  subheadline: "We turn complex ideas into clear, capable digital products for teams moving with intent."
+  "email": "netcraftstudio01@gmail.com",
+  "phone": "+91 8122696986",
+  "phoneAlt": "+91 9360244928",
+  "address": "Coimbatore, Tamil Nadu, India",
+  "estYear": "2024",
+  "status": "Available for New Projects & Q4 2026",
+  "officeHours": "Mon – Sat, 09:30 – 19:30 IST",
+  "headline": "Crafting digital experiences that push boundaries.",
+  "subheadline": "Service & Product based IT company building high-performance web applications, mobile platforms, custom desktop software, and intelligent automation systems.",
+  "tagline": "Building the Future, One Pixel at a Time.",
+  "whatsapp": "https://whatsapp.com/channel/0029VbBZudk3GJOx8vumlr0H",
+  "instagram": "https://www.instagram.com/netcraft_studio?igsh=cGUyOXVzZnY3ZTVj",
+  "github": "https://github.com/netcraftstudio01"
 };
 
 export const initialServices = [
   {
-    id: "serv-1",
-    num: "01",
-    icon: "↗",
-    title: "Web Development",
-    shortDesc: "Fast, responsive platforms that make your business impossible to overlook.",
-    fullDesc: "We build enterprise-grade modern web applications and landing systems with zero bloat, blazing fast load times, and uncompromising security. Architected for scale and search prominence.",
-    deliverables: ["Single Page Applications (SPA)", "Full-Stack Web Portals", "Headless CMS Integrations", "Core Web Vitals Optimization", "Custom API & Microservices"],
-    technologies: ["React", "TypeScript", "Node.js", "Next.js", "Tailwind CSS"]
+    "id": "serv-1",
+    "num": "01",
+    "icon": "↗",
+    "slug": "web-development",
+    "title": "Web Development",
+    "shortDesc": "Custom websites and scalable web applications built with modern frontend and backend technologies.",
+    "fullDesc": "At NetCraft Studio, we create powerful, responsive web applications that drive business growth. Our expertise spans modern frontend frameworks and robust backend systems, delivering solutions that are fast, secure, and engineered to scale seamlessly.",
+    "deliverables": [
+      "React & Next.js Single Page & Server-Rendered Applications",
+      "High-Performance Node.js & Express APIs",
+      "Mobile-Responsive & Cross-Device UI Architectures",
+      "Core Web Vitals & Search Engine Performance Optimization",
+      "Custom Database Integration & Cloud Deployment"
+    ],
+    "technologies": [
+      "React.js",
+      "Next.js",
+      "Node.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Supabase",
+      "Tailwind CSS"
+    ]
   },
   {
-    id: "serv-2",
-    num: "02",
-    icon: "◈",
-    title: "AI & Emerging Tech",
-    shortDesc: "Practical intelligence that gives your teams a smarter way to work.",
-    fullDesc: "Deploy transformative machine learning pipelines, fine-tuned LLM agents, and real-time computer vision workflows that unlock operational efficiency and delight end-users.",
-    deliverables: ["LLM Agents & Copilots", "Vector Search & RAG Architectures", "Custom Model Fine-tuning", "Intelligent Automation Workflows", "AI Strategy & Safety Auditing"],
-    technologies: ["Python", "PyTorch", "LangChain", "OpenAI / Claude APIs", "FastAPI"]
+    "id": "serv-2",
+    "num": "02",
+    "icon": "⌁",
+    "slug": "app-development",
+    "title": "App Development",
+    "shortDesc": "Native and cross-platform mobile applications for iOS and Android delivering fluid, native performance.",
+    "fullDesc": "We develop high-performance mobile applications that deliver exceptional user experiences. Whether you need a native app for maximum speed or a cross-platform React Native solution, our team brings your product vision into app stores smoothly.",
+    "deliverables": [
+      "React Native & Expo Cross-Platform Applications",
+      "Native iOS (Swift) & Android (Kotlin) Integrations",
+      "Offline-First Sync & Persistent Local Storage",
+      "Real-Time Push Notification Infrastructures",
+      "Biometric Authentication & Device Hardware Integration"
+    ],
+    "technologies": [
+      "React Native",
+      "Expo",
+      "Swift",
+      "Kotlin",
+      "Firebase",
+      "Supabase",
+      "REST APIs"
+    ]
   },
   {
-    id: "serv-3",
-    num: "03",
-    icon: "▣",
-    title: "Digital Products",
-    shortDesc: "Useful, intuitive products built around the people who use them.",
-    fullDesc: "From 0-to-1 prototype validation to comprehensive SaaS ecosystem design, we craft interfaces that make complex interactions feel obvious, enjoyable, and frictionless.",
-    deliverables: ["End-to-End Product Design", "Design Systems & Token Libraries", "Interactive High-Fidelity Prototypes", "User Journey & Usability Testing", "Product Roadmap & Strategy"],
-    technologies: ["Figma", "Design Tokens", "Storybook", "React", "UserTesting"]
+    "id": "serv-3",
+    "num": "03",
+    "icon": "▣",
+    "slug": "ui-ux-design",
+    "title": "UI/UX Design",
+    "shortDesc": "Beautiful, intuitive designs that convert visitors into loyal customers through human-centered craft.",
+    "fullDesc": "Our UI/UX design services create visually stunning and user-friendly interfaces that drive engagement. We combine user research, wireframing, interactive prototyping, and design systems tailored to elevate your brand presence.",
+    "deliverables": [
+      "User Research, Personas & Journey Architecture",
+      "Wireframing & Interactive High-Fidelity Prototypes",
+      "Design Systems, Component Libraries & Design Tokens",
+      "WCAG 2.1 Accessibility & Usability Optimization",
+      "High-Converting Landing & Product Flow Design"
+    ],
+    "technologies": [
+      "Figma",
+      "Adobe XD",
+      "Design Systems",
+      "Prototyping",
+      "Design Tokens",
+      "Interaction Design"
+    ]
   },
   {
-    id: "serv-4",
-    num: "04",
-    icon: "⌁",
-    title: "Mobile Experiences",
-    shortDesc: "Thoughtful mobile applications that keep your audience connected.",
-    fullDesc: "Engineered for iOS and Android with tactile responsiveness, offline first reliability, and seamless hardware sensor integration.",
-    deliverables: ["Cross-Platform Mobile Apps", "Native iOS & Android Modules", "Offline-First Sync Engines", "Push Notification Architecture", "App Store Optimization & Deployment"],
-    technologies: ["React Native", "Swift", "Kotlin", "Expo", "Firebase"]
+    "id": "serv-4",
+    "num": "04",
+    "icon": "⇄",
+    "slug": "website-restructuring",
+    "title": "Website Restructuring",
+    "shortDesc": "Modernize and optimize your existing website with improved architecture, 3x speed, and zero downtime.",
+    "fullDesc": "Transform outdated websites into modern, high-performance digital assets. We audit, redesign, and rebuild existing sites to meet current security and speed standards while preserving SEO authority and brand identity.",
+    "deliverables": [
+      "Comprehensive Speed, Code & Security Audit",
+      "Monolith to Modern Component Architecture Migration",
+      "Core Web Vitals Tuning & SEO Recovery",
+      "Zero-Downtime Data Cutover & Hosting Migration",
+      "Mobile-First Responsive Refactoring"
+    ],
+    "technologies": [
+      "Modern Frontend Stack",
+      "Cloud Infrastructure",
+      "CDN Acceleration",
+      "Security Hardening"
+    ]
   },
   {
-    id: "serv-5",
-    num: "05",
-    icon: "⇄",
-    title: "Legacy Modernization",
-    shortDesc: "Transform outdated codebases into agile, cloud-native digital platforms.",
-    fullDesc: "Upgrade monolithic applications, migrate database infrastructures, modernize legacy UI/UX design systems, and eliminate security debt with zero unscheduled downtime.",
-    deliverables: ["Monolith to Microservices Decomposition", "Cloud-Native Infrastructure Migration", "UI/UX & Design System Modernization", "Automated Regression Test Suites", "Zero-Downtime Data Cutover"],
-    technologies: ["Docker", "Kubernetes", "TypeScript", "AWS", "PostgreSQL", "Next.js"]
+    "id": "serv-5",
+    "num": "05",
+    "icon": "◈",
+    "slug": "product-development",
+    "title": "Product Development",
+    "shortDesc": "End-to-end digital product development from concept and MVP validation through market scale.",
+    "fullDesc": "Turn your vision into a market-ready digital product. We handle everything from MVP development to scaling, ensuring your product succeeds in competitive markets with resilient technical architecture and clear roadmaps.",
+    "deliverables": [
+      "Product Strategy & Technical Scoping",
+      "Rapid MVP Build & Market Validation",
+      "Scalable Multi-Tenant Architecture",
+      "Automated Testing & CI/CD Pipelines",
+      "Continuous Feature Iteration & Launch Support"
+    ],
+    "technologies": [
+      "Full-Stack Engineering",
+      "Cloud Platforms",
+      "Microservices",
+      "DevOps & CI/CD",
+      "Analytics"
+    ]
+  },
+  {
+    "id": "serv-6",
+    "num": "06",
+    "icon": "⚡",
+    "slug": "automation-solutions",
+    "title": "Automation Solutions",
+    "shortDesc": "Streamline business operations with intelligent automation systems that eliminate manual workload.",
+    "fullDesc": "Reduce repetitive work and boost organizational efficiency. Our custom automation tools connect disparate software, automate business workflows, and let your team focus on high-impact strategic tasks.",
+    "deliverables": [
+      "Business Process & Workflow Automation (RPA)",
+      "Automated Report Generation & Analytics Distribution",
+      "Third-Party Software Integration & Data Sync",
+      "Custom Scripting, Webhooks & Scheduled Pipelines",
+      "Automated Alerts & Error Diagnostic Logging"
+    ],
+    "technologies": [
+      "Python Scripting",
+      "Node.js Automation",
+      "RPA Frameworks",
+      "REST Webhooks",
+      "Cron Engines"
+    ]
+  },
+  {
+    "id": "serv-7",
+    "num": "07",
+    "icon": "◎",
+    "slug": "internet-of-things",
+    "title": "Internet of Things (IoT)",
+    "shortDesc": "Connect smart devices and sensors for real-time monitoring, telemetry, and intelligent decision-making.",
+    "fullDesc": "Bridge hardware with cloud intelligence. We build IoT architectures that collect live telemetric data from connected devices, process streams in real-time, and present actionable insights on responsive dashboards.",
+    "deliverables": [
+      "IoT Architecture & Protocol Engineering",
+      "Hardware Device Telemetry Streaming",
+      "Real-Time Monitoring & Diagnostic Dashboards",
+      "Automated Event & Sensor Threshold Alerts",
+      "Secure Edge-to-Cloud Data Encryption"
+    ],
+    "technologies": [
+      "MQTT",
+      "WebSockets",
+      "Node.js",
+      "Cloud Telemetry",
+      "Embedded APIs",
+      "Chart.js"
+    ]
+  },
+  {
+    "id": "serv-8",
+    "num": "08",
+    "icon": "💻",
+    "slug": "desktop-application",
+    "title": "Desktop Applications",
+    "shortDesc": "Powerful cross-platform desktop applications for Windows, macOS, and Linux with offline capability.",
+    "fullDesc": "Engineered with modern frameworks like Electron JS for high performance, local hardware and printer integration, offline reliability, and seamless experiences across all major desktop operating systems.",
+    "deliverables": [
+      "Cross-Platform Windows, macOS & Linux Desktop Apps",
+      "Offline-First Local Storage & Database Synchronization",
+      "Hardware Peripheral, Scanner & Printer Integrations",
+      "Automated Background Updates & Installers",
+      "Native File System & OS Window Control"
+    ],
+    "technologies": [
+      "Electron JS",
+      "React.js",
+      "SQLite",
+      "Node.js",
+      "Native OS APIs"
+    ]
   }
 ];
 
 export const initialProjects = [
   {
-    id: "proj-1",
-    title: "AeroPulse Enterprise",
-    client: "Aeroform Spatial",
-    category: "Digital Products",
-    tag: "Digital product",
-    year: "2025",
-    description: "Product strategy and web application experience for next-generation spatial computing telemetry and collaborative team workflows.",
-    longDescription: "NetCraft Studio architected AeroPulse from initial UX wireframing through high-performance WebGL telemetry visualizers. The system enables multi-disciplinary aerospace teams to review 3D spatial models concurrently with real-time biometric and pressure annotations.",
-    techStack: ["React", "WebGL", "TypeScript", "Tailwind CSS"],
-    status: "Completed",
-    featured: true,
-    metrics: "+65% Team Velocity",
-    imageType: "city",
-    accentColor: "#2563eb",
-    liveUrl: "https://aeropulse.netcraft.example"
+    "id": "proj-1",
+    "title": "Uzhavar Connect",
+    "client": "Uzhavar Connect",
+    "category": "E-Commerce",
+    "tag": "Agritech Marketplace",
+    "year": "2025",
+    "description": "Agricultural marketplace connecting farmers directly to consumers, enabling direct sales of fresh produce with supply chain logistics.",
+    "longDescription": "A digital marketplace platform that bridges the gap between farmers and consumers, enabling direct sales of fresh produce. Includes supply chain tracking, quality assurance, GPS logistics management, and direct farmer-to-consumer payments.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Leaflet API",
+      "Supabase",
+      "Cloudinary",
+      "Google Sheets"
+    ],
+    "features": [
+      "Farmer Profiles",
+      "Product Listings",
+      "Order Management",
+      "GPS Tracking",
+      "Quality Verification",
+      "Direct Payment Settlement"
+    ],
+    "status": "Live Project",
+    "featured": true,
+    "metrics": "Direct Farm-to-Table",
+    "imageType": "city",
+    "accentColor": "#10b981",
+    "liveUrl": "https://www.uzhavarconnect.com/"
   },
   {
-    id: "proj-2",
-    title: "Synthetix AI Copilot",
-    client: "Synthetix Labs",
-    category: "AI & Emerging Tech",
-    tag: "AI System",
-    year: "2025",
-    description: "Autonomous workflow assistant and neural UI orchestration layer for high-throughput robotics data analysis.",
-    longDescription: "Synthetix needed an intuitive operational dashboard where factory engineers can query complex robotic arms in natural language. We designed a reactive conversational canvas connected directly to live streaming telemetry.",
-    techStack: ["Python", "FastAPI", "React", "PyTorch", "WebSockets"],
-    status: "Completed",
-    featured: true,
-    metrics: "99.4% Model Precision",
-    imageType: "purple",
-    accentColor: "#7457e8",
-    liveUrl: "https://synthetix.netcraft.example"
+    "id": "proj-2",
+    "title": "Amirdha Stickers",
+    "client": "Amirdha Stickers",
+    "category": "E-Commerce",
+    "tag": "Custom Merchandise",
+    "year": "2025",
+    "description": "Creative custom sticker and design e-commerce store featuring a real-time interactive design studio and instant preview.",
+    "longDescription": "A specialized e-commerce store for custom stickers and designs with real-time design customization, live preview, bulk order processing, and fast turnaround manufacturing integration.",
+    "techStack": [
+      "React JS",
+      "Node Mailer",
+      "Bootstrap",
+      "HTML5 Canvas"
+    ],
+    "features": [
+      "Design Customization",
+      "Live Interactive Preview",
+      "Bulk Ordering",
+      "Fast Shipping Integration",
+      "Custom Design Templates"
+    ],
+    "status": "Live Project",
+    "featured": true,
+    "metrics": "Live Design Studio",
+    "imageType": "purple",
+    "accentColor": "#7c3aed",
+    "liveUrl": "https://amirdhastickers.com/"
   },
   {
-    id: "proj-3",
-    title: "Veloce Real-Time Trading Terminal",
-    client: "Veloce Financial",
-    category: "Web Development",
-    tag: "Web experience",
-    year: "2024",
-    description: "Ultra low-latency streaming dashboard, order routing terminal, and market liquidity heatmaps for institutional crypto trading.",
-    longDescription: "Handling millions of streaming ticks per second requires zero unnecessary DOM updates. We built a high-performance Canvas-rendered orderbook and customized charting widget suite for Veloce traders.",
-    techStack: ["React", "WebSockets", "Rust", "HTML5 Canvas"],
-    status: "Completed",
-    featured: true,
-    metrics: "<12ms Latency",
-    imageType: "cyan",
-    accentColor: "#2dd4bf",
-    liveUrl: "https://veloce.netcraft.example"
+    "id": "proj-3",
+    "title": "Sri Sastha Travels",
+    "client": "Sri Sastha Travels",
+    "category": "Web Development",
+    "tag": "Tourism & Hospitality",
+    "year": "2024",
+    "description": "Comprehensive travel booking and itinerary management system for tourism packages, hotel reservations, and custom journeys.",
+    "longDescription": "A comprehensive travel booking platform offering tour packages, hotel reservations, flight bookings, and itinerary customization. Features multi-language support, real-time pricing, and interactive journey maps.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "Travel APIs",
+      "Google Maps",
+      "Payment Gateways"
+    ],
+    "features": [
+      "Tour Package Booking",
+      "Hotel Integrations",
+      "Flight Search",
+      "Itinerary Builder",
+      "Travel Guides",
+      "Multi-Language Support"
+    ],
+    "status": "Live Project",
+    "featured": true,
+    "metrics": "Instant Tour Bookings",
+    "imageType": "cyan",
+    "accentColor": "#0284c7",
+    "liveUrl": "https://sri-sastha-travels.vercel.app/"
   },
   {
-    id: "proj-4",
-    title: "Orbit Mobile Companion",
-    client: "Kroma Media",
-    category: "Mobile Experiences",
-    tag: "Mobile App",
-    year: "2024",
-    description: "Cross-platform mobile application delivering curated immersive multimedia stories and offline caching for global creators.",
-    longDescription: "Orbit provides creative directors and journalists an offline-first workspace to record audio notes, assemble moodboards, and sync high-res video clips instantly when back on Wi-Fi.",
-    techStack: ["React Native", "Swift", "Kotlin", "GraphQL"],
-    status: "Completed",
-    featured: true,
-    metrics: "4.9 App Store Rating",
-    imageType: "city",
-    accentColor: "#163c83",
-    liveUrl: "https://orbit.netcraft.example"
+    "id": "proj-4",
+    "title": "Employee Attendance & Payroll System",
+    "client": "Enterprise Corporation",
+    "category": "Web Development",
+    "tag": "Enterprise System",
+    "year": "2024",
+    "description": "Modern attendance management system streamlining check-in/out processes with facial recognition, real-time analytics, and payroll integration.",
+    "longDescription": "A modern attendance management system that streamlines employee check-in and check-out processes with real-time reporting, biometric facial recognition, leave management, and automated integration with enterprise payroll systems.",
+    "techStack": [
+      "React.js",
+      "Node.js",
+      "MongoDB",
+      "Express",
+      "JWT Authentication"
+    ],
+    "features": [
+      "Facial Recognition",
+      "Real-Time Tracking",
+      "Attendance Reports",
+      "Payroll Integration",
+      "Leave Management",
+      "Mobile Access"
+    ],
+    "status": "Live Project",
+    "featured": true,
+    "metrics": "Biometric Precision",
+    "imageType": "city",
+    "accentColor": "#2563eb",
+    "liveUrl": "https://employee-attendance-frontend-wga0.onrender.com"
   },
   {
-    id: "proj-5",
-    title: "Cortex Knowledge Graph Engine",
-    client: "Horizon Health",
-    category: "AI & Emerging Tech",
-    tag: "Enterprise AI",
-    year: "2024",
-    description: "Vector-indexed clinical research discovery engine that indexes 10M+ medical papers with instant semantic verification.",
-    longDescription: "A revolutionary semantic engine for biomedical researchers, synthesizing clinical trial papers and visualizing chemical relationship clusters in interactive 3D graphs.",
-    techStack: ["Node.js", "pgvector", "LangChain", "React"],
-    status: "Completed",
-    featured: false,
-    metrics: "10x Faster Inquiries",
-    imageType: "purple",
-    accentColor: "#7457e8",
-    liveUrl: "https://cortex.netcraft.example"
+    "id": "proj-5",
+    "title": "Student QR Attendance System",
+    "client": "Educational Institution",
+    "category": "Mobile Experiences",
+    "tag": "EdTech Solution",
+    "year": "2024",
+    "description": "Innovative QR code-based attendance solution for educational institutions with real-time class summaries and parent alerts.",
+    "longDescription": "An innovative QR code-based attendance platform for schools and universities that simplifies attendance marking. Students scan unique QR codes to mark attendance instantly, while teachers and administrators access real-time reports and parent notification feeds.",
+    "techStack": [
+      "Next.js",
+      "Supabase",
+      "QR Code Library",
+      "Expo",
+      "React Native"
+    ],
+    "features": [
+      "QR Code Scanning",
+      "Real-Time Attendance",
+      "Class Summary Reports",
+      "Parent Notifications",
+      "Analytics Dashboard",
+      "Offline Mode"
+    ],
+    "status": "Live Project",
+    "featured": true,
+    "metrics": "Sub-Second QR Scan",
+    "imageType": "purple",
+    "accentColor": "#0d9488",
+    "liveUrl": "https://attendance-management-system-rho-seven.vercel.app/students"
   },
   {
-    id: "proj-6",
-    title: "Lumina Brand & Tokenized Design System",
-    client: "Lumina Collective",
-    category: "Digital Products",
-    tag: "Brand system",
-    year: "2023",
-    description: "Complete brand identity, accessible tokenized UI library, and interactive documentation built for a global lifestyle collective.",
-    longDescription: "We developed a living design token architecture bridging Figma and automated CSS build steps, powering 14 sub-brands with consistent typography, motion curves, and palette definitions.",
-    techStack: ["Figma", "Design Tokens", "Storybook", "React"],
-    status: "Completed",
-    featured: false,
-    metrics: "120+ Tokenized Components",
-    imageType: "cyan",
-    accentColor: "#2dd4bf",
-    liveUrl: "https://lumina.netcraft.example"
-  }
-];
-
-export const initialMembers = [
-  {
-    id: "mem-1",
-    name: "Elena Vance",
-    role: "Design Director & Co-Founder",
-    department: "Design & Product",
-    bio: "Pioneering systematic UI/UX and brand identities that feel timeless yet futuristic. Ex-Pentagram with 12+ years shaping software surfaces.",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-    skills: ["Design Systems", "Creative Direction", "Information Architecture", "Typography"],
-    email: "elena@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: true
+    "id": "proj-6",
+    "title": "Accounting & Financial Ledger System",
+    "client": "Accounting Firm",
+    "category": "Desktop Application",
+    "tag": "Financial Desktop Suite",
+    "year": "2025",
+    "description": "Complete desktop accounting software for managing ledgers, balance sheets, expense tracking, and regulatory compliance.",
+    "longDescription": "A comprehensive accounting software suite for managing double-entry ledgers, financial statements, expense auditing, budget forecasting, and compliance reporting with multi-company support and interactive analytics.",
+    "techStack": [
+      "React.js",
+      "Electron JS",
+      "Chart.js",
+      "SQLite"
+    ],
+    "features": [
+      "Ledger Management",
+      "Financial Statements",
+      "Expense Tracking",
+      "Budget Planning",
+      "Compliance Reports",
+      "Data Analytics"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "Multi-Company Ledger",
+    "imageType": "cyan",
+    "accentColor": "#4f46e5",
+    "sourceCodeUrl": "https://github.com/netcraftstudio01/Accounting-System-Template.git"
   },
   {
-    id: "mem-2",
-    name: "Marcus Chen",
-    role: "Principal Systems Architect",
-    department: "Engineering",
-    bio: "Specializing in high-throughput distributed web systems, WebGL graphics, and ultra-fast micro-frontends with zero runtime waste.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
-    skills: ["Distributed Systems", "React / Vite", "Rust", "High Concurrency"],
-    email: "marcus@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: true
+    "id": "proj-7",
+    "title": "Fine Management System",
+    "client": "Municipal Corporation",
+    "category": "Web Development",
+    "tag": "Civic Automation",
+    "year": "2024",
+    "description": "Traffic violation penalty and fine management system with digital payment gateway integration and automated notifications.",
+    "longDescription": "A comprehensive municipal fine management platform enabling traffic authorities to track violations, compute penalties, record evidence, and process digital citizen payments with automated SMS notifications.",
+    "techStack": [
+      "PHP",
+      "MySQL",
+      "JavaScript",
+      "HTML/CSS",
+      "Payment Gateway"
+    ],
+    "features": [
+      "Violation Tracking",
+      "Penalty Computation",
+      "Payment Integration",
+      "Automated Notifications",
+      "Report Generation",
+      "Offline Support"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "Automated Penalty Processing",
+    "imageType": "city",
+    "accentColor": "#e11d48"
   },
   {
-    id: "mem-3",
-    name: "Aria Thorne",
-    role: "Lead AI & Machine Learning Engineer",
-    department: "AI & Innovation",
-    bio: "Bridging neural synthesis, LLM pipelines, and interactive web surfaces. Passionate about ethical AI agents that empower human creators.",
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
-    skills: ["PyTorch", "RAG Pipelines", "Agentic Systems", "FastAPI"],
-    email: "aria@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: true
+    "id": "proj-8",
+    "title": "Campus Navigation Map",
+    "client": "University Campus",
+    "category": "Web Development",
+    "tag": "Spatial Navigation",
+    "year": "2023",
+    "description": "Interactive campus mapping and wayfinding system with real-time facility locator, event updates, and route planning.",
+    "longDescription": "An interactive spatial mapping system for university campuses providing real-time indoor and outdoor wayfinding, building locators, campus event announcements, and a searchable student facilities directory.",
+    "techStack": [
+      "React.js",
+      "Leaflet Maps",
+      "Geolocation API",
+      "Bootstrap"
+    ],
+    "features": [
+      "Interactive Maps",
+      "Location Search",
+      "Route Planning",
+      "Facility Directory",
+      "Event Locations",
+      "Real-Time Updates"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "Real-Time Wayfinding",
+    "imageType": "purple",
+    "accentColor": "#059669"
   },
   {
-    id: "mem-4",
-    name: "Devon Reynolds",
-    role: "Head of Product Strategy",
-    department: "Strategy",
-    bio: "Transforming intricate venture ambitions into lean, high-converting product roadmaps and clear go-to-market milestones.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
-    skills: ["Product Discovery", "Market Fit", "SaaS Analytics", "User Interviews"],
-    email: "devon@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: true
+    "id": "proj-9",
+    "title": "Event Registration & Ticketing Suite",
+    "client": "Event Management Company",
+    "category": "Web Development",
+    "tag": "Event Tech",
+    "year": "2024",
+    "description": "Full-featured event registration and ticket management platform handling seat allocation, QR ticketing, and automated check-in.",
+    "longDescription": "A complete event management platform handling registration, QR ticket generation, seat reservation, email confirmations, and fast mobile check-in verification for corporate conferences and public gatherings.",
+    "techStack": [
+      "React.js",
+      "Spring Boot",
+      "Supabase",
+      "Stripe"
+    ],
+    "features": [
+      "Registration Management",
+      "QR Ticket Generation",
+      "Seat Allocation",
+      "Payment Processing",
+      "Email Notifications",
+      "Fast Check-In System"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "Zero-Queue QR Check-in",
+    "imageType": "cyan",
+    "accentColor": "#f59e0b"
   },
   {
-    id: "mem-5",
-    name: "Kiran Patel",
-    role: "Senior Mobile & Creative Technologist",
-    department: "Mobile",
-    bio: "Crafting buttery smooth native and cross-platform mobile interactions with fluid micro-interactions and tactile physics.",
-    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&auto=format&fit=crop&q=80",
-    skills: ["React Native", "Swift", "Interactive Animation", "Offline Sync"],
-    email: "kiran@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: false
+    "id": "proj-10",
+    "title": "Retail Billing & Invoicing POS",
+    "client": "Financial Services & Retail",
+    "category": "Desktop Application",
+    "tag": "Desktop POS Suite",
+    "year": "2024",
+    "description": "Automated billing and invoicing desktop application with customer ledgers, tax calculation, and PDF export.",
+    "longDescription": "A powerful desktop application for retail billing and automated invoice generation featuring tax calculations, customer accounts ledger, barcode scanning compatibility, and instant PDF invoice printing.",
+    "techStack": [
+      "Electron JS",
+      "Node.js",
+      "SQLite",
+      "PDF Generation Engine"
+    ],
+    "features": [
+      "Invoice Generation",
+      "Payment Tracking",
+      "Financial Reports",
+      "Tax Calculations",
+      "Customer Management",
+      "PDF Export"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "Offline-First Fast POS",
+    "imageType": "city",
+    "accentColor": "#0284c7"
   },
   {
-    id: "mem-6",
-    name: "Sonia Morales",
-    role: "Senior Full-Stack Engineer",
-    department: "Engineering",
-    bio: "Relentless about clean code, component modularity, and rock-solid automated testing pipelines.",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80",
-    skills: ["TypeScript", "GraphQL", "PostgreSQL", "Tailwind CSS"],
-    email: "sonia@netcraftstudios.org",
-    socials: { twitter: "https://twitter.com", linkedin: "https://linkedin.com", github: "https://github.com" },
-    featured: false
+    "id": "proj-11",
+    "title": "Adhivelan Masala Digital Showcase",
+    "client": "Adhivelan Masala",
+    "category": "E-Commerce",
+    "tag": "Brand Platform",
+    "year": "2024",
+    "description": "Modern digital product catalog, brand showcase, and distributor inquiry system for a regional spices manufacturer.",
+    "longDescription": "Engineered a vibrant digital identity and product catalog for Adhivelan Masala, showcasing authentic spice products, nutritional facts, distribution channels, and regional dealer inquiry portals.",
+    "techStack": [
+      "React.js",
+      "Tailwind CSS",
+      "Node.js",
+      "Cloudinary"
+    ],
+    "features": [
+      "Product Showcase",
+      "Distributor Portal",
+      "Inquiry Routing",
+      "Mobile-Optimized Experience",
+      "Regional Dealer Map"
+    ],
+    "status": "Completed",
+    "featured": false,
+    "metrics": "High Credibility Catalog",
+    "imageType": "purple",
+    "accentColor": "#ea580c"
   }
 ];
 
 export const initialClients = [
   {
-    id: "cli-1",
-    name: "Synthetix Labs",
-    industry: "AI & Robotics",
-    logoText: "SYNTHETIX",
-    website: "https://synthetix.example",
-    testimonial: "NetCraft revamped our entire platform. The polish and responsiveness exceeded every KPI we set. Our customer onboarding duration dropped by half.",
-    author: "Dr. Julian Cole",
-    authorRole: "VP of Product, Synthetix Labs",
-    rating: 5,
-    projectsDone: ["Synthetix AI Copilot"],
-    featured: true,
-    status: "Active Partner"
+    "id": "cli-1",
+    "name": "Uzhavar Connect",
+    "industry": "Agritech & E-Commerce",
+    "logoText": "UZHAVAR",
+    "website": "https://www.uzhavarconnect.com/",
+    "testimonial": "NetCraft Studio built our agricultural marketplace from the ground up. Farmers and buyers are directly connected through an intuitive, reliable platform that has transformed our supply chain.",
+    "author": "K. Rangarajan",
+    "authorRole": "Founder, Uzhavar Connect",
+    "rating": 5,
+    "projectsDone": [
+      "Uzhavar Connect"
+    ],
+    "featured": true,
+    "status": "Active Partner"
   },
   {
-    id: "cli-2",
-    name: "Veloce Financial",
-    industry: "Fintech & Trading",
-    logoText: "VELOCE",
-    website: "https://veloce.example",
-    testimonial: "They turned a tangled financial data dashboard into an intuitive, razor-sharp experience our institutional traders rely on every market morning.",
-    author: "Sarah Lindqvist",
-    authorRole: "Chief Design Officer, Veloce Financial",
-    rating: 5,
-    projectsDone: ["Veloce Real-Time Trading Terminal"],
-    featured: true,
-    status: "Active Partner"
+    "id": "cli-2",
+    "name": "Amirdha Stickers",
+    "industry": "Creative Design & E-Commerce",
+    "logoText": "AMIRDHA",
+    "website": "https://amirdhastickers.com/",
+    "testimonial": "The interactive design studio and live sticker preview engine exceeded our expectations. Our customers love how effortless it is to customize and order merchandise online.",
+    "author": "S. Mohan",
+    "authorRole": "Managing Director, Amirdha Stickers",
+    "rating": 5,
+    "projectsDone": [
+      "Amirdha Stickers"
+    ],
+    "featured": true,
+    "status": "Active Partner"
   },
   {
-    id: "cli-3",
-    name: "Aeroform Spatial",
-    industry: "Spatial Computing",
-    logoText: "AEROFORM",
-    website: "https://aeroform.example",
-    testimonial: "NetCraft Studio brings a rare harmony of artistic taste and deep technical engineering. They don't just write code; they elevate your product vision.",
-    author: "Aris Thorne",
-    authorRole: "Founder & CEO, Aeroform Spatial",
-    rating: 5,
-    projectsDone: ["AeroPulse Enterprise"],
-    featured: true,
-    status: "Active Partner"
+    "id": "cli-3",
+    "name": "Adhivelan Masala",
+    "industry": "Food Products & FMCG",
+    "logoText": "ADHIVELAN",
+    "website": "https://netcraftstudios.org",
+    "testimonial": "NetCraft Studio's attention to detail, digital branding, and product presentation helped our spice and food brand establish a high-credibility online identity across retail partners.",
+    "author": "A. Velan",
+    "authorRole": "Executive Director, Adhivelan Masala",
+    "rating": 5,
+    "projectsDone": [
+      "Adhivelan Masala Digital Showcase"
+    ],
+    "featured": true,
+    "status": "Active Partner"
   },
   {
-    id: "cli-4",
-    name: "Kroma Media",
-    industry: "Digital Media & Streaming",
-    logoText: "KROMA",
-    website: "https://kroma.example",
-    testimonial: "Our creator engagement surged 42% in the first quarter after NetCraft delivered our new mobile app. Their communication was flawless.",
-    author: "Tara Washington",
-    authorRole: "Head of Digital, Kroma Media",
-    rating: 5,
-    projectsDone: ["Orbit Mobile Companion"],
-    featured: true,
-    status: "Completed Project"
-  },
-  {
-    id: "cli-5",
-    name: "Horizon Health",
-    industry: "Healthcare & AI",
-    logoText: "HORIZON",
-    website: "https://horizonhealth.example",
-    testimonial: "Reliable, fast, and intensely collaborative. They handled complex HIPAA constraints effortlessly while keeping the UX modern and crisp.",
-    author: "Dr. Ethan Park",
-    authorRole: "Director of Tech, Horizon Health",
-    rating: 5,
-    projectsDone: ["Cortex Knowledge Graph Engine"],
-    featured: false,
-    status: "Active Partner"
-  },
-  {
-    id: "cli-6",
-    name: "Lumina Collective",
-    industry: "E-Commerce & Lifestyle",
-    logoText: "LUMINA",
-    website: "https://lumina.example",
-    testimonial: "The tokenized design system NetCraft created has saved our engineering team hundreds of development hours across multiple brand launches.",
-    author: "Camilla Ramos",
-    authorRole: "Brand Director, Lumina Collective",
-    rating: 5,
-    projectsDone: ["Lumina Brand & Tokenized Design System"],
-    featured: false,
-    status: "Completed Project"
+    "id": "cli-4",
+    "name": "Sri Sastha Travels",
+    "industry": "Tourism & Transport",
+    "logoText": "SASTHA",
+    "website": "https://sri-sastha-travels.vercel.app/",
+    "testimonial": "Our tour package booking inquiries and customer itinerary planning became completely seamless after NetCraft launched our travel portal with real-time package booking.",
+    "author": "R. Sasikumar",
+    "authorRole": "Head of Operations, Sri Sastha Travels",
+    "rating": 5,
+    "projectsDone": [
+      "Sri Sastha Travels Booking Platform"
+    ],
+    "featured": true,
+    "status": "Active Partner"
   }
 ];
 
 export const initialInquiries = [
   {
-    id: "inq-1",
-    name: "Alexander Wright",
-    email: "a.wright@solaris-mobility.io",
-    company: "Solaris Mobility",
-    service: "Digital Products",
-    budget: "$50k - $100k",
-    message: "We are designing a new autonomous fleet management dashboard and would love to partner with NetCraft for product strategy and frontend architecture.",
-    date: "2026-09-10 14:22",
-    status: "new"
+    "id": "inq-1",
+    "name": "Karthik Sundaram",
+    "email": "karthik@southagro.in",
+    "company": "South Agro Logistics",
+    "service": "Web Development",
+    "budget": "₹1,00,000 - ₹2,50,000",
+    "message": "We need an integrated supplier portal and warehouse inventory tracking dashboard with real-time SMS notifications.",
+    "date": "2026-09-12 14:20",
+    "status": "new"
   },
   {
-    id: "inq-2",
-    name: "Miriam O'Connor",
-    email: "m.oconnor@apexquantum.tech",
-    company: "Apex Quantum",
-    service: "AI & Emerging Tech",
-    budget: "$100k+",
-    message: "Looking for senior engineers and designers to build an interactive quantum simulator web portal for academic and commercial clients.",
-    date: "2026-09-08 09:45",
-    status: "replied"
+    "id": "inq-2",
+    "name": "Divya Ramesh",
+    "email": "divya@craftfashion.com",
+    "company": "Craft Fashion House",
+    "service": "E-Commerce",
+    "budget": "₹50,000 - ₹1,00,000",
+    "message": "Looking for an interactive customized apparel store with live preview like Amirdha Stickers.",
+    "date": "2026-09-10 11:35",
+    "status": "replied"
   },
   {
-    id: "inq-3",
-    name: "David Sterling",
-    email: "david@sterlingcapital.com",
-    company: "Sterling Capital",
-    service: "Web Development",
-    budget: "$25k - $50k",
-    message: "Need a complete brand refresh and ultra-clean modern corporate website built with high security and blazing fast performance.",
-    date: "2026-09-05 16:30",
-    status: "archived"
+    "id": "inq-3",
+    "name": "Muthu Kumar",
+    "email": "muthu@citymed.org",
+    "company": "CityMed Labs",
+    "service": "Desktop Application",
+    "budget": "₹1,50,000+",
+    "message": "Need a desktop billing and lab report management software with offline support and barcode printing.",
+    "date": "2026-09-06 16:40",
+    "status": "archived"
+  }
+];
+
+export const initialTodos = [
+  {
+    "id": "todo-1",
+    "title": "Deploy Uzhavar Connect supply chain GPS updates and verify mobile responsiveness",
+    "category": "Deployment",
+    "priority": "high",
+    "status": "in_progress",
+    "dueDate": "2026-09-22",
+    "assignedTo": "Thenmugilan",
+    "createdAt": "2026-09-15"
+  },
+  {
+    "id": "todo-2",
+    "title": "Optimize Amirdha Stickers live interactive canvas rendering on mobile devices",
+    "category": "Performance",
+    "priority": "high",
+    "status": "pending",
+    "dueDate": "2026-09-24",
+    "assignedTo": "Keerthana",
+    "createdAt": "2026-09-16"
+  },
+  {
+    "id": "todo-3",
+    "title": "Configure multi-language currency switcher for Sri Sastha Travels booking portal",
+    "category": "Client Work",
+    "priority": "medium",
+    "status": "completed",
+    "dueDate": "2026-09-18",
+    "assignedTo": "Barath Nivash",
+    "createdAt": "2026-09-14"
+  },
+  {
+    "id": "todo-4",
+    "title": "Audit biometric accuracy & camera feed permissions for Employee Attendance app",
+    "category": "Quality Assurance",
+    "priority": "medium",
+    "status": "pending",
+    "dueDate": "2026-09-26",
+    "assignedTo": "Kaviya Shree",
+    "createdAt": "2026-09-17"
+  },
+  {
+    "id": "todo-5",
+    "title": "Finalize GST invoice PDF thermal printer output for Retail Billing POS suite",
+    "category": "Development",
+    "priority": "low",
+    "status": "pending",
+    "dueDate": "2026-09-29",
+    "assignedTo": "Gokul",
+    "createdAt": "2026-09-17"
   }
 ];

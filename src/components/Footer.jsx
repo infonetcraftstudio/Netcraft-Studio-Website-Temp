@@ -24,11 +24,11 @@ export default function Footer() {
             </div>
           </Link>
           <p style={{ color: '#9eb0cc', fontSize: '13px', lineHeight: '1.6', margin: '0 0 20px', maxWidth: '320px' }}>
-            We engineer mission-critical digital products, high-concurrency web applications, AI workflows, and custom enterprise software designed around measurable business outcomes.
+            Service &amp; Product based IT company building high-performance web platforms, mobile apps, desktop software, and intelligent automation systems.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontFamily: 'var(--mono)', fontSize: '11px', color: 'var(--cyan)' }}>
-            <span>GEO // {contactInfo.coordinates}</span>
-            <span style={{ color: '#687994' }}>NODE // {contactInfo.systemCode}</span>
+            <span>BASE // Coimbatore, Tamil Nadu, India</span>
+            <span style={{ color: '#687994' }}>STUDIO // EST. {contactInfo.estYear}</span>
           </div>
         </div>
 
@@ -39,12 +39,14 @@ export default function Footer() {
             <span className="footer-title-bar"></span>
           </p>
           <ul>
-            <li><Link to="/services">Web Applications &amp; SaaS</Link></li>
-            <li><Link to="/services">AI &amp; Automation Pipelines</Link></li>
-            <li><Link to="/services">Mobile Experiences (iOS/Android)</Link></li>
-            <li><Link to="/services">Custom Enterprise Software</Link></li>
-            <li><Link to="/services">Legacy Modernization</Link></li>
-            <li><Link to="/services">Design Systems &amp; Tokens</Link></li>
+            <li><Link to="/services">Web Development</Link></li>
+            <li><Link to="/services">App Development</Link></li>
+            <li><Link to="/services">UI/UX Design</Link></li>
+            <li><Link to="/services">Website Restructuring</Link></li>
+            <li><Link to="/services">Product Development</Link></li>
+            <li><Link to="/services">Automation Solutions</Link></li>
+            <li><Link to="/services">Internet of Things (IoT)</Link></li>
+            <li><Link to="/services">Desktop Applications</Link></li>
           </ul>
         </div>
 
@@ -88,9 +90,9 @@ export default function Footer() {
               </span>
             </li>
             <li>
-              <Link to="/admin" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--cyan)' }}>
-                <Shield size={13} /> Admin Console
-              </Link>
+              <span style={{ color: '#8b9cb8', fontSize: '12px' }}>
+                Enterprise Security &amp; Compliance
+              </span>
             </li>
           </ul>
         </div>
@@ -107,12 +109,41 @@ export default function Footer() {
                 <Mail size={13} /> {contactInfo.email}
               </a>
             </li>
-            <li style={{ color: '#9eb0cc', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Phone size={13} color="#687994" /> {contactInfo.phone}
+            <li style={{ color: '#9eb0cc', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Phone size={13} color="#687994" /> {contactInfo.phone}
+              </span>
+              {contactInfo.phoneAlt && (
+                <span style={{ fontSize: '12px', color: '#8b9cb8', paddingLeft: '19px' }}>
+                  {contactInfo.phoneAlt}
+                </span>
+              )}
             </li>
             <li style={{ color: '#8b9cb8', fontSize: '12px', lineHeight: '1.5', display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
               <MapPin size={13} color="#687994" style={{ flexShrink: 0, marginTop: '2px' }} />
               <span>{contactInfo.address}</span>
+            </li>
+            <li style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+              {contactInfo.whatsapp && (
+                <a
+                  href={contactInfo.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--cyan)', fontSize: '11px', textDecoration: 'none' }}
+                >
+                  WhatsApp ↗
+                </a>
+              )}
+              {contactInfo.instagram && (
+                <a
+                  href={contactInfo.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--cyan)', fontSize: '11px', textDecoration: 'none' }}
+                >
+                  Instagram ↗
+                </a>
+              )}
             </li>
             <li>
               <span style={{ 

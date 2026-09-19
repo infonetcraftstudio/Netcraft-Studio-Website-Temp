@@ -3,19 +3,19 @@ import {
   initialContactInfo,
   initialServices,
   initialProjects,
-  initialMembers,
   initialClients,
-  initialInquiries
+  initialInquiries,
+  initialTodos
 } from '../data/initialData';
 
 const StudioContext = createContext(null);
 
 const STORAGE_KEYS = {
   PROJECTS: 'netcraft_studio_projects_v1',
-  MEMBERS: 'netcraft_studio_members_v1',
   CLIENTS: 'netcraft_studio_clients_v1',
   CONTACT: 'netcraft_studio_contact_v1',
   INQUIRIES: 'netcraft_studio_inquiries_v1',
+  TODOS: 'netcraft_studio_todos_v1',
   AUTH: 'netcraft_studio_auth_v1'
 };
 
@@ -39,11 +39,14 @@ function setStorage(key, data) {
 
 export function StudioProvider({ children }) {
   const [projects, setProjects] = useState(() => getStorage(STORAGE_KEYS.PROJECTS, initialProjects));
-  const [members, setMembers] = useState(() => getStorage(STORAGE_KEYS.MEMBERS, initialMembers));
   const [clients, setClients] = useState(() => getStorage(STORAGE_KEYS.CLIENTS, initialClients));
   const [contactInfo, setContactInfo] = useState(() => getStorage(STORAGE_KEYS.CONTACT, initialContactInfo));
   const [inquiries, setInquiries] = useState(() => getStorage(STORAGE_KEYS.INQUIRIES, initialInquiries));
+  const [todos, setTodos] = useState(() => getStorage(STORAGE_KEYS.TODOS, initialTodos));
   const [services] = useState(initialServices);
+
+  // Backend connection status
+  const [backendConnected, setBackendConnected] = useState(false);
 
   // Admin Auth state
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
@@ -62,15 +65,118 @@ export function StudioProvider({ children }) {
 
   const closeToast = () => setToast(null);
 
-  // Sync to localStorage
+  // API Call helper with auto fallback
+  const apiCall = async (url, method = 'GET', body = null) => {
+    try {
+      const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(url, opts);
+      if (res.ok) {
+        setBackendConnected(true);
+        return await res.json();
+      }
+    } catch (err) {
+      // Backend not running or connection error
+      setBackendConnected(false);
+    }
+    return null;
+  };
+
+  // On mount: Try initializing from backend server
+  useEffect(() => {
+    let isMounted = true;
+    async function initFromBackend() {
+      try {
+        const statusRes = await fetch('/api/status');
+        if (statusRes.ok) {
+          if (isMounted) setBackendConnected(true);
+          const dataRes = await fetch('/api/data');
+          if (dataRes.ok) {
+            const data = await dataRes.json();
+            if (isMounted) {
+              if (Array.isArray(data.projects)) setProjects(data.projects);
+              if (Array.isArray(data.clients)) setClients(data.clients);
+              if (data.contactInfo && typeof data.contactInfo === 'object') setContactInfo(data.contactInfo);
+              if (Array.isArray(data.inquiries)) setInquiries(data.inquiries);
+              if (Array.isArray(data.todos)) setTodos(data.todos);
+            }
+          }
+        } else {
+          if (isMounted) setBackendConnected(false);
+        }
+      } catch (e) {
+        if (isMounted) setBackendConnected(false);
+      }
+    }
+
+    initFromBackend();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Sync state to localStorage as offline safety cache
   useEffect(() => { setStorage(STORAGE_KEYS.PROJECTS, projects); }, [projects]);
-  useEffect(() => { setStorage(STORAGE_KEYS.MEMBERS, members); }, [members]);
   useEffect(() => { setStorage(STORAGE_KEYS.CLIENTS, clients); }, [clients]);
   useEffect(() => { setStorage(STORAGE_KEYS.CONTACT, contactInfo); }, [contactInfo]);
   useEffect(() => { setStorage(STORAGE_KEYS.INQUIRIES, inquiries); }, [inquiries]);
+  useEffect(() => { setStorage(STORAGE_KEYS.TODOS, todos); }, [todos]);
 
-  // Projects CRUD
-  const addProject = (projectData) => {
+  // ----------------------
+  // THINGS TO DO (TODOS) CRUD
+  // ----------------------
+  const addTodo = async (todoData) => {
+    const newTodo = {
+      id: `todo-${Date.now()}`,
+      title: todoData.title || 'Untitled Task',
+      category: todoData.category || 'General',
+      priority: todoData.priority || 'medium',
+      status: todoData.status || 'pending',
+      dueDate: todoData.dueDate || new Date().toISOString().slice(0, 10),
+      assignedTo: todoData.assignedTo || 'Squad Lead',
+      createdAt: new Date().toISOString().slice(0, 10)
+    };
+
+    setTodos((prev) => [newTodo, ...prev]);
+    showToast(`Task added to Things to Do!`);
+    await apiCall('/api/todos', 'POST', newTodo);
+    return newTodo;
+  };
+
+  const updateTodo = async (id, updatedData) => {
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, ...updatedData } : t))
+    );
+    showToast(`Task updated successfully!`);
+    await apiCall(`/api/todos/${id}`, 'PUT', updatedData);
+  };
+
+  const toggleTodoStatus = async (id) => {
+    let nextStatus = 'completed';
+    setTodos((prev) =>
+      prev.map((t) => {
+        if (t.id === id) {
+          nextStatus = t.status === 'completed' ? 'pending' : 'completed';
+          return { ...t, status: nextStatus };
+        }
+        return t;
+      })
+    );
+    showToast(nextStatus === 'completed' ? `Task completed! ✓` : `Task marked as pending`, 'info');
+    await apiCall(`/api/todos/${id}/toggle`, 'PATCH');
+  };
+
+  const deleteTodo = async (id) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+    showToast(`Task deleted.`, 'info');
+    await apiCall(`/api/todos/${id}`, 'DELETE');
+  };
+
+  // ----------------------
+  // PROJECTS CRUD
+  // ----------------------
+  const addProject = async (projectData) => {
     const newProj = {
       ...projectData,
       id: `proj-${Date.now()}`,
@@ -82,10 +188,11 @@ export function StudioProvider({ children }) {
     };
     setProjects((prev) => [newProj, ...prev]);
     showToast(`Project "${newProj.title}" added successfully!`);
+    await apiCall('/api/projects', 'POST', newProj);
     return newProj;
   };
 
-  const updateProject = (id, updatedData) => {
+  const updateProject = async (id, updatedData) => {
     const formatted = {
       ...updatedData,
       techStack: Array.isArray(updatedData.techStack)
@@ -96,55 +203,33 @@ export function StudioProvider({ children }) {
       prev.map((p) => (p.id === id ? { ...p, ...formatted } : p))
     );
     showToast(`Project updated successfully!`);
+    await apiCall(`/api/projects/${id}`, 'PUT', formatted);
   };
 
-  const deleteProject = (id) => {
+  const deleteProject = async (id) => {
     setProjects((prev) => prev.filter((p) => p.id !== id));
     showToast(`Project deleted.`, 'info');
+    await apiCall(`/api/projects/${id}`, 'DELETE');
   };
 
-  const toggleProjectFeatured = (id) => {
+  const toggleProjectFeatured = async (id) => {
+    let nextVal = false;
     setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, featured: !p.featured } : p))
+      prev.map((p) => {
+        if (p.id === id) {
+          nextVal = !p.featured;
+          return { ...p, featured: nextVal };
+        }
+        return p;
+      })
     );
+    await apiCall(`/api/projects/${id}`, 'PUT', { featured: nextVal });
   };
 
-  // Members CRUD
-  const addMember = (memberData) => {
-    const newMember = {
-      ...memberData,
-      id: `mem-${Date.now()}`,
-      skills: Array.isArray(memberData.skills)
-        ? memberData.skills
-        : (memberData.skills || '').split(',').map((s) => s.trim()).filter(Boolean),
-      avatar: memberData.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-      socials: memberData.socials || { twitter: '', linkedin: '', github: '' }
-    };
-    setMembers((prev) => [...prev, newMember]);
-    showToast(`Team member "${newMember.name}" added!`);
-    return newMember;
-  };
-
-  const updateMember = (id, updatedData) => {
-    const formatted = {
-      ...updatedData,
-      skills: Array.isArray(updatedData.skills)
-        ? updatedData.skills
-        : (updatedData.skills || '').split(',').map((s) => s.trim()).filter(Boolean)
-    };
-    setMembers((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, ...formatted } : m))
-    );
-    showToast(`Team member details updated!`);
-  };
-
-  const deleteMember = (id) => {
-    setMembers((prev) => prev.filter((m) => m.id !== id));
-    showToast(`Team member removed.`, 'info');
-  };
-
-  // Clients CRUD
-  const addClient = (clientData) => {
+  // ----------------------
+  // CLIENTS CRUD
+  // ----------------------
+  const addClient = async (clientData) => {
     const newClient = {
       ...clientData,
       id: `cli-${Date.now()}`,
@@ -156,10 +241,11 @@ export function StudioProvider({ children }) {
     };
     setClients((prev) => [...prev, newClient]);
     showToast(`Client "${newClient.name}" added!`);
+    await apiCall('/api/clients', 'POST', newClient);
     return newClient;
   };
 
-  const updateClient = (id, updatedData) => {
+  const updateClient = async (id, updatedData) => {
     const formatted = {
       ...updatedData,
       rating: Number(updatedData.rating) || 5,
@@ -171,20 +257,25 @@ export function StudioProvider({ children }) {
       prev.map((c) => (c.id === id ? { ...c, ...formatted } : c))
     );
     showToast(`Client information updated!`);
+    await apiCall(`/api/clients/${id}`, 'PUT', formatted);
   };
 
-  const deleteClient = (id) => {
+  const deleteClient = async (id) => {
     setClients((prev) => prev.filter((c) => c.id !== id));
     showToast(`Client deleted.`, 'info');
+    await apiCall(`/api/clients/${id}`, 'DELETE');
   };
 
-  // Contact Info & Inquiries
-  const updateContactInfo = (newInfo) => {
+  // ----------------------
+  // CONTACT INFO & INQUIRIES
+  // ----------------------
+  const updateContactInfo = async (newInfo) => {
     setContactInfo((prev) => ({ ...prev, ...newInfo }));
     showToast(`Studio contact details updated!`);
+    await apiCall('/api/contact', 'PUT', newInfo);
   };
 
-  const submitInquiry = (inquiryData) => {
+  const submitInquiry = async (inquiryData) => {
     const now = new Date();
     const dateStr = now.toISOString().slice(0, 16).replace('T', ' ');
     const newInquiry = {
@@ -195,24 +286,28 @@ export function StudioProvider({ children }) {
     };
     setInquiries((prev) => [newInquiry, ...prev]);
     showToast(`Thank you! Your message has been sent to our studio team.`);
+    await apiCall('/api/inquiries', 'POST', newInquiry);
     return newInquiry;
   };
 
-  const updateInquiryStatus = (id, status) => {
+  const updateInquiryStatus = async (id, status) => {
     setInquiries((prev) =>
       prev.map((inq) => (inq.id === id ? { ...inq, status } : inq))
     );
     showToast(`Inquiry marked as ${status}`);
+    await apiCall(`/api/inquiries/${id}`, 'PUT', { status });
   };
 
-  const deleteInquiry = (id) => {
+  const deleteInquiry = async (id) => {
     setInquiries((prev) => prev.filter((inq) => inq.id !== id));
     showToast(`Inquiry deleted`, 'info');
+    await apiCall(`/api/inquiries/${id}`, 'DELETE');
   };
 
-  // Admin Authentication
+  // ----------------------
+  // ADMIN AUTHENTICATION
+  // ----------------------
   const adminLogin = (passcode) => {
-    // Default passcodes supported: admin123, netcraft2026, admin
     if (['admin123', 'netcraft2026', 'admin'].includes(passcode.trim())) {
       setIsAdminAuthenticated(true);
       localStorage.setItem(STORAGE_KEYS.AUTH, 'true');
@@ -229,28 +324,33 @@ export function StudioProvider({ children }) {
     showToast(`Signed out of Admin`, 'info');
   };
 
-  // Data management tools
-  const resetToDefaults = () => {
+  // ----------------------
+  // RESET / BACKUP
+  // ----------------------
+  const resetToDefaults = async () => {
     setProjects(initialProjects);
-    setMembers(initialMembers);
     setClients(initialClients);
     setContactInfo(initialContactInfo);
     setInquiries(initialInquiries);
+    setTodos(initialTodos);
+
     setStorage(STORAGE_KEYS.PROJECTS, initialProjects);
-    setStorage(STORAGE_KEYS.MEMBERS, initialMembers);
     setStorage(STORAGE_KEYS.CLIENTS, initialClients);
     setStorage(STORAGE_KEYS.CONTACT, initialContactInfo);
     setStorage(STORAGE_KEYS.INQUIRIES, initialInquiries);
+    setStorage(STORAGE_KEYS.TODOS, initialTodos);
+
+    await apiCall('/api/data/reset', 'POST');
     showToast(`All data restored to factory defaults!`);
   };
 
   const exportBackup = () => {
     const data = {
       projects,
-      members,
       clients,
       contactInfo,
       inquiries,
+      todos,
       exportedAt: new Date().toISOString()
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -263,14 +363,16 @@ export function StudioProvider({ children }) {
     showToast(`Backup file downloaded!`);
   };
 
-  const importBackup = (jsonString) => {
+  const importBackup = async (jsonString) => {
     try {
       const data = JSON.parse(jsonString);
       if (data.projects) setProjects(data.projects);
-      if (data.members) setMembers(data.members);
       if (data.clients) setClients(data.clients);
       if (data.contactInfo) setContactInfo(data.contactInfo);
       if (data.inquiries) setInquiries(data.inquiries);
+      if (data.todos) setTodos(data.todos);
+
+      await apiCall('/api/data/import', 'POST', data);
       showToast(`Backup restored successfully!`);
       return true;
     } catch (e) {
@@ -283,23 +385,25 @@ export function StudioProvider({ children }) {
     <StudioContext.Provider
       value={{
         projects,
-        members,
         clients,
         contactInfo,
         inquiries,
+        todos,
         services,
+        backendConnected,
         toast,
         showToast,
         closeToast,
+        // Todos
+        addTodo,
+        updateTodo,
+        toggleTodoStatus,
+        deleteTodo,
         // Projects
         addProject,
         updateProject,
         deleteProject,
         toggleProjectFeatured,
-        // Members
-        addMember,
-        updateMember,
-        deleteMember,
         // Clients
         addClient,
         updateClient,

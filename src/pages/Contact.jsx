@@ -134,15 +134,15 @@ export default function Contact() {
                     value={formData.budget}
                     onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                   >
-                    <option value="$25k - $50k">$25,000 – $50,000</option>
-                    <option value="$50k - $100k">$50,000 – $100,000</option>
-                    <option value="$100k - $250k">$100,000 – $250,000</option>
-                    <option value="$250k+">$250,000+</option>
+                    <option value="₹25k - ₹50k">₹25,000 – ₹50,000 (~$300 – $600)</option>
+                    <option value="₹50k - ₹100k">₹50,000 – ₹1,00,000 (~$600 – $1,200)</option>
+                    <option value="₹100k - ₹250k">₹1,00,000 – ₹2,50,000 (~$1,200 – $3,000)</option>
+                    <option value="₹250k+">₹2,50,000+ ($3,000+)</option>
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label>Project Brief & Key Goals *</label>
+                  <label>Project Brief &amp; Key Goals *</label>
                   <textarea
                     className="form-textarea"
                     required
@@ -176,11 +176,14 @@ export default function Contact() {
 
             <div className="info-item">
               <h4>Direct Telephone</h4>
-              <p>{contactInfo.phone}</p>
+              <p style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <a href="tel:+918122696986" style={{ color: 'inherit', textDecoration: 'none' }}>+91 8122696986</a>
+                <a href="tel:+919360244928" style={{ color: 'inherit', textDecoration: 'none' }}>+91 9360244928</a>
+              </p>
             </div>
 
             <div className="info-item">
-              <h4>Physical Headquarters</h4>
+              <h4>Headquarters</h4>
               <p style={{ maxWidth: '280px', lineHeight: '1.5' }}>
                 {contactInfo.address}
               </p>
@@ -194,13 +197,31 @@ export default function Contact() {
             </div>
 
             <div className="info-item">
-              <h4>Global Telemetry</h4>
-              <p style={{ fontFamily: 'var(--mono)', fontSize: '13px', color: 'var(--blue)' }}>
-                {contactInfo.coordinates}
-              </p>
-              <span style={{ fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--mono)', display: 'block', marginTop: '4px' }}>
-                {contactInfo.systemCode}
-              </span>
+              <h4>Social &amp; Community</h4>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '6px' }}>
+                {contactInfo.whatsapp && (
+                  <a
+                    href={contactInfo.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button button-quiet"
+                    style={{ fontSize: '11px', padding: '4px 10px' }}
+                  >
+                    WhatsApp Channel ↗
+                  </a>
+                )}
+                {contactInfo.instagram && (
+                  <a
+                    href={contactInfo.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="button button-quiet"
+                    style={{ fontSize: '11px', padding: '4px 10px' }}
+                  >
+                    Instagram ↗
+                  </a>
+                )}
+              </div>
             </div>
 
             <div

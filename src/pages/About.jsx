@@ -53,13 +53,13 @@ export default function About() {
       <header className="page-header">
         <div>
           <h1>
-            A studio for<br />
-            what is <em>next.</em>
+            Building the future,<br />
+            one pixel <em>at a time.</em>
           </h1>
         </div>
         <p>
-          Founded in {contactInfo.estYear}, NetCraft Studio was established on a simple conviction:
-          software should be mathematically precise, aesthetically compelling, and built with enduring craftsmanship.
+          NetCraft Studio is a next-generation service and product based IT company driven by creativity, innovation, and precision engineering. 
+          We craft powerful digital experiences that blend modern technology with bold design.
         </p>
       </header>
 
@@ -67,19 +67,18 @@ export default function About() {
       <section className="section section-white">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-14 items-center">
           <div>
-            <p className="eyebrow">Our Philosophy</p>
+            <p className="eyebrow">Our Story &amp; Vision</p>
             <h2 style={{ fontSize: '38px', marginBottom: '24px' }}>
-              We reject digital noise.<br />
-              We engineer <em>clarity.</em>
+              We don't follow trends.<br />
+              We build systems <em>that last.</em>
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '20px' }}>
-              The modern web is congested with slow bloated libraries, confusing micro-interactions,
-              and generic template designs. NetCraft Studio operates as an antidote: a senior collective
-              of technologists and designers who build lean, bespoke systems that command attention.
+              NetCraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
+              Founded in Coimbatore, India, our journey started with a vision driven by curiosity and creativity that evolved into a full-scale service and product based IT company.
             </p>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '28px' }}>
-              Whether launching an AI copilot interface or rebuilding an enterprise core platform,
-              we bridge conceptual design with high-concurrency systems engineering.
+              Our approach is simple: understand the vision, engineer the solution, and deliver excellence with performance, scalability, and style.
+              From web platforms and mobile apps to desktop tools and custom digital products, we ensure every build solves real-world bottlenecks.
             </p>
             <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
               <Link to="/contact" className="button button-primary">

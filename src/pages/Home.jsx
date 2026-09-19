@@ -21,24 +21,29 @@ export default function Home() {
   // Typewriter dynamic keyword animation with custom color palettes
   const typewriterWords = [
     { 
-      text: 'Digital Products', 
+      text: 'Web Applications', 
       color: '#2563eb', 
       gradient: 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)' 
     },
     { 
-      text: 'AI & Automation', 
+      text: 'Mobile Apps', 
       color: '#0d9488', 
       gradient: 'linear-gradient(135deg, #0d9488 0%, #10b981 100%)' 
     },
     { 
-      text: 'Enterprise Platforms', 
+      text: 'Desktop Software', 
       color: '#7c3aed', 
       gradient: 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)' 
     },
     { 
-      text: 'Cloud Systems', 
+      text: 'Automation Systems', 
       color: '#0284c7', 
       gradient: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)' 
+    },
+    { 
+      text: 'Digital Products', 
+      color: '#ea580c', 
+      gradient: 'linear-gradient(135deg, #ea580c 0%, #f59e0b 100%)' 
     }
   ];
   const [wordIndex, setWordIndex] = useState(0);
@@ -79,7 +84,7 @@ export default function Home() {
           <div className="eyebrow-decorated" style={{ marginBottom: '14px' }}>
             <span className="eyebrow-line"></span>
             <span className="eyebrow-dot"></span>
-            <span className="eyebrow-text">SOFTWARE • AI • DIGITAL PRODUCTS</span>
+            <span className="eyebrow-text">SERVICE &amp; PRODUCT BASED IT COMPANY</span>
             <span className="eyebrow-dot"></span>
             <span className="eyebrow-line"></span>
           </div>
@@ -112,8 +117,8 @@ export default function Home() {
           </h1>
 
           <p className="hero-description">
-            NetCraft Studio architects mission-critical web applications, mobile ecosystems, custom business software, 
-            and AI-powered solutions engineered for measurable commercial impact.
+            NetCraft Studio crafts powerful digital experiences that blend cutting-edge engineering with intuitive design. 
+            From web applications and mobile platforms to custom desktop suites and automation systems, we build solutions engineered to perform flawlessly.
           </p>
 
           <div className="hero-actions">
@@ -148,8 +153,8 @@ export default function Home() {
           </div>
           <div>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '24px' }}>
-              NetCraft Studio is a senior product engineering practice for the moments when your
-              platform, software architecture, or brand needs to become unmistakably better.
+              NetCraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
+              We are a service and product based IT company crafting fast, scalable, and visually compelling solutions for modern businesses.
             </p>
             <Link to="/about" className="button button-quiet" style={{ fontSize: '12px' }}>
               Meet the studio philosophy <ArrowUpRight size={14} />
@@ -160,29 +165,27 @@ export default function Home() {
         {/* Stat Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-12 md:mt-16 pt-7 border-t border-[var(--mist)]">
           <div>
-            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>32+</strong>
+            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>10+</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
-              Products Shipped
+              Projects Done
             </span>
           </div>
           <div>
-            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>14</strong>
+            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>8+</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
-              Countries Reached
-            </span>
-          </div>
-          <div>
-            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>
-              4.9<span style={{ color: 'var(--blue)', fontSize: '18px' }}>/5</span>
-            </strong>
-            <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
-              Partner Rating
+              Specialist Developers
             </span>
           </div>
           <div>
             <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>100%</strong>
             <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
-              On-Time Milestone Delivery
+              Client Satisfaction
+            </span>
+          </div>
+          <div>
+            <strong style={{ font: '500 36px var(--display)', color: 'var(--ink)' }}>24/7</strong>
+            <span style={{ display: 'block', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase', marginTop: '4px' }}>
+              Reliability &amp; Support
             </span>
           </div>
         </div>
@@ -206,10 +209,10 @@ export default function Home() {
           </div>
           <div style={{ maxWidth: '380px' }}>
             <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: '1.6', margin: '0 0 16px' }}>
-              From scalable web platforms to AI automation and legacy modernization, we build systems around the way your company actually operates.
+              From web development and mobile apps to desktop applications and smart automation, every solution is engineered for performance and scalability.
             </p>
             <Link to="/services" className="button button-quiet" style={{ fontSize: '11px' }}>
-              View all 5 core capabilities <ArrowRight size={12} />
+              View all {services.length} core capabilities <ArrowRight size={12} />
             </Link>
           </div>
         </div>

@@ -24,7 +24,7 @@ function ScrollToTop() {
 
 export default function App() {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin');
+  const isPortal = location.pathname.startsWith('/admin') || location.pathname.startsWith('/updates');
 
   return (
     <div className="site-shell">
@@ -38,11 +38,12 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/updates/*" element={<AdminPortal />} />
           <Route path="/admin/*" element={<AdminPortal />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      {!isAdmin && <Footer />}
+      {!isPortal && <Footer />}
 
       <Toast />
     </div>

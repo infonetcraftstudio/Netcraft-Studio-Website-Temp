@@ -14,13 +14,13 @@ export default function Services() {
       <header className="page-header">
         <div>
           <h1>
-            Make the<br />
-            <em>complex clear.</em>
+            Engineered for<br />
+            speed and <em>impact.</em>
           </h1>
         </div>
         <p>
-          We unite digital strategy, rigorous UI/UX, and bleeding-edge full-stack engineering
-          into one cohesive execution squad. Shaped precisely around your outcomes.
+          At NetCraft Studio, we deliver high-performance digital services built for speed, scalability, and measurable business growth. 
+          Every solution is crafted with precision, powered by modern technology, and designed to perform flawlessly.
         </p>
       </header>
 

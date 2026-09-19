@@ -873,55 +873,6 @@ h1 em, h2 em, h3 em {
   color: #0d9488;
 }
 
-/* Members Grid */
-.members-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 28px;
-}
-
-.member-card {
-  background: white;
-  border: 1px solid var(--mist);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.member-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
-
-.member-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 18px;
-  border: 2px solid var(--mist);
-}
-
-.member-name {
-  font-size: 19px;
-  margin: 0 0 4px;
-}
-
-.member-role {
-  color: var(--blue);
-  font: 500 12px var(--mono);
-  margin-bottom: 14px;
-}
-
-.member-bio {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0 0 18px;
-  flex: 1;
-}
-
 /* Clients Grid */
 .clients-grid {
   display: grid;
@@ -1520,10 +1471,6 @@ h1 em, h2 em, h3 em {
   }
   .project-body {
     padding: 20px;
-  }
-  .members-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
   .clients-grid {
     grid-template-columns: 1fr;

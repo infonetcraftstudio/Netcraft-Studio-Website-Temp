@@ -3,7 +3,6 @@ import { useStudio } from '../../context/StudioContext';
 import {
   LayoutDashboard,
   FolderGit2,
-  Users,
   Building2,
   Mail,
   Settings,
@@ -25,16 +24,21 @@ import {
   Archive,
   Phone,
   MapPin,
-  Clock
+  Clock,
+  CheckSquare,
+  Calendar,
+  AlertCircle,
+  Server
 } from 'lucide-react';
 
 export default function AdminPortal() {
   const {
     projects,
-    members,
     clients,
     contactInfo,
     inquiries,
+    todos = [],
+    backendConnected,
     isAdminAuthenticated,
     adminLogin,
     adminLogout,
@@ -42,15 +46,16 @@ export default function AdminPortal() {
     updateProject,
     deleteProject,
     toggleProjectFeatured,
-    addMember,
-    updateMember,
-    deleteMember,
     addClient,
     updateClient,
     deleteClient,
     updateContactInfo,
     updateInquiryStatus,
     deleteInquiry,
+    addTodo,
+    updateTodo,
+    toggleTodoStatus,
+    deleteTodo,
     resetToDefaults,
     exportBackup,
     importBackup
@@ -61,14 +66,23 @@ export default function AdminPortal() {
 
   // Modals state
   const [projectModal, setProjectModal] = useState({ isOpen: false, mode: 'add', data: null });
-  const [memberModal, setMemberModal] = useState({ isOpen: false, mode: 'add', data: null });
   const [clientModal, setClientModal] = useState({ isOpen: false, mode: 'add', data: null });
+  const [todoModal, setTodoModal] = useState({ isOpen: false, mode: 'add', data: null });
+
+  // Quick Todo bar state
+  const [quickTodoTitle, setQuickTodoTitle] = useState('');
+  const [quickTodoPriority, setQuickTodoPriority] = useState('medium');
+  const [quickTodoCategory, setQuickTodoCategory] = useState('General');
+  const [quickTodoDue, setQuickTodoDue] = useState('');
 
   // Contact Info edit state
   const [contactEdit, setContactEdit] = useState(contactInfo);
 
   // Inquiries filter
   const [inquiryFilter, setInquiryFilter] = useState('all');
+
+  // Todos filter
+  const [todoFilter, setTodoFilter] = useState('all');
 
   // Handle Login
   if (!isAdminAuthenticated) {
@@ -80,15 +94,15 @@ export default function AdminPortal() {
               <Lock size={22} />
             </div>
             <div>
-              <h2 style={{ margin: 0, fontSize: '20px' }}>Studio Admin Access</h2>
+              <h2 style={{ margin: 0, fontSize: '20px' }}>Studio Updates & Operations</h2>
               <span style={{ font: '10px var(--mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>
-                Restricted Management Portal
+                Secure Updates & Operations Console
               </span>
             </div>
           </div>
 
           <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.6', marginBottom: '24px' }}>
-            Enter your administrative passcode to manage studio projects, team members, client records, and incoming client inquiries.
+            Enter your passcode to manage studio updates, things to do, project case studies, client reviews, and incoming inquiries.
           </p>
 
           <form
@@ -139,6 +153,20 @@ export default function AdminPortal() {
   });
 
   const newInquiriesCount = inquiries.filter((i) => i.status === 'new').length;
+  const pendingTodosCount = todos.filter((t) => t.status !== 'completed').length;
+  const completedTodosCount = todos.filter((t) => t.status === 'completed').length;
+  const inProgressTodosCount = todos.filter((t) => t.status === 'in_progress').length;
+  const highPriorityTodosCount = todos.filter((t) => t.priority === 'high' && t.status !== 'completed').length;
+
+  // Filtered todos
+  const filteredTodos = todos.filter((todo) => {
+    if (todoFilter === 'all') return true;
+    if (todoFilter === 'pending') return todo.status === 'pending';
+    if (todoFilter === 'in_progress') return todo.status === 'in_progress';
+    if (todoFilter === 'completed') return todo.status === 'completed';
+    if (todoFilter === 'high_priority') return todo.priority === 'high' && todo.status !== 'completed';
+    return true;
+  });
 
   return (
     <div className="admin-shell">
@@ -149,8 +177,21 @@ export default function AdminPortal() {
             <span style={{ font: '10px var(--mono)', color: 'var(--cyan)', letterSpacing: '1px' }}>
               NETCRAFT // ADMIN
             </span>
-            <span style={{ fontSize: '9px', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', padding: '2px 6px', borderRadius: '3px' }}>
-              LIVE
+            <span
+              style={{
+                fontSize: '9px',
+                background: backendConnected ? 'rgba(45,212,191,0.2)' : 'rgba(234,179,8,0.2)',
+                color: backendConnected ? 'var(--cyan)' : '#fde047',
+                padding: '2px 6px',
+                borderRadius: '3px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontWeight: 600
+              }}
+              title={backendConnected ? 'Connected to local Node.js Express server on port 5000' : 'Backend offline - operating in offline localStorage mode'}
+            >
+              {backendConnected ? '● SERVER :5000' : '○ LOCAL MODE'}
             </span>
           </div>
           <h3 style={{ margin: 0, fontSize: '18px', color: 'white' }}>Studio Console</h3>
@@ -172,15 +213,6 @@ export default function AdminPortal() {
             <FolderGit2 size={17} />
             <span>Manage Projects</span>
             <span className="admin-nav-count">{projects.length}</span>
-          </button>
-
-          <button
-            className={`admin-nav-item ${activeTab === 'members' ? 'active' : ''}`}
-            onClick={() => setActiveTab('members')}
-          >
-            <Users size={17} />
-            <span>Manage Members</span>
-            <span className="admin-nav-count">{members.length}</span>
           </button>
 
           <button
@@ -206,6 +238,23 @@ export default function AdminPortal() {
                 {newInquiriesCount} new
               </span>
             )}
+          </button>
+
+          <button
+            className={`admin-nav-item ${activeTab === 'todos' ? 'active' : ''}`}
+            onClick={() => setActiveTab('todos')}
+          >
+            <CheckSquare size={17} />
+            <span>Things to Do</span>
+            <span
+              className="admin-nav-count"
+              style={{
+                background: pendingTodosCount > 0 ? '#ea580c' : 'rgba(255,255,255,0.1)',
+                color: 'white'
+              }}
+            >
+              {pendingTodosCount}
+            </span>
           </button>
 
           <button
@@ -281,16 +330,6 @@ export default function AdminPortal() {
               </div>
 
               <div className="metric-card">
-                <div className="metric-icon" style={{ background: '#f5f3ff', color: 'var(--violet)' }}>
-                  <Users size={22} />
-                </div>
-                <div className="metric-info">
-                  <strong>{members.length}</strong>
-                  <span>Team Specialists</span>
-                </div>
-              </div>
-
-              <div className="metric-card">
                 <div className="metric-icon" style={{ background: '#ecfdf5', color: '#0d9488' }}>
                   <Building2 size={22} />
                 </div>
@@ -309,6 +348,20 @@ export default function AdminPortal() {
                   <span>Client Inquiries ({newInquiriesCount} new)</span>
                 </div>
               </div>
+
+              <div
+                className="metric-card"
+                style={{ cursor: 'pointer' }}
+                onClick={() => setActiveTab('todos')}
+              >
+                <div className="metric-icon" style={{ background: '#fef2f2', color: '#dc2626' }}>
+                  <CheckSquare size={22} />
+                </div>
+                <div className="metric-info">
+                  <strong>{pendingTodosCount}</strong>
+                  <span>Things to Do ({completedTodosCount} completed)</span>
+                </div>
+              </div>
             </div>
 
             {/* Quick Action Cards */}
@@ -325,17 +378,17 @@ export default function AdminPortal() {
                   <button
                     className="action-btn"
                     style={{ justifyContent: 'space-between', width: '100%', padding: '8px 12px' }}
-                    onClick={() => setMemberModal({ isOpen: true, mode: 'add', data: null })}
+                    onClick={() => setTodoModal({ isOpen: true, mode: 'add', data: null })}
                   >
-                    <span>Add New Team Member</span>
+                    <span>Add Task to Things to Do</span>
                     <Plus size={14} />
                   </button>
                   <button
                     className="action-btn"
                     style={{ justifyContent: 'space-between', width: '100%', padding: '8px 12px' }}
-                    onClick={() => setClientModal({ isOpen: true, mode: 'add', data: null })}
+                    onClick={() => setProjectModal({ isOpen: true, mode: 'add', data: null })}
                   >
-                    <span>Add New Client & Review</span>
+                    <span>Add New Project Case Study</span>
                     <Plus size={14} />
                   </button>
                   <button
@@ -343,10 +396,82 @@ export default function AdminPortal() {
                     style={{ justifyContent: 'space-between', width: '100%', padding: '8px 12px' }}
                     onClick={() => setActiveTab('contact')}
                   >
-                    <span>Edit Studio Contact Info & Telemetry</span>
+                    <span>Edit Studio Contact Info</span>
                     <Edit2 size={14} />
                   </button>
                 </div>
+              </div>
+
+              {/* Things to Do / Priority Tasks Preview */}
+              <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                  <h3 style={{ margin: 0, fontSize: '16px' }}>Pending Things to Do</h3>
+                  <button
+                    className="button button-quiet"
+                    style={{ fontSize: '11px', padding: 0 }}
+                    onClick={() => setActiveTab('todos')}
+                  >
+                    View All ({todos.length}) →
+                  </button>
+                </div>
+
+                {todos.filter((t) => t.status !== 'completed').length === 0 ? (
+                  <p style={{ color: '#16a34a', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <CheckCircle size={15} /> All studio tasks completed!
+                  </p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {todos
+                      .filter((t) => t.status !== 'completed')
+                      .slice(0, 3)
+                      .map((todo) => (
+                        <div
+                          key={todo.id}
+                          style={{
+                            padding: '10px 12px',
+                            background: 'var(--paper)',
+                            borderLeft: todo.priority === 'high' ? '3px solid #dc2626' : '3px solid var(--blue)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '10px'
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flex: 1 }}>
+                            <button
+                              type="button"
+                              onClick={() => toggleTodoStatus(todo.id)}
+                              style={{
+                                width: '18px',
+                                height: '18px',
+                                borderRadius: '3px',
+                                border: '2px solid #94a3b8',
+                                background: 'transparent',
+                                cursor: 'pointer',
+                                flexShrink: 0
+                              }}
+                              title="Mark complete"
+                            />
+                            <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {todo.title}
+                            </span>
+                          </div>
+                          <span style={{
+                            fontSize: '9px',
+                            padding: '2px 6px',
+                            borderRadius: '2px',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            background: todo.priority === 'high' ? '#fee2e2' : '#fef3c7',
+                            color: todo.priority === 'high' ? '#dc2626' : '#d97706',
+                            flexShrink: 0
+                          }}>
+                            {todo.priority}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
 
               {/* Recent Inquiries Preview */}
@@ -482,102 +607,6 @@ export default function AdminPortal() {
                               }
                             }}
                             title="Delete Project"
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* =========================================================================
-            TAB 3: MANAGE MEMBERS
-        ========================================================================= */}
-        {activeTab === 'members' && (
-          <div>
-            <div className="admin-header">
-              <div>
-                <h2>Manage Studio Members & Specialists</h2>
-                <p style={{ color: 'var(--muted)', margin: '4px 0 0', fontSize: '13px' }}>
-                  Manage team bios, roles, skills, and avatars shown on the About page.
-                </p>
-              </div>
-              <button
-                className="button button-primary"
-                onClick={() => setMemberModal({ isOpen: true, mode: 'add', data: null })}
-              >
-                <Plus size={14} /> Add Member
-              </button>
-            </div>
-
-            <div className="admin-table-card">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>Specialist</th>
-                    <th>Role & Dept</th>
-                    <th>Skills</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {members.map((/** @type {any} */ member) => (
-                    <tr key={member.id}>
-                      <td>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <img
-                            src={member.avatar}
-                            alt={member.name}
-                            style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover' }}
-                            onError={(e) => {
-                              e.target.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80';
-                            }}
-                          />
-                          <div>
-                            <strong style={{ fontSize: '14px', display: 'block' }}>{member.name}</strong>
-                            <span style={{ color: 'var(--muted)', fontSize: '11px' }}>
-                              {member.bio?.slice(0, 48)}...
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <span style={{ display: 'block', fontWeight: 500 }}>{member.role}</span>
-                        <span style={{ fontSize: '11px', color: 'var(--blue)', fontFamily: 'var(--mono)' }}>
-                          {member.department}
-                        </span>
-                      </td>
-                      <td>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', maxWidth: '220px' }}>
-                          {member.skills?.map((/** @type {any} */ skill, /** @type {number} */ i) => (
-                            <span key={i} className="tech-tag" style={{ fontSize: '9px' }}>{skill}</span>
-                          ))}
-                        </div>
-                      </td>
-                      <td style={{ font: '11px var(--mono)', color: 'var(--muted)' }}>
-                        {member.email || '—'}
-                      </td>
-                      <td>
-                        <div className="table-actions">
-                          <button
-                            className="action-btn"
-                            onClick={() => setMemberModal({ isOpen: true, mode: 'edit', data: member })}
-                          >
-                            <Edit2 size={13} /> Edit
-                          </button>
-                          <button
-                            className="action-btn btn-danger"
-                            onClick={() => {
-                              if (window.confirm(`Remove "${member.name}" from studio team?`)) {
-                                deleteMember(member.id);
-                              }
-                            }}
                           >
                             <Trash2 size={13} />
                           </button>
@@ -892,7 +921,318 @@ export default function AdminPortal() {
         )}
 
         {/* =========================================================================
-            TAB 6: BACKUP & DATA RESET
+            TAB 6: THINGS TO DO (STUDIO TASKS & ROADMAP)
+        ========================================================================= */}
+        {activeTab === 'todos' && (
+          <div>
+            <div className="admin-header">
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <h2>Things to Do</h2>
+                  <span style={{
+                    fontSize: '11px',
+                    fontFamily: 'var(--mono)',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    background: backendConnected ? '#ecfdf5' : '#fffbeb',
+                    color: backendConnected ? '#059669' : '#b45309',
+                    border: backendConnected ? '1px solid #a7f3d0' : '1px solid #fde68a'
+                  }}>
+                    {backendConnected ? '● Backend Synced (:5000)' : '○ Local Storage Cache'}
+                  </span>
+                </div>
+                <p style={{ color: 'var(--muted)', margin: 0, fontSize: '13px' }}>
+                  Manage operational tasks, sprint deliverables, client commitments, and internal checklists.
+                </p>
+              </div>
+
+              <button
+                className="button button-primary"
+                onClick={() => setTodoModal({ isOpen: true, mode: 'add', data: null })}
+              >
+                <Plus size={14} /> Add New Task
+              </button>
+            </div>
+
+            {/* Quick-Add Bar */}
+            <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '16px 20px', marginBottom: '24px' }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!quickTodoTitle.trim()) return;
+                  addTodo({
+                    title: quickTodoTitle.trim(),
+                    priority: quickTodoPriority,
+                    category: quickTodoCategory,
+                    dueDate: quickTodoDue || new Date().toISOString().slice(0, 10),
+                    status: 'pending'
+                  });
+                  setQuickTodoTitle('');
+                }}
+                style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}
+              >
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="What needs to be done next? (e.g. Deploy client staging API, Review NDA...)"
+                  style={{ flex: '1 1 280px' }}
+                  value={quickTodoTitle}
+                  onChange={(e) => setQuickTodoTitle(e.target.value)}
+                />
+
+                <select
+                  className="form-input"
+                  style={{ width: '130px' }}
+                  value={quickTodoPriority}
+                  onChange={(e) => setQuickTodoPriority(e.target.value)}
+                >
+                  <option value="high">High Priority</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low Priority</option>
+                </select>
+
+                <select
+                  className="form-input"
+                  style={{ width: '140px' }}
+                  value={quickTodoCategory}
+                  onChange={(e) => setQuickTodoCategory(e.target.value)}
+                >
+                  <option value="General">General</option>
+                  <option value="Deployment">Deployment</option>
+                  <option value="Governance">Governance</option>
+                  <option value="Client Work">Client Work</option>
+                  <option value="Architecture">Architecture</option>
+                  <option value="Performance">Performance</option>
+                  <option value="Design">Design</option>
+                  <option value="Bugfix">Bugfix</option>
+                </select>
+
+                <input
+                  type="date"
+                  className="form-input"
+                  style={{ width: '140px' }}
+                  value={quickTodoDue}
+                  onChange={(e) => setQuickTodoDue(e.target.value)}
+                />
+
+                <button type="submit" className="button button-primary">
+                  <Plus size={14} /> Quick Add
+                </button>
+              </form>
+            </div>
+
+            {/* Todo Metrics Row */}
+            <div className="admin-metrics" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '24px' }}>
+              <div className="metric-card" style={{ padding: '16px' }}>
+                <div className="metric-info">
+                  <strong style={{ fontSize: '24px' }}>{todos.length}</strong>
+                  <span style={{ fontSize: '11px' }}>Total Tasks</span>
+                </div>
+              </div>
+              <div className="metric-card" style={{ padding: '16px' }}>
+                <div className="metric-info">
+                  <strong style={{ fontSize: '24px', color: '#ea580c' }}>{pendingTodosCount}</strong>
+                  <span style={{ fontSize: '11px' }}>Pending</span>
+                </div>
+              </div>
+              <div className="metric-card" style={{ padding: '16px' }}>
+                <div className="metric-info">
+                  <strong style={{ fontSize: '24px', color: '#2563eb' }}>{inProgressTodosCount}</strong>
+                  <span style={{ fontSize: '11px' }}>In Progress</span>
+                </div>
+              </div>
+              <div className="metric-card" style={{ padding: '16px' }}>
+                <div className="metric-info">
+                  <strong style={{ fontSize: '24px', color: '#16a34a' }}>{completedTodosCount}</strong>
+                  <span style={{ fontSize: '11px' }}>Completed</span>
+                </div>
+              </div>
+              <div className="metric-card" style={{ padding: '16px' }}>
+                <div className="metric-info">
+                  <strong style={{ fontSize: '24px', color: '#dc2626' }}>{highPriorityTodosCount}</strong>
+                  <span style={{ fontSize: '11px' }}>High Priority</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Filter Tabs */}
+            <div className="filter-bar" style={{ marginBottom: '20px' }}>
+              <button
+                className={`filter-btn ${todoFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setTodoFilter('all')}
+              >
+                All ({todos.length})
+              </button>
+              <button
+                className={`filter-btn ${todoFilter === 'pending' ? 'active' : ''}`}
+                onClick={() => setTodoFilter('pending')}
+              >
+                Pending ({pendingTodosCount})
+              </button>
+              <button
+                className={`filter-btn ${todoFilter === 'in_progress' ? 'active' : ''}`}
+                onClick={() => setTodoFilter('in_progress')}
+              >
+                In Progress ({inProgressTodosCount})
+              </button>
+              <button
+                className={`filter-btn ${todoFilter === 'completed' ? 'active' : ''}`}
+                onClick={() => setTodoFilter('completed')}
+              >
+                Completed ({completedTodosCount})
+              </button>
+              <button
+                className={`filter-btn ${todoFilter === 'high_priority' ? 'active' : ''}`}
+                onClick={() => setTodoFilter('high_priority')}
+              >
+                High Priority ({highPriorityTodosCount})
+              </button>
+            </div>
+
+            {/* Task List */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {filteredTodos.length === 0 ? (
+                <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '40px', textAlign: 'center' }}>
+                  <CheckSquare size={36} color="var(--blue)" style={{ margin: '0 auto 12px', opacity: 0.5 }} />
+                  <h3 style={{ margin: '0 0 6px', fontSize: '16px' }}>No tasks in this view</h3>
+                  <p style={{ color: 'var(--muted)', fontSize: '13px', margin: 0 }}>
+                    Add a new item using the quick bar above or click "Add New Task".
+                  </p>
+                </div>
+              ) : (
+                filteredTodos.map((todo) => {
+                  const isDone = todo.status === 'completed';
+                  return (
+                    <div
+                      key={todo.id}
+                      style={{
+                        background: 'white',
+                        border: '1px solid var(--mist)',
+                        padding: '16px 20px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '16px',
+                        transition: 'all 0.2s ease',
+                        opacity: isDone ? 0.7 : 1
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1, minWidth: 0 }}>
+                        <button
+                          type="button"
+                          onClick={() => toggleTodoStatus(todo.id)}
+                          style={{
+                            width: '22px',
+                            height: '22px',
+                            borderRadius: '4px',
+                            border: isDone ? '2px solid #16a34a' : '2px solid #cbd5e1',
+                            background: isDone ? '#16a34a' : 'transparent',
+                            color: 'white',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            flexShrink: 0
+                          }}
+                          title={isDone ? 'Mark as incomplete' : 'Mark as complete'}
+                        >
+                          {isDone && <Check size={14} />}
+                        </button>
+
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <span
+                            style={{
+                              fontSize: '14px',
+                              fontWeight: 600,
+                              color: isDone ? 'var(--muted)' : 'var(--ink)',
+                              textDecoration: isDone ? 'line-through' : 'none',
+                              display: 'block',
+                              wordBreak: 'break-word'
+                            }}
+                          >
+                            {todo.title}
+                          </span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
+                            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                              Assigned: <b>{todo.assignedTo || 'Unassigned'}</b>
+                            </span>
+                            {todo.dueDate && (
+                              <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                <Calendar size={11} /> {todo.dueDate}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+                        <span
+                          style={{
+                            fontSize: '10px',
+                            padding: '3px 8px',
+                            borderRadius: '3px',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            background:
+                              todo.priority === 'high'
+                                ? '#fee2e2'
+                                : todo.priority === 'medium'
+                                ? '#fef3c7'
+                                : '#e2e8f0',
+                            color:
+                              todo.priority === 'high'
+                                ? '#dc2626'
+                                : todo.priority === 'medium'
+                                ? '#d97706'
+                                : '#475569'
+                          }}
+                        >
+                          {todo.priority}
+                        </span>
+
+                        <span
+                          style={{
+                            fontSize: '10px',
+                            padding: '3px 8px',
+                            borderRadius: '3px',
+                            background: 'var(--paper)',
+                            border: '1px solid var(--mist)',
+                            fontFamily: 'var(--mono)',
+                            color: 'var(--muted)'
+                          }}
+                        >
+                          {todo.category}
+                        </span>
+
+                        <button
+                          className="action-btn"
+                          onClick={() => setTodoModal({ isOpen: true, mode: 'edit', data: todo })}
+                          title="Edit Task"
+                        >
+                          <Edit2 size={13} />
+                        </button>
+                        <button
+                          className="action-btn delete"
+                          onClick={() => {
+                            if (window.confirm(`Delete task "${todo.title}"?`)) {
+                              deleteTodo(todo.id);
+                            }
+                          }}
+                          title="Delete Task"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 7: BACKUP & DATA RESET
         ========================================================================= */}
         {activeTab === 'backup' && (
           <div>
@@ -909,7 +1249,7 @@ export default function AdminPortal() {
               <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 10px', fontSize: '16px' }}>Export JSON Backup</h3>
                 <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '20px' }}>
-                  Download a complete snapshot of projects, team members, client reviews, contact info, and inquiry messages.
+                  Download a complete snapshot of projects, client reviews, contact info, and inquiry messages.
                 </p>
                 <button
                   className="button button-primary"
@@ -951,7 +1291,7 @@ export default function AdminPortal() {
               <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 10px', fontSize: '16px', color: '#dc2626' }}>Restore Factory Defaults</h3>
                 <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '20px' }}>
-                  Reverts all projects, team members, client reviews, and contact settings to NetCraft Studio original seed data.
+                  Reverts all projects, client reviews, and contact settings to NetCraft Studio original seed data.
                 </p>
                 <button
                   className="button button-quiet"
@@ -990,25 +1330,6 @@ export default function AdminPortal() {
       )}
 
       {/* =========================================================================
-          MEMBER MODAL (ADD / EDIT)
-      ========================================================================= */}
-      {memberModal.isOpen && (
-        <MemberFormModal
-          mode={memberModal.mode}
-          initialData={memberModal.data}
-          onClose={() => setMemberModal({ isOpen: false, mode: 'add', data: null })}
-          onSubmit={(data) => {
-            if (memberModal.mode === 'add') {
-              addMember(data);
-            } else {
-              updateMember(memberModal.data.id, data);
-            }
-            setMemberModal({ isOpen: false, mode: 'add', data: null });
-          }}
-        />
-      )}
-
-      {/* =========================================================================
           CLIENT MODAL (ADD / EDIT)
       ========================================================================= */}
       {clientModal.isOpen && (
@@ -1023,6 +1344,25 @@ export default function AdminPortal() {
               updateClient(clientModal.data.id, data);
             }
             setClientModal({ isOpen: false, mode: 'add', data: null });
+          }}
+        />
+      )}
+
+      {/* =========================================================================
+          TODO MODAL (ADD / EDIT)
+      ========================================================================= */}
+      {todoModal.isOpen && (
+        <TodoFormModal
+          mode={todoModal.mode}
+          initialData={todoModal.data}
+          onClose={() => setTodoModal({ isOpen: false, mode: 'add', data: null })}
+          onSubmit={(data) => {
+            if (todoModal.mode === 'add') {
+              addTodo(data);
+            } else {
+              updateTodo(todoModal.data.id, data);
+            }
+            setTodoModal({ isOpen: false, mode: 'add', data: null });
           }}
         />
       )}
@@ -1229,129 +1569,6 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
   );
 }
 
-function MemberFormModal({ mode, initialData, onClose, onSubmit }) {
-  const [formData, setFormData] = useState({
-    name: initialData?.name || '',
-    role: initialData?.role || '',
-    department: initialData?.department || 'Engineering',
-    bio: initialData?.bio || '',
-    avatar: initialData?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-    skills: Array.isArray(initialData?.skills) ? initialData.skills.join(', ') : (initialData?.skills || 'React, TypeScript'),
-    email: initialData?.email || 'name@netcraftstudios.org'
-  });
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h3>{mode === 'add' ? 'Add New Team Member' : 'Edit Team Member'}</h3>
-          <button onClick={onClose}><X size={20} /></button>
-        </div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(formData);
-          }}
-        >
-          <div className="modal-body">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="form-group">
-                <label>Full Name *</label>
-                <input
-                  type="text"
-                  required
-                  className="form-input"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Elena Vance"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Role / Job Title *</label>
-                <input
-                  type="text"
-                  required
-                  className="form-input"
-                  value={formData.role}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                  placeholder="e.g. Principal Systems Architect"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="form-group">
-                <label>Department</label>
-                <input
-                  type="text"
-                  className="form-input"
-                  value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  placeholder="Engineering / Design / Strategy"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Studio Email</label>
-                <input
-                  type="email"
-                  className="form-input"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Avatar Photo URL</label>
-              <input
-                type="url"
-                className="form-input"
-                value={formData.avatar}
-                onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-                placeholder="https://images.unsplash.com/..."
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Bio / Background *</label>
-              <textarea
-                className="form-textarea"
-                required
-                style={{ minHeight: '80px' }}
-                value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                placeholder="Brief professional background and focus..."
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Key Skills (Comma Separated)</label>
-              <input
-                type="text"
-                className="form-input"
-                value={formData.skills}
-                onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
-                placeholder="Design Systems, Distributed Systems, Rust"
-              />
-            </div>
-          </div>
-
-          <div className="modal-footer">
-            <button type="button" className="button button-quiet" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="button button-primary">
-              {mode === 'add' ? 'Add Member' : 'Save Member'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
@@ -1499,6 +1716,126 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
             </button>
             <button type="submit" className="button button-primary">
               {mode === 'add' ? 'Add Client' : 'Save Client'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function TodoFormModal({ mode, initialData, onClose, onSubmit }) {
+  const [formData, setFormData] = useState({
+    title: initialData?.title || '',
+    category: initialData?.category || 'General',
+    priority: initialData?.priority || 'medium',
+    status: initialData?.status || 'pending',
+    dueDate: initialData?.dueDate || new Date().toISOString().slice(0, 10),
+    assignedTo: initialData?.assignedTo || 'Squad Lead'
+  });
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h3>{mode === 'add' ? 'Add Task to Things to Do' : 'Edit Studio Task'}</h3>
+          <button onClick={onClose}><X size={20} /></button>
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit(formData);
+          }}
+        >
+          <div className="modal-body">
+            <div className="form-group">
+              <label>Task Title / Deliverable *</label>
+              <input
+                type="text"
+                required
+                className="form-input"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="e.g. Deploy V2 client portal staging build"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  className="form-select"
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                >
+                  <option value="General">General</option>
+                  <option value="Deployment">Deployment</option>
+                  <option value="Governance">Governance</option>
+                  <option value="Client Work">Client Work</option>
+                  <option value="Architecture">Architecture</option>
+                  <option value="Performance">Performance</option>
+                  <option value="Design">Design</option>
+                  <option value="Bugfix">Bugfix</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Priority</label>
+                <select
+                  className="form-select"
+                  value={formData.priority}
+                  onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                >
+                  <option value="high">High Priority (Urgent)</option>
+                  <option value="medium">Medium Priority</option>
+                  <option value="low">Low Priority</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="form-group">
+                <label>Status</label>
+                <select
+                  className="form-select"
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Due Date</label>
+                <input
+                  type="date"
+                  className="form-input"
+                  value={formData.dueDate}
+                  onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Assigned To</label>
+              <input
+                type="text"
+                className="form-input"
+                value={formData.assignedTo}
+                onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
+                placeholder="e.g. Lead Squad / Operations / Frontend"
+              />
+            </div>
+          </div>
+
+          <div className="modal-footer">
+            <button type="button" className="button button-quiet" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="submit" className="button button-primary">
+              {mode === 'add' ? 'Add Task' : 'Save Changes'}
             </button>
           </div>
         </form>

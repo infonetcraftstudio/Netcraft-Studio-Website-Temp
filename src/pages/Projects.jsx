@@ -9,7 +9,10 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalProject, setActiveModalProject] = useState(null);
 
-  const categories = ['All', 'Digital Products', 'AI & Emerging Tech', 'Web Development', 'Mobile Experiences'];
+  const categories = useMemo(() => {
+    const cats = Array.from(new Set(projects.map((p) => p.category).filter(Boolean)));
+    return ['All', ...cats];
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((project) => {
@@ -206,8 +209,23 @@ export default function Projects() {
                 {activeModalProject.longDescription || activeModalProject.description}
               </p>
 
+              {activeModalProject.features && activeModalProject.features.length > 0 && (
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{ margin: '0 0 8px', fontSize: '12px', font: '500 11px var(--mono)', textTransform: 'uppercase', color: 'var(--ink)' }}>
+                    Key Features
+                  </h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {activeModalProject.features.map((feat, i) => (
+                      <span key={i} style={{ background: '#f1f5f9', color: '#334155', padding: '3px 8px', borderRadius: '3px', fontSize: '11px', fontFamily: 'var(--mono)' }}>
+                        ✓ {feat}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <h4 style={{ margin: '0 0 10px', fontSize: '13px', font: '500 11px var(--mono)', textTransform: 'uppercase', color: 'var(--ink)' }}>
-                Technologies & Architecture
+                Technologies &amp; Architecture
               </h4>
               <div className="tech-tags" style={{ marginBottom: '24px' }}>
                 {activeModalProject.techStack?.map((tech) => (
@@ -218,13 +236,24 @@ export default function Projects() {
               </div>
             </div>
 
-            <div className="modal-footer">
+            <div className="modal-footer" style={{ flexWrap: 'wrap', gap: '8px' }}>
               <button
                 className="button button-quiet"
                 onClick={() => setActiveModalProject(null)}
               >
                 Close
               </button>
+              {activeModalProject.sourceCodeUrl && (
+                <a
+                  href={activeModalProject.sourceCodeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button button-quiet"
+                  style={{ gap: '6px' }}
+                >
+                  GitHub Source <ExternalLink size={13} />
+                </a>
+              )}
               {activeModalProject.liveUrl && (
                 <a
                   href={activeModalProject.liveUrl}
