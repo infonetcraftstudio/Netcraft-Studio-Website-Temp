@@ -48,8 +48,25 @@ const SUPABASE_TABLES = {
 let supabaseConnected = false;
 let runtimeData = null;
 
+const allowedOrigins = new Set([
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://netcraftstudio.vercel.app',
+  ...(process.env.FRONTEND_URL || '')
+    .split(',')
+    .map((url) => url.trim().replace(/\/$/, ''))
+    .filter(Boolean)
+]);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',').map((url) => url.trim()) : true
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin.replace(/\/$/, ''))) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
