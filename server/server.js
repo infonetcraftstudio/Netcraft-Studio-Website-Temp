@@ -273,6 +273,14 @@ async function persistToSupabase(data) {
 // ----------------------
 // SYSTEM & HEALTH ROUTES
 // ----------------------
+app.get('/api/', (req, res) => {
+  res.json({
+    name: 'NetCraft Studio API',
+    status: 'online',
+    endpoints: ['/api/status', '/api/data', '/api/projects', '/api/clients', '/api/contact', '/api/inquiries', '/api/todos']
+  });
+});
+
 app.get('/api/status', (req, res) => {
   try {
     res.json({
