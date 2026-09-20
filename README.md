@@ -24,7 +24,7 @@ Modern digital product studio platform built with **React**, **Vite**, **React R
   - **Contact Details & Inquiries Inbox**: Edit live company telephone, email, address, coordinates, and view/reply/archive incoming messages submitted from the contact form.
   - **Backup & Reset**: Export data snapshot to JSON, import backups, or restore factory defaults.
 - **Persistent State**:
-  - Changes made in the Admin Portal are sent through the Express API and persisted in Supabase. React Context updates the user-facing pages immediately while the database request completes.
+  - Changes made in the Admin Portal are persisted directly to Supabase from the browser through the publishable client key. React Context updates the user-facing pages immediately while the database request completes.
 
 ---
 
@@ -41,9 +41,7 @@ npm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-When the frontend and backend are hosted separately, set `VITE_API_URL` to the public URL of the deployed Express server before running `npm run build`. Deploy the `server/server.js` process separately with `npm run server`, and set `FRONTEND_URL` there to the hosted frontend origin. A static frontend host cannot run the Express backend or provide `/api` routes.
-
-For a single-service deployment, use `npm run build` as the build command and `npm start` as the start command. Express serves the generated `dist` folder and `/api` routes from the same origin, so no `VITE_API_URL` is required.
+Vercel hosts this as a static Vite application. Configure the browser-safe Supabase variables before building; no Node server or API deployment is required.
 
 ### 3. Build for Production
 ```bash
@@ -55,19 +53,19 @@ npm run build
 npm run preview
 ```
 
-## Supabase Backend Persistence
+## Supabase Persistence
 
-The Express backend stores projects, clients, inquiries, and things to do as individual rows in Supabase tables. Each record payload is stored as flexible `jsonb`. Contact information and services are also stored as `jsonb` in `studio_settings`. It falls back to `server/data/studio-data.json` if Supabase is unavailable.
+The frontend stores projects, clients, inquiries, and things to do as individual rows in Supabase tables. Each record payload is stored as flexible `jsonb`. Contact information and services are stored as `jsonb` in `studio_settings`.
 
 1. Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor.
 2. Add these variables to `.env`:
 
 ```env
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-server-only-service-role-key
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
-The backend also accepts the existing `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` variables, but a server-only service role key is recommended for backend writes. Never expose the service role key to the browser. The server will migrate data from the previous `studio_state` row when normalized tables are empty.
+Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor to create the tables and browser access policies. Never put a service-role key in frontend environment variables.
 
 ---
 

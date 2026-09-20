@@ -29,14 +29,26 @@ create table if not exists public.studio_settings (
 	updated_at timestamptz not null default now()
 );
 
+drop policy if exists "studio projects backend access" on public.studio_projects;
+drop policy if exists "studio clients backend access" on public.studio_clients;
+drop policy if exists "studio inquiries backend access" on public.studio_inquiries;
+drop policy if exists "studio todos backend access" on public.studio_todos;
+drop policy if exists "studio settings backend access" on public.studio_settings;
+
 alter table public.studio_projects enable row level security;
 alter table public.studio_clients enable row level security;
 alter table public.studio_inquiries enable row level security;
 alter table public.studio_todos enable row level security;
 alter table public.studio_settings enable row level security;
 
-create policy "studio projects backend access" on public.studio_projects for all using (true) with check (true);
-create policy "studio clients backend access" on public.studio_clients for all using (true) with check (true);
-create policy "studio inquiries backend access" on public.studio_inquiries for all using (true) with check (true);
-create policy "studio todos backend access" on public.studio_todos for all using (true) with check (true);
-create policy "studio settings backend access" on public.studio_settings for all using (true) with check (true);
+drop policy if exists "studio projects frontend access" on public.studio_projects;
+drop policy if exists "studio clients frontend access" on public.studio_clients;
+drop policy if exists "studio inquiries frontend access" on public.studio_inquiries;
+drop policy if exists "studio todos frontend access" on public.studio_todos;
+drop policy if exists "studio settings frontend access" on public.studio_settings;
+
+create policy "studio projects frontend access" on public.studio_projects for all to anon, authenticated using (true) with check (true);
+create policy "studio clients frontend access" on public.studio_clients for all to anon, authenticated using (true) with check (true);
+create policy "studio inquiries frontend access" on public.studio_inquiries for all to anon, authenticated using (true) with check (true);
+create policy "studio todos frontend access" on public.studio_todos for all to anon, authenticated using (true) with check (true);
+create policy "studio settings frontend access" on public.studio_settings for all to anon, authenticated using (true) with check (true);
