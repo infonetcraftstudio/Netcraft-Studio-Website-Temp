@@ -35,6 +35,7 @@ const PORT = process.env.PORT || 5000;
 const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'studio-data.json');
 const DIST_DIR = path.join(__dirname, '..', 'dist');
+const IS_VERCEL = Boolean(process.env.VERCEL);
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const SUPABASE_TABLES = {
@@ -94,7 +95,8 @@ function loadData() {
   }
 
   const defaults = getDefaultData();
-  saveData(defaults);
+  runtimeData = defaults;
+  if (!IS_VERCEL) saveData(defaults);
   return defaults;
 }
 
@@ -103,8 +105,10 @@ function saveData(data) {
   try {
     data.lastUpdated = new Date().toISOString();
     runtimeData = data;
-    // ALWAYS save to DATA_FILE immediately as persistent local cache
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+    // Vercel functions have no durable writable project directory.
+    if (!IS_VERCEL) {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
+    }
 
     if (SUPABASE_URL && SUPABASE_KEY) {
       persistToSupabase(data).catch((err) => {
@@ -205,7 +209,9 @@ async function hydrateFromSupabase() {
         lastUpdated: new Date().toISOString()
       };
       runtimeData = remoteData;
-      fs.writeFileSync(DATA_FILE, JSON.stringify(remoteData, null, 2), 'utf-8');
+      if (!IS_VERCEL) {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(remoteData, null, 2), 'utf-8');
+      }
     } else {
       let legacyData = null;
       try {
@@ -268,14 +274,19 @@ async function persistToSupabase(data) {
 // SYSTEM & HEALTH ROUTES
 // ----------------------
 app.get('/api/status', (req, res) => {
-  res.json({
-    status: 'online',
-    port: PORT,
-    timestamp: new Date().toISOString(),
-    uptime: Math.floor(process.uptime()),
-    databaseConnected: supabaseConnected,
-    database: supabaseConnected ? 'Supabase (normalized studio tables)' : 'JSON fallback (Supabase unavailable)'
-  });
+  try {
+    res.json({
+      status: 'online',
+      port: PORT,
+      timestamp: new Date().toISOString(),
+      uptime: Math.floor(process.uptime()),
+      databaseConnected: supabaseConnected,
+      database: supabaseConnected ? 'Supabase (normalized studio tables)' : 'JSON fallback (Supabase unavailable)'
+    });
+  } catch (error) {
+    console.error('Status endpoint failed:', error);
+    res.status(500).json({ status: 'error', message: 'Unable to read service status' });
+  }
 });
 
 app.get('/api/data', (req, res) => {
