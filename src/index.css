@@ -872,11 +872,18 @@ h1 em, h2 em, h3 em {
 }
 
 .client-logo-box {
+  width: 72px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
   font-family: var(--display);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 11px;
   letter-spacing: 1px;
-  padding: 6px 12px;
+  padding: 4px 6px;
   background: var(--paper);
   border: 1px solid var(--mist);
 }

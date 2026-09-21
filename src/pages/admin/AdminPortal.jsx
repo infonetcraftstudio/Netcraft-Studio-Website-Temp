@@ -658,7 +658,16 @@ export default function AdminPortal() {
                   {clients.map((/** @type {any} */ client) => (
                     <tr key={client.id}>
                       <td>
-                        <strong>{client.name}</strong>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {client.photoBase64 && (
+                            <img
+                              src={client.photoBase64}
+                              alt=""
+                              style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '50%' }}
+                            />
+                          )}
+                          <strong>{client.name}</strong>
+                        </div>
                         <span style={{ display: 'block', fontSize: '10px', color: 'var(--muted)', fontFamily: 'var(--mono)' }}>
                           {client.logoText}
                         </span>
@@ -1387,6 +1396,7 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
     techStack: Array.isArray(initialData?.techStack) ? initialData.techStack.join(', ') : (initialData?.techStack || 'React, TypeScript'),
     metrics: initialData?.metrics || '+40% Performance',
     imageType: initialData?.imageType || 'city',
+    imageBase64: initialData?.imageBase64 || '',
     status: initialData?.status || 'Completed',
     featured: initialData?.featured ?? true,
     liveUrl: initialData?.liveUrl || 'https://netcraftstudios.org'
@@ -1543,6 +1553,29 @@ function ProjectFormModal({ mode, initialData, onClose, onSubmit }) {
               </div>
             </div>
 
+            <div className="form-group">
+              <label>Portfolio Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="form-input"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = () => setFormData({ ...formData, imageBase64: reader.result });
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {formData.imageBase64 && (
+                <img
+                  src={formData.imageBase64}
+                  alt="Portfolio preview"
+                  style={{ width: '100%', maxHeight: '150px', objectFit: 'cover', marginTop: '8px', borderRadius: '4px' }}
+                />
+              )}
+            </div>
+
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px' }}>
               <input
                 type="checkbox"
@@ -1574,6 +1607,8 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
     name: initialData?.name || '',
     logoText: initialData?.logoText || '',
+    logoBase64: initialData?.logoBase64 || '',
+    photoBase64: initialData?.photoBase64 || '',
     industry: initialData?.industry || 'Fintech',
     website: initialData?.website || 'https://example.com',
     testimonial: initialData?.testimonial || '',
@@ -1620,6 +1655,29 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
                   placeholder="e.g. SYNTHETIX"
                 />
               </div>
+            </div>
+
+            <div className="form-group">
+              <label>Client Logo</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="form-input"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = () => setFormData({ ...formData, logoBase64: reader.result });
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {formData.logoBase64 && (
+                <img
+                  src={formData.logoBase64}
+                  alt="Client logo preview"
+                  style={{ width: '120px', height: '56px', objectFit: 'contain', marginTop: '8px' }}
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1779,6 +1837,29 @@ function TodoFormModal({ mode, initialData, onClose, onSubmit }) {
                   <option value="low">Low Priority</option>
                 </select>
               </div>
+            </div>
+
+            <div className="form-group">
+              <label>Client Photo</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="form-input"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = () => setFormData({ ...formData, photoBase64: reader.result });
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {formData.photoBase64 && (
+                <img
+                  src={formData.photoBase64}
+                  alt="Client preview"
+                  style={{ width: '72px', height: '72px', objectFit: 'cover', marginTop: '8px', borderRadius: '50%' }}
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

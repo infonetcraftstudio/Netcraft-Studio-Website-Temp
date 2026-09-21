@@ -260,7 +260,10 @@ export default function Home() {
         <div className="projects-grid">
           {featuredProjects.map((project) => (
             <Link to="/projects" key={project.id} className="project-card">
-              <div className={`project-visual visual-${project.imageType || 'city'}`}>
+              <div
+                className={`project-visual visual-${project.imageType || 'city'}`}
+                style={project.imageBase64 ? { backgroundImage: `url(${project.imageBase64})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+              >
                 <span className="project-badge">{project.tag}</span>
                 <span className="project-year">{project.year}</span>
                 <div style={{ color: 'white', opacity: 0.8, fontSize: '32px' }}>
@@ -313,7 +316,16 @@ export default function Home() {
           {featuredClients.map((client) => (
             <div key={client.id} className="client-card">
               <div className="client-header">
-                <div className="client-logo-box">{client.logoText}</div>
+                {client.logoBase64 || client.photoBase64 ? (
+                  <img
+                    src={client.logoBase64 || client.photoBase64}
+                    alt={client.name}
+                    className="client-logo-box"
+                    style={{ objectFit: client.logoBase64 ? 'contain' : 'cover' }}
+                  />
+                ) : (
+                  <div className="client-logo-box">{client.logoText}</div>
+                )}
                 <span className="client-industry">{client.industry}</span>
               </div>
               <div style={{ display: 'flex', gap: '3px', marginBottom: '12px' }}>

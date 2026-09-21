@@ -66,7 +66,16 @@ export default function Clients() {
           {clients.map((client) => (
             <div key={client.id} className="client-card">
               <div className="client-header">
-                <div className="client-logo-box">{client.logoText || client.name}</div>
+                {client.logoBase64 || client.photoBase64 ? (
+                  <img
+                    src={client.logoBase64 || client.photoBase64}
+                    alt={client.name}
+                    className="client-logo-box"
+                    style={{ objectFit: client.logoBase64 ? 'contain' : 'cover' }}
+                  />
+                ) : (
+                  <div className="client-logo-box">{client.logoText || client.name}</div>
+                )}
                 <span className="client-industry">{client.industry}</span>
               </div>
 

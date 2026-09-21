@@ -5,8 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer as createViteServer } from 'vite';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const rootDir = path.resolve(__dirname, '..');
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const app = express();
 const port = Number(process.env.PORT || 5173);
 
@@ -21,8 +20,8 @@ const escapeHtml = (value = '') => String(value)
 
 const emailLayout = (eyebrow, title, content) => `
   <div style="background:#f4f7fb;padding:40px 16px;font-family:Arial,sans-serif;color:#162033">
-    <div style="max-width:620px;margin:0 auto;background:#ffffff;border:1px solid #dbe3ee">
-      <div style="background:#10233f;padding:28px 32px;color:#ffffff">
+    <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #dbe3ee">
+      <div style="background:#10233f;padding:28px 32px;color:#fff">
         <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8ec5ff">NetCraft Studio</div>
         <h1 style="font-size:28px;line-height:1.2;margin:16px 0 0;font-weight:600">${title}</h1>
       </div>
@@ -35,16 +34,6 @@ const emailLayout = (eyebrow, title, content) => `
   </div>
 `;
 
-const createTransporter = () => {
-  const user = process.env.GMAIL_USER;
-  const password = process.env.GMAIL_APP_PASSWORD;
-  if (!user || !password) throw new Error('GMAIL_USER and GMAIL_APP_PASSWORD are required.');
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user, pass: password }
-  });
-};
-
 app.post('/api/send-inquiry', async (request, response) => {
   const inquiry = request.body || {};
   const email = String(inquiry.email || '').trim();
@@ -56,46 +45,54 @@ app.post('/api/send-inquiry', async (request, response) => {
   const isReview = inquiry.type === 'client-review';
 
   if (!email || !inquiry.message) {
-    return response.status(400).json({ error: 'Name, email, and message are required.' });
+    return response.status(400).json({ error: 'Email and message are required.' });
   }
 
   try {
-    const transporter = createTransporter();
-    const studioEmail = process.env.INQUIRY_TO_EMAIL || process.env.GMAIL_USER;
+    const gmailUser = process.env.GMAIL_USER;
+    const gmailPassword = process.env.GMAIL_APP_PASSWORD;
+    const studioEmail = process.env.INQUIRY_TO_EMAIL || gmailUser;
+    if (!gmailUser || !gmailPassword || !studioEmail) {
+      return response.status(503).json({ error: 'Mail server is not configured.' });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: gmailUser, pass: gmailPassword }
+    });
     const subject = isReview
       ? `New client review for ${inquiry.reviewFor || inquiry.service || 'requested product'}`
       : `New project enquiry from ${inquiry.name || 'website visitor'}`;
     const details = `
-      <p style="font-size:15px;line-height:1.7;margin:0 0 22px">A new ${isReview ? 'client review' : 'project enquiry'} was submitted through the website.</p>
-      <div style="background:#f4f7fb;padding:18px 20px;margin-bottom:22px">
-        <p style="margin:0 0 9px"><strong>From:</strong> ${name}</p>
-        <p style="margin:0 0 9px"><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p style="margin:0 0 9px"><strong>Company:</strong> ${company}</p>
-        <p style="margin:0 0 9px"><strong>${isReview ? 'Review for' : 'Requested service'}:</strong> ${service}</p>
-        <p style="margin:0"><strong>Received:</strong> ${date}</p>
+      <p style="font-size:15px;line-height:1.7">A new ${isReview ? 'client review' : 'project enquiry'} was submitted.</p>
+      <div style="background:#f4f7fb;padding:18px 20px">
+        <p><strong>From:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Company:</strong> ${company}</p>
+        <p><strong>${isReview ? 'Review for' : 'Requested service'}:</strong> ${service}</p>
+        <p><strong>Received:</strong> ${date}</p>
       </div>
-      <p style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#718096;margin:0 0 8px">${isReview ? 'Client Review' : 'Project Requirements'}</p>
-      <p style="font-size:15px;line-height:1.8;margin:0;white-space:pre-wrap">${message}</p>
+      <p style="font-size:15px;line-height:1.8;white-space:pre-wrap">${message}</p>
     `;
-    const clientMessage = `
-      <p style="font-size:17px;line-height:1.6;margin:0 0 16px">Hello ${name},</p>
-      <p style="font-size:15px;line-height:1.8;margin:0 0 16px">Thank you for sharing your ${isReview ? `feedback on ${escapeHtml(inquiry.reviewFor || service)}` : 'project requirements'} with NetCraft Studio.</p>
-      <p style="font-size:15px;line-height:1.8;margin:0 0 24px">Your message is safely with our team. A senior studio partner will review it and get back to you shortly.</p>
-      <div style="border-left:3px solid #2563eb;padding:12px 16px;background:#f4f7fb;font-size:14px;line-height:1.7">We appreciate the opportunity to build thoughtful digital work with you.</div>
+    const thankYou = `
+      <p style="font-size:17px;line-height:1.6">Hello ${name},</p>
+      <p style="font-size:15px;line-height:1.8">Thank you for sharing your ${isReview ? 'feedback' : 'project requirements'} with NetCraft Studio.</p>
+      <p style="font-size:15px;line-height:1.8">Your message is safely with our team. A senior studio partner will review it and get back to you shortly.</p>
+      <div style="border-left:3px solid #2563eb;padding:12px 16px;background:#f4f7fb">We appreciate the opportunity to build thoughtful digital work with you.</div>
     `;
 
     await transporter.sendMail({
-      from: `NetCraft Studio <${process.env.GMAIL_USER}>`,
+      from: `NetCraft Studio <${gmailUser}>`,
       to: studioEmail,
       replyTo: email,
       subject,
       html: emailLayout(isReview ? 'Client feedback' : 'New website enquiry', subject, details)
     });
     await transporter.sendMail({
-      from: `NetCraft Studio <${process.env.GMAIL_USER}>`,
+      from: `NetCraft Studio <${gmailUser}>`,
       to: email,
       subject: 'Thank you for contacting NetCraft Studio',
-      html: emailLayout('Message received', 'Thank you for reaching out.', clientMessage)
+      html: emailLayout('Message received', 'Thank you for reaching out.', thankYou)
     });
 
     return response.json({ success: true });
@@ -107,12 +104,10 @@ app.post('/api/send-inquiry', async (request, response) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(rootDir, 'dist')));
-  app.get('*', (_request, response) => response.sendFile(path.join(rootDir, 'dist', 'index.html')));
+  app.use((_request, response) => response.sendFile(path.join(rootDir, 'dist', 'index.html')));
 } else {
   const vite = await createViteServer({ root: rootDir, server: { middlewareMode: true }, appType: 'spa' });
   app.use(vite.middlewares);
 }
 
-app.listen(port, () => {
-  console.log(`NetCraft Studio running at http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`NetCraft Studio running at http://localhost:${port}`));

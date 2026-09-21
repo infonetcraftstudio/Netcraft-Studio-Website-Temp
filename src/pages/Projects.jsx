@@ -103,7 +103,10 @@ export default function Projects() {
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && setActiveModalProject(project)}
               >
-                <div className={`project-visual visual-${project.imageType || 'city'}`}>
+                <div
+                  className={`project-visual visual-${project.imageType || 'city'}`}
+                  style={project.imageBase64 ? { backgroundImage: `url(${project.imageBase64})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+                >
                   <span className="project-badge">{project.tag}</span>
                   <span className="project-year">{project.year}</span>
                   {project.featured && (
@@ -184,7 +187,7 @@ export default function Projects() {
             <div className="modal-body">
               <div
                 className={`project-visual visual-${activeModalProject.imageType || 'city'}`}
-                style={{ height: '180px', borderRadius: '4px', marginBottom: '24px' }}
+                style={{ height: '180px', borderRadius: '4px', marginBottom: '24px', ...(activeModalProject.imageBase64 ? { backgroundImage: `url(${activeModalProject.imageBase64})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}) }}
               >
                 <span className="project-badge">{activeModalProject.tag}</span>
               </div>
