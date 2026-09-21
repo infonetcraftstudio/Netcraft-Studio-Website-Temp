@@ -1,5 +1,5 @@
 export const initialContactInfo = {
-  "email": "netcraftstudio01@gmail.com",
+  "email": "info.netcraftstudio@gmail.com",
   "phone": "+91 8122696986",
   "phoneAlt": "+91 9360244928",
   "address": "Coimbatore, Tamil Nadu, India",

@@ -58,11 +58,28 @@ npm run preview
 The frontend stores projects, clients, inquiries, and things to do as individual rows in Supabase tables. Each record payload is stored as flexible `jsonb`. Contact information and services are stored as `jsonb` in `studio_settings`.
 
 1. Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor.
-2. Add these variables to `.env`:
+
+## Enquiry Email Delivery
+
+Enquiries are saved to `studio_inquiries` first, then the Nodemailer server sends:
+
+- A detailed requirement notification to `info.netcraftstudio@gmail.com`.
+- A formatted thank-you email to the client.
+
+Add these server-only values to the local `.env` file:
 
 ```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+GMAIL_USER=info.netcraftstudio@gmail.com
+GMAIL_APP_PASSWORD=your-16-character-google-app-password
+INQUIRY_TO_EMAIL=info.netcraftstudio@gmail.com
+```
+
+`GMAIL_APP_PASSWORD` must be a Google App Password created after enabling 2-Step Verification. Never expose it through `VITE_` variables or commit it.
+
+The development server runs both Vite and the Nodemailer API:
+
+```env
+npm run dev
 ```
 
 Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor to create the tables and browser access policies. Never put a service-role key in frontend environment variables.

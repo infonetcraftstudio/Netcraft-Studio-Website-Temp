@@ -16,7 +16,6 @@ const TABLES = {
   inquiries: 'studio_inquiries',
   todos: 'studio_todos'
 };
-
 function defaultData() {
   return {
     contactInfo: initialContactInfo,
@@ -354,6 +353,18 @@ export function StudioProvider({ children }) {
     setInquiries((prev) => [newInquiry, ...prev]);
     showToast(`Thank you! Your message has been sent to our studio team.`);
     await databaseCall('/api/inquiries', 'POST', newInquiry);
+
+    try {
+      const response = await fetch('/api/send-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newInquiry)
+      });
+      if (!response.ok) throw new Error(`Email server returned ${response.status}`);
+    } catch (error) {
+      console.error('Inquiry email delivery failed:', error);
+    }
+
     return newInquiry;
   };
 

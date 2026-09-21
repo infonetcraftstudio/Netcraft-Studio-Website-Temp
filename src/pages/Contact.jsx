@@ -10,7 +10,6 @@ export default function Contact() {
     email: '',
     company: '',
     service: services[0]?.title || 'Web Development',
-    budget: '$50k - $100k',
     message: ''
   });
 
@@ -30,7 +29,6 @@ export default function Contact() {
       email: '',
       company: '',
       service: services[0]?.title || 'Web Development',
-      budget: '$50k - $100k',
       message: ''
     });
   };
@@ -125,20 +123,6 @@ export default function Contact() {
                       <option value="Multi-disciplinary Overhaul">Multi-disciplinary Overhaul</option>
                     </select>
                   </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Anticipated Budget Range</label>
-                  <select
-                    className="form-select"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                  >
-                    <option value="₹25k - ₹50k">₹25,000 – ₹50,000 (~$300 – $600)</option>
-                    <option value="₹50k - ₹100k">₹50,000 – ₹1,00,000 (~$600 – $1,200)</option>
-                    <option value="₹100k - ₹250k">₹1,00,000 – ₹2,50,000 (~$1,200 – $3,000)</option>
-                    <option value="₹250k+">₹2,50,000+ ($3,000+)</option>
-                  </select>
                 </div>
 
                 <div className="form-group">

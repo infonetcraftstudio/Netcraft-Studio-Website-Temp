@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStudio } from '../context/StudioContext';
-import { ArrowUpRight, ArrowRight, Star, Building2, Quote, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Send } from 'lucide-react';
 
 export default function Clients() {
-  const { clients } = useStudio();
+  const { clients, submitInquiry } = useStudio();
+  const [reviewData, setReviewData] = useState({
+    clientId: clients[0]?.id || '',
+    name: '',
+    email: '',
+    product: clients[0]?.projectsDone?.[0] || '',
+    rating: 5,
+    review: ''
+  });
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+
+  const selectedClient = clients.find((client) => client.id === reviewData.clientId);
+  const requestedProducts = selectedClient?.projectsDone || [];
+
+  const handleReviewSubmit = async (event) => {
+    event.preventDefault();
+    if (!selectedClient || !reviewData.product || !reviewData.review.trim()) return;
+
+    await submitInquiry({
+      type: 'client-review',
+      name: reviewData.name.trim(),
+      email: reviewData.email.trim(),
+      company: selectedClient.name,
+      service: reviewData.product,
+      reviewFor: reviewData.product,
+      rating: Number(reviewData.rating),
+      message: reviewData.review.trim()
+    });
+
+    setReviewSubmitted(true);
+    setReviewData((current) => ({ ...current, name: '', email: '', review: '' }));
+  };
 
   return (
     <div className="clients-page">
@@ -39,15 +70,13 @@ export default function Clients() {
                 <span className="client-industry">{client.industry}</span>
               </div>
 
-              <div style={{ display: 'flex', gap: '3px', marginBottom: '16px' }}>
-                {[...Array(client.rating || 5)].map((_, i) => (
-                  <Star key={i} size={15} fill="#2563eb" color="#2563eb" />
-                ))}
-              </div>
-
               <p className="client-quote">
                 "{client.testimonial}"
               </p>
+
+              <span style={{ display: 'block', marginBottom: '18px', color: 'var(--muted)', font: '10px var(--mono)', textTransform: 'uppercase' }}>
+                Review for: {client.projectsDone?.join(', ') || 'Completed project'}
+              </span>
 
               <div className="client-author">
                 <div>
@@ -60,6 +89,128 @@ export default function Clients() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Client Review Submission */}
+      <section className="section section-light">
+        <div className="contact-container">
+          <div>
+            <p className="eyebrow">
+              <span className="eyebrow-line"></span> Share Your Experience
+            </p>
+            <h2 style={{ fontSize: '36px', marginBottom: '16px' }}>
+              Review the product <em>you requested.</em>
+            </h2>
+            <p style={{ color: 'var(--muted)', maxWidth: '480px', lineHeight: '1.7' }}>
+              Tell us how the product or project delivered for your company worked for you.
+            </p>
+          </div>
+
+          <div className="contact-card-box">
+            {reviewSubmitted ? (
+              <div style={{ padding: '20px 0', textAlign: 'center' }}>
+                <CheckCircle size={42} color="var(--blue)" style={{ margin: '0 auto 14px' }} />
+                <h3 style={{ fontSize: '22px', margin: '0 0 8px' }}>Review Received</h3>
+                <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.6', margin: 0 }}>
+                  Thank you for reviewing the product you requested. Our studio team will review your feedback shortly.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleReviewSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="form-group">
+                    <label>Client / Company *</label>
+                    <select
+                      className="form-select"
+                      required
+                      value={reviewData.clientId}
+                      onChange={(event) => {
+                        const client = clients.find((item) => item.id === event.target.value);
+                        setReviewData({
+                          ...reviewData,
+                          clientId: event.target.value,
+                          product: client?.projectsDone?.[0] || ''
+                        });
+                      }}
+                    >
+                      {clients.map((client) => (
+                        <option key={client.id} value={client.id}>{client.name}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label>Product / Project Requested *</label>
+                    <select
+                      className="form-select"
+                      required
+                      value={reviewData.product}
+                      onChange={(event) => setReviewData({ ...reviewData, product: event.target.value })}
+                    >
+                      {requestedProducts.map((product) => (
+                        <option key={product} value={product}>{product}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="form-group">
+                    <label>Your Name *</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      required
+                      value={reviewData.name}
+                      onChange={(event) => setReviewData({ ...reviewData, name: event.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Work Email *</label>
+                    <input
+                      type="email"
+                      className="form-input"
+                      required
+                      value={reviewData.email}
+                      onChange={(event) => setReviewData({ ...reviewData, email: event.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Rating</label>
+                  <select
+                    className="form-select"
+                    value={reviewData.rating}
+                    onChange={(event) => setReviewData({ ...reviewData, rating: Number(event.target.value) })}
+                  >
+                    <option value={5}>5 stars</option>
+                    <option value={4}>4 stars</option>
+                    <option value={3}>3 stars</option>
+                    <option value={2}>2 stars</option>
+                    <option value={1}>1 star</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Your Review *</label>
+                  <textarea
+                    className="form-textarea"
+                    required
+                    value={reviewData.review}
+                    onChange={(event) => setReviewData({ ...reviewData, review: event.target.value })}
+                    placeholder="How did the requested product help your company?"
+                  />
+                </div>
+
+                <button type="submit" className="button button-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                  Submit Product Review <Send size={14} />
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </section>
 

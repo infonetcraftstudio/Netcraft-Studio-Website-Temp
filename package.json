@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server/index.js",
     "build": "vite build",
+    "start": "node server/index.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -13,8 +14,11 @@
     "@supabase/supabase-js": "^2.116.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^18.0.1",
+    "express": "^5.2.1",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.16.0",
+    "nodemailer": "^10.0.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.2.0",

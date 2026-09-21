@@ -1579,7 +1579,6 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
     testimonial: initialData?.testimonial || '',
     author: initialData?.author || '',
     authorRole: initialData?.authorRole || '',
-    rating: initialData?.rating || 5,
     status: initialData?.status || 'Active Partner',
     projectsDone: Array.isArray(initialData?.projectsDone) ? initialData.projectsDone.join(', ') : (initialData?.projectsDone || '')
   });
@@ -1661,7 +1660,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_80px] gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-group">
                 <label>Reviewer Name *</label>
                 <input
@@ -1685,18 +1684,6 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
                 />
               </div>
 
-              <div className="form-group">
-                <label>Rating</label>
-                <select
-                  className="form-select"
-                  value={formData.rating}
-                  onChange={(e) => setFormData({ ...formData, rating: Number(e.target.value) })}
-                >
-                  <option value={5}>5 ★</option>
-                  <option value={4}>4 ★</option>
-                  <option value={3}>3 ★</option>
-                </select>
-              </div>
             </div>
 
             <div className="form-group">
