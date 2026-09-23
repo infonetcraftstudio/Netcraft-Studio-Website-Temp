@@ -351,19 +351,19 @@ export function StudioProvider({ children }) {
       status: 'new'
     };
     setInquiries((prev) => [newInquiry, ...prev]);
-    showToast(`Thank you! Your message has been sent to our studio team.`);
     await databaseCall('/api/inquiries', 'POST', newInquiry);
 
-    try {
-      const response = await fetch('/api/send-inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newInquiry)
-      });
-      if (!response.ok) throw new Error(`Email server returned ${response.status}`);
-    } catch (error) {
-      console.error('Inquiry email delivery failed:', error);
+    const response = await fetch('/api/send-inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newInquiry)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(result.error || `Email server returned ${response.status}`);
     }
+
+    showToast(`Thank you! Your message has been sent to our studio team.`);
 
     return newInquiry;
   };

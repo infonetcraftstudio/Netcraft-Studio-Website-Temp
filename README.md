@@ -61,9 +61,9 @@ The frontend stores projects, clients, inquiries, and things to do as individual
 
 ## Enquiry Email Delivery
 
-Enquiries are saved to `studio_inquiries` first, then the Nodemailer server sends:
+Enquiries are saved to `studio_inquiries` first, then the Vercel function at `/api/send-inquiry` uses Nodemailer to send:
 
-- A detailed requirement notification to `info.netcraftstudio@gmail.com`.
+- A detailed requirement notification to `INQUIRY_TO_EMAIL` or `GMAIL_USER`.
 - A formatted thank-you email to the client.
 
 Add these server-only values to the local `.env` file:
@@ -76,11 +76,13 @@ INQUIRY_TO_EMAIL=info.netcraftstudio@gmail.com
 
 `GMAIL_APP_PASSWORD` must be a Google App Password created after enabling 2-Step Verification. Never expose it through `VITE_` variables or commit it.
 
-The development server runs both Vite and the Nodemailer API:
+Run the Vite development server locally:
 
-```env
+```bash
 npm run dev
 ```
+
+On Vercel, deploy the `api/send-inquiry.js` function automatically with the normal Vite settings. No Express server, `vercel.json`, or `api/index.js` is required.
 
 Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL Editor to create the tables and browser access policies. Never put a service-role key in frontend environment variables.
 

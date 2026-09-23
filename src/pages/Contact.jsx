@@ -14,23 +14,34 @@ export default function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       alert('Please fill out your name, email, and message.');
       return;
     }
 
-    submitInquiry(formData);
-    setSubmitted(true);
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      service: services[0]?.title || 'Web Development',
-      message: ''
-    });
+    setSending(true);
+    setSendError('');
+    try {
+      await submitInquiry(formData);
+      setSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        service: services[0]?.title || 'Web Development',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Inquiry submission failed:', error);
+      setSendError('We could not send your inquiry right now. Please try again or email us directly.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -71,6 +82,12 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit}>
                 <h3 style={{ fontSize: '22px', margin: '0 0 24px' }}>Project Inquiry</h3>
+
+                {sendError && (
+                  <p role="alert" style={{ color: '#b42318', margin: '0 0 18px', fontSize: '14px' }}>
+                    {sendError}
+                  </p>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="form-group">
@@ -139,9 +156,10 @@ export default function Contact() {
                 <button
                   type="submit"
                   className="button button-primary"
+                  disabled={sending}
                   style={{ width: '100%', justifyContent: 'center', marginTop: '10px' }}
                 >
-                  Submit Inquiry to Studio <Send size={14} />
+                  {sending ? 'Sending inquiry...' : 'Submit Inquiry to Studio'} <Send size={14} />
                 </button>
               </form>
             )}
