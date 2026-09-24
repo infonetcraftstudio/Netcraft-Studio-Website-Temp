@@ -1,4 +1,4 @@
-# NetCraft Studio — React & Vite Multi-Page Application
+# Netcraft Studio — React & Vite Multi-Page Application
 
 Modern digital product studio platform built with **React**, **Vite**, **React Router**, and **Lucide Icons**. Features dedicated multi-page routing, smooth sequential scroll flow navigation, and a comprehensive **Admin Portal** to manage projects, client reviews, contact details, and incoming inquiries.
 

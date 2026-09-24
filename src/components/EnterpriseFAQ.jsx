@@ -8,7 +8,7 @@ export default function EnterpriseFAQ() {
   const faqs = [
     {
       id: '01',
-      question: 'What types of projects does NetCraft Studio take on?',
+      question: 'What types of projects does Netcraft Studio take on?',
       answer: 'We engineer mission-critical digital products, high-throughput web applications, native & cross-platform mobile apps, custom internal enterprise tooling, and AI-powered automation workflows. Every project is architected with strict performance standards, clean type safety, and production resilience.'
     },
     {
@@ -65,7 +65,7 @@ export default function EnterpriseFAQ() {
           </h2>
 
           <p className="faq-subtitle">
-            Clear, transparent answers to critical questions about engineering standards, IP ownership, and project delivery with NetCraft Studio.
+            Clear, transparent answers to critical questions about engineering standards, IP ownership, and project delivery with Netcraft Studio.
           </p>
         </div>
 

@@ -36,6 +36,7 @@ export default function AdminPortal() {
     projects,
     clients,
     contactInfo,
+    careerProgram,
     inquiries,
     todos = [],
     backendConnected,
@@ -51,6 +52,7 @@ export default function AdminPortal() {
     updateClient,
     deleteClient,
     updateContactInfo,
+    updateCareerProgram,
     updateInquiryStatus,
     deleteInquiry,
     addTodo,
@@ -78,6 +80,7 @@ export default function AdminPortal() {
 
   // Contact Info edit state
   const [contactEdit, setContactEdit] = useState(contactInfo);
+  const [careerEdit, setCareerEdit] = useState(careerProgram);
 
   // Inquiries filter
   const [inquiryFilter, setInquiryFilter] = useState('all');
@@ -117,7 +120,7 @@ export default function AdminPortal() {
               <input
                 type="password"
                 className="form-input"
-                placeholder="Enter passcode (e.g. admin123)"
+                placeholder="Enter admin passcode"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 autoFocus
@@ -129,19 +132,6 @@ export default function AdminPortal() {
             </button>
           </form>
 
-          <div style={{ marginTop: '24px', paddingTop: '18px', borderTop: '1px solid var(--mist)', textAlign: 'center' }}>
-            <p style={{ fontSize: '11px', color: 'var(--muted)', margin: '0 0 8px' }}>Quick Demo Access:</p>
-            <button
-              className="button button-quiet"
-              style={{ fontSize: '11px', color: 'var(--blue)' }}
-              onClick={() => {
-                setPasscode('admin123');
-                adminLogin('admin123');
-              }}
-            >
-              Log in with default (admin123)
-            </button>
-          </div>
         </div>
       </div>
     );
@@ -239,6 +229,17 @@ export default function AdminPortal() {
                 {newInquiriesCount} new
               </span>
             )}
+          </button>
+
+          <button
+            className={`admin-nav-item ${activeTab === 'career' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('career');
+              setCareerEdit(careerProgram);
+            }}
+          >
+            <Sparkles size={17} />
+            <span>Career Program</span>
           </button>
 
           <button
@@ -804,7 +805,7 @@ export default function AdminPortal() {
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                           <a
-                            href={`mailto:${inq.email}?subject=Re: Project Inquiry with NetCraft Studio`}
+                            href={`mailto:${inq.email}?subject=Re: Project Inquiry with Netcraft Studio`}
                             className="button button-quiet"
                             style={{ fontSize: '11px', color: 'var(--blue)' }}
                             onClick={() => updateInquiryStatus(inq.id, 'replied')}
@@ -931,7 +932,80 @@ export default function AdminPortal() {
         )}
 
         {/* =========================================================================
-            TAB 6: THINGS TO DO (STUDIO TASKS & ROADMAP)
+            TAB 6: CAREER PROGRAM
+        ========================================================================= */}
+        {activeTab === 'career' && (
+          <div>
+            <div className="admin-header">
+              <div>
+                <h2>Manage Career Program</h2>
+                <p style={{ color: 'var(--muted)', margin: '4px 0 0', fontSize: '13px' }}>
+                  Update the internship message displayed in the public technology section.
+                </p>
+              </div>
+            </div>
+
+            <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '28px', maxWidth: '760px' }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateCareerProgram(careerEdit);
+                }}
+              >
+                <div className="form-group">
+                  <label>Section Label</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={careerEdit.eyebrow || ''}
+                    onChange={(e) => setCareerEdit({ ...careerEdit, eyebrow: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>First Heading Line</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={careerEdit.titleLineOne || ''}
+                    onChange={(e) => setCareerEdit({ ...careerEdit, titleLineOne: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Second Heading Line</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={careerEdit.titleLineTwo || ''}
+                    onChange={(e) => setCareerEdit({ ...careerEdit, titleLineTwo: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Program Description</label>
+                  <textarea
+                    className="form-input"
+                    rows="5"
+                    value={careerEdit.description || ''}
+                    onChange={(e) => setCareerEdit({ ...careerEdit, description: e.target.value })}
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="button button-primary">
+                  <Check size={14} /> Save Career Program
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 7: THINGS TO DO (STUDIO TASKS & ROADMAP)
         ========================================================================= */}
         {activeTab === 'todos' && (
           <div>
@@ -1242,7 +1316,7 @@ export default function AdminPortal() {
         )}
 
         {/* =========================================================================
-            TAB 7: BACKUP & DATA RESET
+            TAB 8: BACKUP & DATA RESET
         ========================================================================= */}
         {activeTab === 'backup' && (
           <div>
@@ -1301,7 +1375,7 @@ export default function AdminPortal() {
               <div style={{ background: 'white', border: '1px solid var(--mist)', padding: '28px' }}>
                 <h3 style={{ margin: '0 0 10px', fontSize: '16px', color: '#dc2626' }}>Restore Factory Defaults</h3>
                 <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: '1.5', marginBottom: '20px' }}>
-                  Reverts all projects, client reviews, and contact settings to NetCraft Studio original seed data.
+                  Reverts all projects, client reviews, and contact settings to Netcraft Studio original seed data.
                 </p>
                 <button
                   className="button button-quiet"
@@ -1714,7 +1788,7 @@ function ClientFormModal({ mode, initialData, onClose, onSubmit }) {
                 style={{ minHeight: '80px' }}
                 value={formData.testimonial}
                 onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-                placeholder="What did the client say about working with NetCraft Studio?..."
+                placeholder="What did the client say about working with Netcraft Studio?..."
               />
             </div>
 

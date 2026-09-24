@@ -14,6 +14,13 @@ export const initialContactInfo = {
   "github": "https://github.com/netcraftstudio01"
 };
 
+export const initialCareerProgram = {
+  "eyebrow": "CAREER DEVELOPMENT",
+  "titleLineOne": "Learn From Real Work.",
+  "titleLineTwo": "Build What Matters.",
+  "description": "Our internship program gives aspiring technologists the opportunity to work alongside experienced engineers on real products and production-minded projects. Develop practical skills, strengthen your portfolio, and learn the discipline behind thoughtful, reliable software."
+};
+
 export const initialServices = [
   {
     "id": "serv-1",
@@ -22,7 +29,7 @@ export const initialServices = [
     "slug": "web-development",
     "title": "Web Development",
     "shortDesc": "Custom websites and scalable web applications built with modern frontend and backend technologies.",
-    "fullDesc": "At NetCraft Studio, we create powerful, responsive web applications that drive business growth. Our expertise spans modern frontend frameworks and robust backend systems, delivering solutions that are fast, secure, and engineered to scale seamlessly.",
+    "fullDesc": "At Netcraft Studio, we create powerful, responsive web applications that drive business growth. Our expertise spans modern frontend frameworks and robust backend systems, delivering solutions that are fast, secure, and engineered to scale seamlessly.",
     "deliverables": [
       "React & Next.js Single Page & Server-Rendered Applications",
       "High-Performance Node.js & Express APIs",
@@ -545,7 +552,7 @@ export const initialClients = [
     "industry": "Agritech & E-Commerce",
     "logoText": "UZHAVAR",
     "website": "https://www.uzhavarconnect.com/",
-    "testimonial": "NetCraft Studio built our agricultural marketplace from the ground up. Farmers and buyers are directly connected through an intuitive, reliable platform that has transformed our supply chain.",
+    "testimonial": "Netcraft Studio built our agricultural marketplace from the ground up. Farmers and buyers are directly connected through an intuitive, reliable platform that has transformed our supply chain.",
     "author": "K. Rangarajan",
     "authorRole": "Founder, Uzhavar Connect",
     "rating": 5,
@@ -577,7 +584,7 @@ export const initialClients = [
     "industry": "Food Products & FMCG",
     "logoText": "ADHIVELAN",
     "website": "https://netcraftstudios.org",
-    "testimonial": "NetCraft Studio's attention to detail, digital branding, and product presentation helped our spice and food brand establish a high-credibility online identity across retail partners.",
+    "testimonial": "Netcraft Studio's attention to detail, digital branding, and product presentation helped our spice and food brand establish a high-credibility online identity across retail partners.",
     "author": "A. Velan",
     "authorRole": "Executive Director, Adhivelan Masala",
     "rating": 5,

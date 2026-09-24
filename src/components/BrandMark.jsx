@@ -4,7 +4,7 @@ export default function BrandMark({ size = 30, className = '' }) {
   return (
     <img
       src="/logo.png"
-      alt="NetCraft Studio logo"
+      alt="Netcraft Studio logo"
       className={`brand-mark ${className}`}
       style={{
         width: `${size}px`,

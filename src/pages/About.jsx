@@ -58,7 +58,7 @@ export default function About() {
           </h1>
         </div>
         <p>
-          NetCraft Studio is a next-generation service and product based IT company driven by creativity, innovation, and precision engineering. 
+          Netcraft Studio is a next-generation service and product based IT company driven by creativity, innovation, and precision engineering. 
           We craft powerful digital experiences that blend modern technology with bold design.
         </p>
       </header>
@@ -73,7 +73,7 @@ export default function About() {
               We build systems <em>that last.</em>
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '20px' }}>
-              NetCraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
+              Netcraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
               Founded in Coimbatore, India, our journey started with a vision driven by curiosity and creativity that evolved into a full-scale service and product based IT company.
             </p>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '28px' }}>
@@ -144,7 +144,7 @@ export default function About() {
             <div className="eyebrow-decorated">
               <span className="eyebrow-line"></span>
               <span className="eyebrow-dot"></span>
-              <span className="eyebrow-text">WHY NETCRAFT STUDIO</span>
+              <span className="eyebrow-text">WHY Netcraft Studio</span>
               <span className="eyebrow-dot"></span>
               <span className="eyebrow-line"></span>
             </div>

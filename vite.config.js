@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import sendInquiry from './api/send-inquiry.js';
+import adminAuth from './api/admin-auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,6 +37,37 @@ function localInquiryApi() {
           console.error('Local inquiry API failed:', error);
           response.statusCode = 500;
           response.end(JSON.stringify({ error: 'Unable to send enquiry email.' }));
+        }
+      });
+
+      server.middlewares.use('/api/admin-auth', async (request, response) => {
+        let body = '';
+        for await (const chunk of request) body += chunk;
+
+        const adaptedRequest = {
+          method: request.method,
+          body: body ? JSON.parse(body) : {}
+        };
+        const adaptedResponse = {
+          status(code) {
+            response.statusCode = code;
+            return this;
+          },
+          setHeader(name, value) {
+            response.setHeader(name, value);
+          },
+          json(payload) {
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify(payload));
+          }
+        };
+
+        try {
+          await adminAuth(adaptedRequest, adaptedResponse);
+        } catch (error) {
+          console.error('Local admin authentication failed:', error);
+          response.statusCode = 500;
+          response.end(JSON.stringify({ error: 'Unable to authenticate admin.' }));
         }
       });
     }

@@ -117,7 +117,7 @@ export default function Home() {
           </h1>
 
           <p className="hero-description">
-            NetCraft Studio crafts powerful digital experiences that blend cutting-edge engineering with intuitive design. 
+            Netcraft Studio crafts powerful digital experiences that blend cutting-edge engineering with intuitive design. 
             From web applications and mobile platforms to custom desktop suites and automation systems, we build solutions engineered to perform flawlessly.
           </p>
 
@@ -132,11 +132,11 @@ export default function Home() {
         </div>
 
         {/* Brand Artwork Showcase */}
-        <div className="hero-art" aria-label="NetCraft Studio logo artwork">
+        <div className="hero-art" aria-label="Netcraft Studio logo artwork">
           <div className="art-glow"></div>
           <div className="art-orbit orbit-one"></div>
           <div className="art-orbit orbit-two"></div>
-          <img src="/logo.png" alt="NetCraft Studio logo" className="hero-logo-image" />
+          <img src="/logo.png" alt="Netcraft Studio logo" className="hero-logo-image" />
         </div>
       </section>
 
@@ -151,7 +151,7 @@ export default function Home() {
           </div>
           <div>
             <p style={{ color: 'var(--muted)', fontSize: '15px', lineHeight: '1.7', marginBottom: '24px' }}>
-              NetCraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
+              Netcraft Studio was born from a simple idea — to build digital experiences that don't just work, but leave a lasting impact.
               We are a service and product based IT company crafting fast, scalable, and visually compelling solutions for modern businesses.
             </p>
             <Link to="/about" className="button button-quiet" style={{ fontSize: '12px' }}>
@@ -379,21 +379,6 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Credibility / Trust Points */}
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.12)', paddingTop: '24px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
-              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
-              <span>Transparent Bi-Weekly Sprints</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
-              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
-              <span>100% Code &amp; IP Ownership</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c4d7ee', fontSize: '13px' }}>
-              <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(45,212,191,0.2)', color: 'var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>✓</span>
-              <span>Sub-100ms Performance Targets</span>
-            </div>
-          </div>
         </div>
       </section>
     </div>

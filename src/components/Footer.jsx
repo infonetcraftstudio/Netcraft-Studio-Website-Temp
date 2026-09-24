@@ -19,7 +19,7 @@ export default function Footer() {
           <Link to="/" className="footer-brand-header" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'white', marginBottom: '16px' }}>
             <BrandMark size={28} />
             <div>
-              <strong style={{ display: 'block', fontSize: '15px', letterSpacing: '0.5px' }}>NETCRAFT STUDIO</strong>
+              <strong style={{ display: 'block', fontSize: '15px', letterSpacing: '0.5px' }}>Netcraft Studio</strong>
               <span style={{ fontSize: '10px', color: 'var(--cyan)', fontFamily: 'var(--mono)' }}>SYSTEMS &amp; DIGITAL CRAFT</span>
             </div>
           </Link>
@@ -50,54 +50,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Column 3: Studio & Work */}
-        <div className="footer-nav-col">
-          <p className="footer-col-title">
-            <span>Company</span>
-            <span className="footer-title-bar"></span>
-          </p>
-          <ul>
-            <li><Link to="/about">Studio Manifesto</Link></li>
-            <li><Link to="/projects">Selected Case Studies</Link></li>
-            <li><Link to="/clients">Collaborators &amp; Reviews</Link></li>
-            <li><a href="#process">Engineering Pipeline</a></li>
-            <li><a href="#technology">Technology Matrix</a></li>
-            <li><Link to="/contact">Initiate Scoping</Link></li>
-          </ul>
-        </div>
-
-        {/* Column 4: Resources & Governance */}
-        <div className="footer-nav-col">
-          <p className="footer-col-title">
-            <span>Governance</span>
-            <span className="footer-title-bar"></span>
-          </p>
-          <ul>
-            <li><a href="#faq">Enterprise FAQs</a></li>
-            <li>
-              <span style={{ color: '#8b9cb8', fontSize: '12px' }}>
-                Mutual NDA Protected
-              </span>
-            </li>
-            <li>
-              <span style={{ color: '#8b9cb8', fontSize: '12px' }}>
-                100% IP Code Transfer
-              </span>
-            </li>
-            <li>
-              <span style={{ color: '#8b9cb8', fontSize: '12px' }}>
-                Sub-100ms Architecture SLA
-              </span>
-            </li>
-            <li>
-              <span style={{ color: '#8b9cb8', fontSize: '12px' }}>
-                Enterprise Security &amp; Compliance
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Column 5: Direct Telemetry & Contact */}
+        {/* Direct Telemetry & Contact */}
         <div className="footer-nav-col footer-contact-col">
           <p className="footer-col-title">
             <span>Direct Inquiries</span>
@@ -168,7 +121,7 @@ export default function Footer() {
       {/* Sub-Footer Bar */}
       <div className="footer-bottom">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span>© {new Date().getFullYear()} NetCraft Studio. EST. {contactInfo.estYear}. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Netcraft Studio. EST. {contactInfo.estYear}. All rights reserved.</span>
         </div>
         <div style={{ color: '#687994', letterSpacing: '0.5px' }}>
           BUILDING DIGITAL SOLUTIONS THAT MOVE BUSINESSES FORWARD.

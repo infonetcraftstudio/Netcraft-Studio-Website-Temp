@@ -49,7 +49,7 @@ export default function Clients() {
         </div>
         <p>
           We collaborate with category-defining startups, fast-growing scale-ups, and established enterprises.
-          Here is what our partners say about working alongside NetCraft Studio.
+          Here is what our partners say about working alongside Netcraft Studio.
         </p>
       </header>
 

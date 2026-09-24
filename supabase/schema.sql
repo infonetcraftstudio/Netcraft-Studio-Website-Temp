@@ -26,8 +26,11 @@ create table if not exists public.studio_settings (
 	id bigint primary key check (id = 1),
 	contact_info jsonb not null default '{}'::jsonb,
 	services jsonb not null default '[]'::jsonb,
+	career_program jsonb not null default '{}'::jsonb,
 	updated_at timestamptz not null default now()
 );
+
+alter table public.studio_settings add column if not exists career_program jsonb not null default '{}'::jsonb;
 
 drop policy if exists "studio projects backend access" on public.studio_projects;
 drop policy if exists "studio clients backend access" on public.studio_clients;

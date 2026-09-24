@@ -11,14 +11,14 @@ const emailLayout = (eyebrow, title, content) => `
   <div style="background:#f4f7fb;padding:40px 16px;font-family:Arial,sans-serif;color:#162033">
     <div style="max-width:620px;margin:0 auto;background:#fff;border:1px solid #dbe3ee">
       <div style="background:#10233f;padding:28px 32px;color:#fff">
-        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8ec5ff">NetCraft Studio</div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8ec5ff">Netcraft Studio</div>
         <h1 style="font-size:28px;line-height:1.2;margin:16px 0 0;font-weight:600">${title}</h1>
       </div>
       <div style="padding:30px 32px">
         <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#2563eb;margin-bottom:18px">${eyebrow}</div>
         ${content}
       </div>
-      <div style="border-top:1px solid #e6ebf2;padding:18px 32px;color:#718096;font-size:12px">NetCraft Studio · Coimbatore, Tamil Nadu</div>
+      <div style="border-top:1px solid #e6ebf2;padding:18px 32px;color:#718096;font-size:12px">Netcraft Studio · Coimbatore, Tamil Nadu</div>
     </div>
   </div>
 `;
@@ -85,12 +85,12 @@ export default async function handler(request, response) {
     `;
     const clientMessage = `
       <p style="font-size:17px;line-height:1.6;margin:0 0 16px">Hello ${safeName},</p>
-      <p style="font-size:15px;line-height:1.8;margin:0 0 16px">Thank you for sharing your ${isReview ? `feedback on ${reviewFor}` : 'project requirements'} with NetCraft Studio.</p>
+      <p style="font-size:15px;line-height:1.8;margin:0 0 16px">Thank you for sharing your ${isReview ? `feedback on ${reviewFor}` : 'project requirements'} with Netcraft Studio.</p>
       <p style="font-size:15px;line-height:1.8;margin:0 0 24px">Your message is safely with our team. A senior studio partner will review it and get back to you shortly.</p>
       <div style="border-left:3px solid #2563eb;padding:12px 16px;background:#f4f7fb;font-size:14px;line-height:1.7">We appreciate the opportunity to build thoughtful digital work with you.</div>
     `;
     const transporter = createTransporter();
-    const from = `NetCraft Studio <${process.env.GMAIL_USER}>`;
+    const from = `Netcraft Studio <${process.env.GMAIL_USER}>`;
 
     await transporter.verify();
 
@@ -104,7 +104,7 @@ export default async function handler(request, response) {
     await transporter.sendMail({
       from,
       to: email,
-      subject: 'Thank you for contacting NetCraft Studio',
+      subject: 'Thank you for contacting Netcraft Studio',
       html: emailLayout('Message received', 'Thank you for reaching out.', clientMessage)
     });
 

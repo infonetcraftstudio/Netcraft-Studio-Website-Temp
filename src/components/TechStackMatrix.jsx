@@ -10,9 +10,11 @@ import {
   Boxes,
   CheckCircle2
 } from 'lucide-react';
+import { useStudio } from '../context/StudioContext';
 
 export default function TechStackMatrix() {
   const [activeTab, setActiveTab] = useState('all');
+  const { careerProgram } = useStudio();
 
   const categories = [
     {
@@ -114,18 +116,17 @@ export default function TechStackMatrix() {
             <div className="eyebrow-decorated">
               <span className="eyebrow-line"></span>
               <span className="eyebrow-dot"></span>
-              <span className="eyebrow-text">TECHNOLOGY &amp; EXPERTISE</span>
+              <span className="eyebrow-text">{careerProgram.eyebrow}</span>
               <span className="eyebrow-dot"></span>
               <span className="eyebrow-line"></span>
             </div>
             <h2 style={{ fontSize: '38px', margin: '0 0 12px' }}>
-              Modern Technology.<br />
-              Thoughtful <em>Engineering.</em>
+              {careerProgram.titleLineOne}<br />
+              <em>{careerProgram.titleLineTwo}</em>
             </h2>
           </div>
           <p style={{ color: 'var(--muted)', fontSize: '15px', maxWidth: '440px', lineHeight: '1.6', margin: 0 }}>
-            We calibrate our toolchains strictly for reliability, speed, and long-term maintainability. 
-            No speculative experimental bloat—only battle-tested, enterprise-proven stacks.
+            {careerProgram.description}
           </p>
         </div>
 

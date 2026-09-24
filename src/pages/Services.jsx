@@ -19,7 +19,7 @@ export default function Services() {
           </h1>
         </div>
         <p>
-          At NetCraft Studio, we deliver high-performance digital services built for speed, scalability, and measurable business growth. 
+          At Netcraft Studio, we deliver high-performance digital services built for speed, scalability, and measurable business growth. 
           Every solution is crafted with precision, powered by modern technology, and designed to perform flawlessly.
         </p>
       </header>

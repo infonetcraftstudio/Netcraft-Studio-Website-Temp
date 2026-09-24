@@ -22,7 +22,7 @@ declare module '@/context/StudioContext' {
     updateInquiryStatus(id: any, status: any): void;
     deleteInquiry(id: any): void;
     isAdminAuthenticated: boolean;
-    adminLogin(passcode: string): boolean;
+    adminLogin(passcode: string): Promise<boolean>;
     adminLogout(): void;
     resetToDefaults(): void;
     exportBackup(): void;

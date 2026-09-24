@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
   initialContactInfo,
+  initialCareerProgram,
   initialServices,
   initialProjects,
   initialClients,
@@ -19,6 +20,7 @@ const TABLES = {
 function defaultData() {
   return {
     contactInfo: initialContactInfo,
+    careerProgram: initialCareerProgram,
     services: initialServices,
     projects: initialProjects,
     clients: initialClients,
@@ -30,15 +32,28 @@ function defaultData() {
 async function readData() {
   if (!supabase) return defaultData();
 
-  const [projects, clients, inquiries, todos, settings] = await Promise.all([
+  const [projects, clients, inquiries, todos] = await Promise.all([
     supabase.from(TABLES.projects).select('id,data').order('updated_at', { ascending: false }),
     supabase.from(TABLES.clients).select('id,data').order('updated_at', { ascending: false }),
     supabase.from(TABLES.inquiries).select('id,data').order('updated_at', { ascending: false }),
-    supabase.from(TABLES.todos).select('id,data').order('updated_at', { ascending: false }),
-    supabase.from('studio_settings').select('contact_info,services').eq('id', 1).maybeSingle()
+    supabase.from(TABLES.todos).select('id,data').order('updated_at', { ascending: false })
   ]);
-  const result = [projects, clients, inquiries, todos, settings].find((query) => query.error);
+  const result = [projects, clients, inquiries, todos].find((query) => query.error);
   if (result) throw result.error;
+
+  let settings = await supabase
+    .from('studio_settings')
+    .select('contact_info,services,career_program')
+    .eq('id', 1)
+    .maybeSingle();
+  if (settings.error?.code === '42703') {
+    settings = await supabase
+      .from('studio_settings')
+      .select('contact_info,services')
+      .eq('id', 1)
+      .maybeSingle();
+  }
+  if (settings.error) throw settings.error;
 
   const defaults = defaultData();
   return {
@@ -48,6 +63,7 @@ async function readData() {
     inquiries: inquiries.data?.map((row) => row.data).filter(Boolean) || defaults.inquiries,
     todos: todos.data?.map((row) => row.data).filter(Boolean) || defaults.todos,
     contactInfo: { ...defaults.contactInfo, ...(settings.data?.contact_info || {}) },
+    careerProgram: { ...defaults.careerProgram, ...(settings.data?.career_program || {}) },
     services: settings.data?.services?.length ? settings.data.services : defaults.services
   };
 }
@@ -66,6 +82,7 @@ async function saveData(data) {
     id: 1,
     contact_info: data.contactInfo || {},
     services: data.services || initialServices,
+    career_program: data.careerProgram || initialCareerProgram,
     updated_at: updatedAt
   });
   const results = await Promise.all([...collections, settings]);
@@ -77,6 +94,7 @@ export function StudioProvider({ children }) {
   const [projects, setProjects] = useState(initialProjects);
   const [clients, setClients] = useState(initialClients);
   const [contactInfo, setContactInfo] = useState(initialContactInfo);
+  const [careerProgram, setCareerProgram] = useState(initialCareerProgram);
   const [inquiries, setInquiries] = useState(initialInquiries);
   const [todos, setTodos] = useState(initialTodos);
   const [services] = useState(initialServices);
@@ -119,6 +137,19 @@ export function StudioProvider({ children }) {
       if (url === '/api/data/import' && method === 'POST') {
         await saveData({ ...defaultData(), ...body });
         return body;
+      }
+      if (url === '/api/career-program' && method === 'PUT') {
+        const current = await supabase.from('studio_settings').select('contact_info,services,career_program').eq('id', 1).maybeSingle();
+        if (current.error) throw current.error;
+        const careerProgram = { ...initialCareerProgram, ...(current.data?.career_program || {}), ...body };
+        const result = await supabase.from('studio_settings').upsert({
+          id: 1,
+          career_program: careerProgram,
+          contact_info: current.data?.contact_info || initialContactInfo,
+          services: current.data?.services || initialServices
+        });
+        if (result.error) throw result.error;
+        return careerProgram;
       }
       if (resource === 'contact' && method === 'PUT') {
         const current = await supabase.from('studio_settings').select('contact_info').eq('id', 1).maybeSingle();
@@ -385,15 +416,27 @@ export function StudioProvider({ children }) {
   // ----------------------
   // ADMIN AUTHENTICATION
   // ----------------------
-  const adminLogin = (passcode) => {
-    if (['admin123', 'netcraft2026', 'admin'].includes(passcode.trim())) {
+  const adminLogin = async (passcode) => {
+    try {
+      const response = await fetch('/api/admin-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passcode: passcode.trim() })
+      });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => ({}));
+        throw new Error(result.error || 'Authentication failed.');
+      }
+
       setIsAdminAuthenticated(true);
       sessionStorage.setItem('netcraft-admin-authenticated', 'true');
       showToast(`Welcome back to NetCraft Admin!`);
       return true;
+    } catch (error) {
+      showToast(error.message, 'error');
+      return false;
     }
-    showToast(`Invalid passcode. Try 'admin123'`, 'error');
-    return false;
   };
 
   const adminLogout = () => {
@@ -409,6 +452,7 @@ export function StudioProvider({ children }) {
     setProjects(initialProjects);
     setClients(initialClients);
     setContactInfo(initialContactInfo);
+    setCareerProgram(initialCareerProgram);
     setInquiries(initialInquiries);
     setTodos(initialTodos);
 
@@ -441,6 +485,7 @@ export function StudioProvider({ children }) {
       if (data.projects) setProjects(data.projects);
       if (data.clients) setClients(data.clients);
       if (data.contactInfo) setContactInfo(data.contactInfo);
+      if (data.careerProgram) setCareerProgram(data.careerProgram);
       if (data.inquiries) setInquiries(data.inquiries);
       if (data.todos) setTodos(data.todos);
 
@@ -459,6 +504,7 @@ export function StudioProvider({ children }) {
         projects,
         clients,
         contactInfo,
+        careerProgram,
         inquiries,
         todos,
         services,
@@ -483,6 +529,11 @@ export function StudioProvider({ children }) {
         deleteClient,
         // Contact
         updateContactInfo,
+        updateCareerProgram: async (newProgram) => {
+          setCareerProgram((prev) => ({ ...prev, ...newProgram }));
+          showToast(`Career program details updated!`);
+          await databaseCall('/api/career-program', 'PUT', newProgram);
+        },
         submitInquiry,
         updateInquiryStatus,
         deleteInquiry,

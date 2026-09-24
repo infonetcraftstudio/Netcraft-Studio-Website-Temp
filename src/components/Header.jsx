@@ -24,7 +24,7 @@ export default function Header() {
   return (
     <>
       <header className="site-header">
-        <Link to="/" className="brand" aria-label="NetCraft Studio home">
+        <Link to="/" className="brand" aria-label="Netcraft Studio home">
           <BrandMark size={30} />
           <span>
             NETCRAFT<br />
