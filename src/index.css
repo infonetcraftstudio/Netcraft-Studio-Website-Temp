@@ -881,12 +881,23 @@ h1 em, h2 em, h3 em {
   gap: 28px;
 }
 
+@keyframes clientCardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes clientLogoFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-4px) scale(1.02); }
+}
+
 .client-card {
   background: white;
   border: 1px solid var(--mist);
   padding: 28px;
   display: flex;
   flex-direction: column;
+  animation: clientCardFloat 7s ease-in-out infinite;
 }
 
 .client-header {
@@ -911,6 +922,13 @@ h1 em, h2 em, h3 em {
   padding: 4px 6px;
   background: var(--paper);
   border: 1px solid var(--mist);
+  animation: clientLogoFloat 5s ease-in-out infinite;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.client-logo-box:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
 }
 
 .client-industry {
